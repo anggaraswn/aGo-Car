@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="login">Masuk</string>
+    <string name="signUp">Daftar</string>
+    <string name="register">Daftar</string>
+    <string name="emailAddress">Alamat Email</string>
+    <string name="password">Kata Sandi</string>
+    <string name="enterYourEmail">Masukkan Email Anda. . .</string>
+    <string name="enterYourPassword">Masukkan Password Anda. . .</string>
+    <string name="forgotPassword">Lupa Password?</string>
+    <string name="noAccount">Belum punya akun?</string>
+    <string name="username">Nama Pengguna</string>
+    <string name="enterYourUsername">Masukkan Nama Pengguna. . .</string>
+    <string name="confirmPassword">Konfirmasi Kata Sandi</string>
+    <string name="enterConfirmPassword">Masukkan Kembali Kata Sandi Anda. . .</string>
+    <string name="haveAccount">Sudah Punya Akun?</string>
+
+</resources>
