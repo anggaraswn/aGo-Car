@@ -50,10 +50,16 @@ public class RegisterActivity extends AppCompatActivity {
                         if (!isAlphanumeric(passwordET.getText().toString())){
                             Toast.makeText(RegisterActivity.this, "Password must be alphanumeric !", Toast.LENGTH_LONG).show();
                         }else{
-                            if(!passwordET.equals(cPasswordET)){
+                            if(passwordET.getText().toString().equals(cPasswordET.getText().toString()) == false){
                                 Toast.makeText(RegisterActivity.this, "Invalid Confirmation Password !", Toast.LENGTH_LONG).show();
                             }else{
                                 //Success
+                                User newUser = new User(usernameET.getText().toString(), emailET.getText().toString(), passwordET.getText().toString(), "User", null);
+
+                                //Cara biar bisa retrieve hasil Booleannya
+                                newUser.insert();
+
+
 
                             }
                         }

@@ -12,18 +12,19 @@ import android.widget.TextView;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailField, passwordField;
-    private Button loginBTN;
+    private Button loginBtn;
     private TextView forgotPassword, signUp;
 
     void getComponents(){
         emailField = findViewById(R.id.etEmail);
         passwordField = findViewById(R.id.etPassword);
-        loginBTN = findViewById(R.id.btnLogin);
+        loginBtn = findViewById(R.id.btnLogin);
         forgotPassword = findViewById(R.id.tvForgotPassword);
         signUp = findViewById(R.id.tvSignUp);
     }
 
     void setListener(){
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
