@@ -26,5 +26,10 @@
     <string name="confirmPassword">Konfirmasi Kata Sandi</string>
     <string name="enterConfirmPassword">Masukkan Kembali Kata Sandi Anda. . .</string>
     <string name="haveAccount">Sudah Punya Akun?</string>
+    <string name="preferences">Preferences</string>
+    <string name="skip">Lewati</string>
+    <string name="whichBrand">Merek mobil apa yang Anda sukai?</string>
+    <string name="done">Selesai</string>
+
 
 </resources>
