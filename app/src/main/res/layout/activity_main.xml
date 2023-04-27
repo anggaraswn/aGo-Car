@@ -23,6 +23,7 @@
 
     <TextView
         android:id="@+id/textView2"
+<<<<<<< HEAD
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
@@ -74,6 +75,22 @@
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
+=======
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="100dp"
+        android:text="@string/landing_desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:textSize="28sp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:fontFamily=""
+        />
+>>>>>>> 69286e21d80359e1017d3d1606751a6f8080063f
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
