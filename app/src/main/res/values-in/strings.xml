@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+
+    <string name="app_name">AGOCar</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="landing_desc">Temukan Mobil Impian anda !</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="app_quotes">"Quotes Kami"</string>
     <string name="login">Masuk</string>
     <string name="signUp">Daftar</string>
     <string name="register">Daftar</string>
