@@ -28,5 +28,9 @@
     <string name="confirmPassword">Confirm Password</string>
     <string name="enterConfirmPassword">Re-enter Your Password. . .</string>
     <string name="haveAccount">Already Have an Account?</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>

@@ -11,26 +11,40 @@ import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText emailField, passwordField;
-    Button loginBTN;
-    TextView forgotPassword, signUp;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    private EditText emailField, passwordField;
+    private Button loginBTN;
+    private TextView forgotPassword, signUp;
+
+    void getComponents(){
         emailField = findViewById(R.id.etEmail);
         passwordField = findViewById(R.id.etPassword);
         loginBTN = findViewById(R.id.btnLogin);
         forgotPassword = findViewById(R.id.tvForgotPassword);
         signUp = findViewById(R.id.tvSignUp);
+    }
 
+    void setListener(){
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+
+        //Get All the Components
+        getComponents();
+
+        //Add OnClick Listener
+        setListener();
+
     }
 
 
