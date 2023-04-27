@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AGOCar</string>
+    <string name="landing_desc">Discover your Dream Car Here</string>
+    <string name="app_quotes">"Our Quotes"</string>
+    <string name="app_login">Login</string>
+    <string name="app_register">Register</string>
 </resources>
