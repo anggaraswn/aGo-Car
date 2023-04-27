@@ -40,14 +40,14 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(RegisterActivity.this, "Password must be alphanumeric", Toast.LENGTH_LONG).show();
+
 
 
                 if (!isAlphanumeric(passwordET.getText().toString())){
                     Toast.makeText(RegisterActivity.this, "Password must be alphanumeric", Toast.LENGTH_LONG).show();
                     Log.d("Test", "in");
                 }else{
-                    Toast.makeText(RegisterActivity.this, "Password valid", Toast.LENGTH_LONG).show();
+
                 }
 //                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
 //                startActivity(intent);
