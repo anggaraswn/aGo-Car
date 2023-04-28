@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import edu.bluejack22_2.agocar.adapter.BrandAdapter;
 import edu.bluejack22_2.agocar.models.Brand;
+import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
 
 public class PreferencesActivity extends AppCompatActivity {
 
@@ -21,27 +22,40 @@ public class PreferencesActivity extends AppCompatActivity {
     RecyclerView rvBrand;
     Button btnDone;
     BrandAdapter adapter;
-    ArrayList<Brand> brands;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
 
-        brands = new ArrayList<Brand>();
-
-
-
         tvSkip = findViewById(R.id.tvSkip);
         rvBrand = findViewById(R.id.rvBrand);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         rvBrand.setLayoutManager(gridLayoutManager);
         btnDone = findViewById(R.id.btnDone);
-        adapter = new BrandAdapter(brands);
+        adapter = new BrandAdapter();
         rvBrand.setAdapter(adapter);
+
+        Brand.getBrands(new RetrievedBrandsListener() {
+            @Override
+            public void retrievedBrands(ArrayList<Brand> retBrands) {
+                if(!retBrands.isEmpty()){
+                    adapter.setBrands(retBrands);
+                }
+            }
+        });
+
 
 
         tvSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PreferencesActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PreferencesActivity.this, LoginActivity.class);

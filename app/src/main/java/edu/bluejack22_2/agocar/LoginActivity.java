@@ -9,21 +9,39 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import edu.bluejack22_2.agocar.models.User;
+import edu.bluejack22_2.agocar.other.RetrievedUserListener;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailField, passwordField;
-    private Button loginBTN;
+    private Button loginBtn;
     private TextView forgotPassword, signUp;
 
     void getComponents(){
         emailField = findViewById(R.id.etEmail);
         passwordField = findViewById(R.id.etPassword);
-        loginBTN = findViewById(R.id.btnLogin);
+        loginBtn = findViewById(R.id.btnLogin);
         forgotPassword = findViewById(R.id.tvForgotPassword);
         signUp = findViewById(R.id.tvSignUp);
     }
 
     void setListener(){
+        loginBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                 User.getUser(emailField.getText().toString(), passwordField.getText().toString(), new RetrievedUserListener() {
+                     @Override
+                     public void retrievedUser(User user) {
+                        if(user!=null){
+
+                        }else{
+
+                        }
+                     }
+                 });
+            }
+        });
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         //Get All the Components
         getComponents();

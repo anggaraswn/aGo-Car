@@ -34,5 +34,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-
+    <string name="hello">Halo, Kamu</string>
+    <string name="brands">Merek-merek</string>
+    <string name="selectedCars">Mobil pilihan untuk Anda</string>
+    <string name="cars">Mobil</string>
+    <string name="news">Berita</string>
+    <string name="profile">Profil</string>
 </resources>
