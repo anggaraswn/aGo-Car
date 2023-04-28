@@ -42,8 +42,6 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(RegisterActivity.this, "All Fields must be Filled !", Toast.LENGTH_LONG).show();
         }else{
             User.checkUserExist(emailET.getText().toString(), new OnSuccessListener() {
-
-
                 @Override
                 public void onSuccess(boolean success) {
                     if (success) {
