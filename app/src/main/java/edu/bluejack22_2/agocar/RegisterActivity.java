@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import edu.bluejack22_2.agocar.other.OnUserExistListener;
+import edu.bluejack22_2.agocar.other.OnSuccessListener;
 import edu.bluejack22_2.agocar.models.User;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -38,13 +38,15 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     void validateFields(){
-        if(usernameET.getText().toString().equals("aa") || emailET.getText().toString().equals("") || passwordET.getText().toString().equals("") || cPasswordET.getText().toString().equals("")){
+        if(usernameET.getText().toString().equals("") || emailET.getText().toString().equals("") || passwordET.getText().toString().equals("") || cPasswordET.getText().toString().equals("")){
             Toast.makeText(RegisterActivity.this, "All Fields must be Filled !", Toast.LENGTH_LONG).show();
         }else{
-            User.checkUserExist(emailET.getText().toString(), new OnUserExistListener() {
+            User.checkUserExist(emailET.getText().toString(), new OnSuccessListener() {
+
+
                 @Override
-                public void onUserExist(boolean exist) {
-                    if (exist) {
+                public void onSuccess(boolean success) {
+                    if (success) {
                         Toast.makeText(RegisterActivity.this, "Email Already Exist !", Toast.LENGTH_LONG).show();
                     } else {
                         if (!isAlphanumeric(passwordET.getText().toString())){
@@ -57,7 +59,16 @@ public class RegisterActivity extends AppCompatActivity {
                                 User newUser = new User(usernameET.getText().toString(), emailET.getText().toString(), passwordET.getText().toString(), "User", null);
 
                                 //Cara biar bisa retrieve hasil Booleannya
-                                newUser.insert();
+                                newUser.insert(new OnSuccessListener(){
+                                    @Override
+                                    public void onSuccess(boolean success) {
+                                        if(success){
+                                            Toast.makeText(RegisterActivity.this, "Successfully Created User!", Toast.LENGTH_LONG).show();
+                                        }else{
+                                            Toast.makeText(RegisterActivity.this, "Failed Creating New User!", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
 
 
 
@@ -75,7 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateFields();
-
             }
         });
 

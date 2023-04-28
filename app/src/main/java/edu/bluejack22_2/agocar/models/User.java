@@ -1,6 +1,6 @@
 package edu.bluejack22_2.agocar.models;
 
-import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -10,13 +10,11 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import edu.bluejack22_2.agocar.RegisterActivity;
 import edu.bluejack22_2.agocar.conn.Database;
-import edu.bluejack22_2.agocar.other.OnUserExistListener;
+import edu.bluejack22_2.agocar.other.RetrievedUserListener;
 
 public class User {
     private String username;
@@ -42,7 +40,7 @@ public class User {
         this.preference = preference;
     }
 
-    public boolean insert() {
+    public void insert(edu.bluejack22_2.agocar.other.OnSuccessListener listener) {
         Map<String, Object> user = new HashMap<>();
         user.put("username", this.username);
         user.put("email", this.email);
@@ -51,44 +49,71 @@ public class User {
         user.put("preference", this.preference);
 
 
-        AtomicBoolean isSuccess = new AtomicBoolean(false);
+
         Database.getInstance().collection("users")
                 .add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        isSuccess.set(true);
-                      // countdown the latch when onSuccess is called
+                        listener.onSuccess(true);
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        isSuccess.set(false);
-                      // countdown the latch when onFailure is called
+                        listener.onSuccess(false);
                     }
                 });
 
-     // wait for the latch to be counted down before returning
-        return isSuccess.get();
+
     }
 
-    public static void checkUserExist(String email, OnUserExistListener listener) {
+    public static void getUser(String email, String password, RetrievedUserListener listener){
+        Database.getInstance().collection("users")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), queryDocumentSnapshots.getDocuments().get(0).getString("password").toString());
+                        if(result.verified){
+                            String retEmail = queryDocumentSnapshots.getDocuments().get(0).getString("email").toString();
+                            String retPassword = queryDocumentSnapshots.getDocuments().get(0).getString("password").toString();
+                            String retRole = queryDocumentSnapshots.getDocuments().get(0).getString("role").toString();
+                            String retPreference = queryDocumentSnapshots.getDocuments().get(0).getString("preference").toString();
+                            String retUsername = queryDocumentSnapshots.getDocuments().get(0).getString("username").toString();
+
+                            listener.retrievedUser(new User(retUsername, retEmail, retPassword, retRole, retPreference));
+                        }else{
+                            listener.retrievedUser(null);
+                        }
+
+                    } else {
+                        listener.retrievedUser(null);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+                    listener.retrievedUser(null);
+                });
+    }
+
+    public static void checkUserExist(String email, edu.bluejack22_2.agocar.other.OnSuccessListener listener) {
         Database.getInstance().collection("users")
                 .whereEqualTo("email", email)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         // User exists
-                        listener.onUserExist(true);
+                        listener.onSuccess(true);
                     } else {
                         // User does not exist
-                        listener.onUserExist(false);
+                        listener.onSuccess(false);
                     }
                 })
                 .addOnFailureListener(e -> {
                     // Error occurred
-                    listener.onUserExist(false);
+                    listener.onSuccess(false);
                 });
     }
 
