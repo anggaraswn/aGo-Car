@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "636143692370",
+    "project_id": "agocar-9b14f",
+    "storage_bucket": "agocar-9b14f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636143692370:android:f003448ef91c50f6ac0d8b",
+        "android_client_info": {
+          "package_name": "edu.bluejack22_2.agocar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636143692370-rjn263jmc0rc7rhldem2m3tefkrtnp8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1K6jCUkPvkENxdRITZPVc744BxcUpzJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636143692370-rjn263jmc0rc7rhldem2m3tefkrtnp8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

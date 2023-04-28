@@ -30,6 +30,9 @@
     <string name="skip">Lewati</string>
     <string name="whichBrand">Merek mobil apa yang Anda sukai?</string>
     <string name="done">Selesai</string>
-
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>
