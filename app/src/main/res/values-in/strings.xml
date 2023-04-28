@@ -26,5 +26,18 @@
     <string name="confirmPassword">Konfirmasi Kata Sandi</string>
     <string name="enterConfirmPassword">Masukkan Kembali Kata Sandi Anda. . .</string>
     <string name="haveAccount">Sudah Punya Akun?</string>
-
+    <string name="preferences">Preferences</string>
+    <string name="skip">Lewati</string>
+    <string name="whichBrand">Merek mobil apa yang Anda sukai?</string>
+    <string name="done">Selesai</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="hello">Halo, Kamu</string>
+    <string name="brands">Merek-merek</string>
+    <string name="selectedCars">Mobil pilihan untuk Anda</string>
+    <string name="cars">Mobil</string>
+    <string name="news">Berita</string>
+    <string name="profile">Profil</string>
 </resources>

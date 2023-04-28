@@ -5,7 +5,6 @@
     <string name="app_quotes">"Our Quotes"</string>
 
 
-
     <string name="title_activity_login">LoginActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -28,9 +27,20 @@
     <string name="confirmPassword">Confirm Password</string>
     <string name="enterConfirmPassword">Re-enter Your Password. . .</string>
     <string name="haveAccount">Already Have an Account?</string>
+    <string name="preferences">Preferences</string>
+    <string name="skip">Skip</string>
+    <string name="whichBrand">Which brand of car you prefer?</string>
+    <string name="done">Done</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="hello">Hello, You</string>
+    <string name="brands">Brands</string>
+    <string name="selectedCars">Selected cars for you</string>
+    <string name="cars">Cars</string>
+    <string name="news">News</string>
+    <string name="profile">Profile</string>
+
 
 </resources>
