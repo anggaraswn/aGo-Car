@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -22,11 +20,12 @@ import edu.bluejack22_2.agocar.models.User;
 import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
 
 public class HomeActivity extends AppCompatActivity {
-    private User user = null;
+    public static User user = null;
     TextView tvGreetings;
     RecyclerView rvBrands;
 
     HomeBrandsAdapter brandsAdapter;
+
 
     void authenticateUser(){
         Gson gson = new Gson();
@@ -39,6 +38,14 @@ public class HomeActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+    }
+
+    void getComponents(){
+        this.tvGreetings = findViewById(R.id.tvGreetings);
+    }
+
+    void setComponents(){
+        tvGreetings.setText("Hello, "+this.user.getUsername()+ " !");
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         authenticateUser();
-        tvGreetings.setText("Hello, " + user.getUsername());
 
+        getComponents();
+
+        setComponents();
     }
 }

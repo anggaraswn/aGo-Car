@@ -3,6 +3,7 @@ package edu.bluejack22_2.agocar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import edu.bluejack22_2.agocar.other.OnSuccessListener;
 import edu.bluejack22_2.agocar.models.User;
@@ -37,6 +40,15 @@ public class RegisterActivity extends AppCompatActivity {
         loginTV = findViewById(R.id.tvLogin2);
     }
 
+    void storeUser(User user){
+        SharedPreferences mPrefs = getSharedPreferences("userPref", MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        prefsEditor.putString("user", json);
+        prefsEditor.commit();
+    }
+
     void validateFields(){
         if(usernameET.getText().toString().equals("") || emailET.getText().toString().equals("") || passwordET.getText().toString().equals("") || cPasswordET.getText().toString().equals("")){
             Toast.makeText(RegisterActivity.this, "All Fields must be Filled !", Toast.LENGTH_LONG).show();
@@ -61,7 +73,13 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(boolean success) {
                                         if(success){
+                                            HomeActivity.user = newUser;
+                                            storeUser(newUser);
                                             Toast.makeText(RegisterActivity.this, "Successfully Created User!", Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(RegisterActivity.this, PreferencesActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+
                                         }else{
                                             Toast.makeText(RegisterActivity.this, "Failed Creating New User!", Toast.LENGTH_LONG).show();
                                         }

@@ -19,7 +19,7 @@ import edu.bluejack22_2.agocar.models.Brand;
 
 public class PreferencesBrandAdapter extends RecyclerView.Adapter<PreferencesBrandAdapter.PreferencesViewHolder> {
     private ArrayList<Brand> brands = new ArrayList<>();
-    private ArrayList<String> selectedBrands = new ArrayList<>();
+    private static ArrayList<String> selectedBrands = new ArrayList<>();
 
     @NonNull
     @Override
@@ -71,5 +71,9 @@ public class PreferencesBrandAdapter extends RecyclerView.Adapter<PreferencesBra
         brands.clear();
         brands.addAll(newBrands);
         notifyDataSetChanged();
+    }
+
+    public static ArrayList<String> getSelectedBrands() {
+        return selectedBrands;
     }
 }
