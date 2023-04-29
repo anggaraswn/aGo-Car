@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import edu.bluejack22_2.agocar.adapter.BrandAdapter;
+import edu.bluejack22_2.agocar.adapter.PreferencesBrandAdapter;
 import edu.bluejack22_2.agocar.models.Brand;
 import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
 
@@ -21,7 +21,7 @@ public class PreferencesActivity extends AppCompatActivity {
     TextView tvSkip;
     RecyclerView rvBrand;
     Button btnDone;
-    BrandAdapter adapter;
+    PreferencesBrandAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class PreferencesActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         rvBrand.setLayoutManager(gridLayoutManager);
         btnDone = findViewById(R.id.btnDone);
-        adapter = new BrandAdapter();
+        adapter = new PreferencesBrandAdapter();
         rvBrand.setAdapter(adapter);
 
         Brand.getBrands(new RetrievedBrandsListener() {
@@ -50,7 +50,7 @@ public class PreferencesActivity extends AppCompatActivity {
         tvSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PreferencesActivity.this, LoginActivity.class);
+                Intent intent = new Intent(PreferencesActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });
@@ -58,7 +58,7 @@ public class PreferencesActivity extends AppCompatActivity {
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PreferencesActivity.this, LoginActivity.class);
+                Intent intent = new Intent(PreferencesActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });

@@ -13,25 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import edu.bluejack22_2.agocar.R;
 import edu.bluejack22_2.agocar.models.Brand;
-import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
 
-public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.MyViewHolder> {
+public class PreferencesBrandAdapter extends RecyclerView.Adapter<PreferencesBrandAdapter.PreferencesViewHolder> {
     private ArrayList<Brand> brands = new ArrayList<>();
     private ArrayList<String> selectedBrands = new ArrayList<>();
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.brand_card, parent, false);
-        return new MyViewHolder(view);
+    public PreferencesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.preferences_brand_card, parent, false);
+        return new PreferencesViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PreferencesViewHolder holder, int position) {
         Brand brand = brands.get(position);
         Log.d("Debug", brand.getImage());
         Picasso.get().load(brand.getImage()).into(holder.ivBrand);
@@ -45,11 +43,11 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.MyViewHolder
         return brands.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class PreferencesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView ivBrand, ivSelected;
         TextView tvName;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public PreferencesViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ivBrand = itemView.findViewById(R.id.ivBrand);
