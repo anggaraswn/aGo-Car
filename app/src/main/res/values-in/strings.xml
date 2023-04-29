@@ -40,4 +40,8 @@
     <string name="cars">Mobil</string>
     <string name="news">Berita</string>
     <string name="profile">Profil</string>
+    <string name="articles">Artikel</string>
+    <string name="featuredArticles">Artikel Unggulan</string>
+    <string name="recommendedForYou">Direkomendasikan untuk Anda</string>
+
 </resources>

@@ -41,6 +41,8 @@
     <string name="cars">Cars</string>
     <string name="news">News</string>
     <string name="profile">Profile</string>
-
+    <string name="articles">Articles</string>
+    <string name="featuredArticles">Featured Articles</string>
+    <string name="recommendedForYou">Recommended For You</string>
 
 </resources>

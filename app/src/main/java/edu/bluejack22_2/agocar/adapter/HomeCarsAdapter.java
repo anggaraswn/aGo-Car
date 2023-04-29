@@ -34,6 +34,7 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         Car car = cars.get(position);
         Picasso.get().load(car.getImage()).into(holder.ivCarImage);
+        holder.tvCarName.setText(car.getName());
     }
 
     @Override
@@ -43,11 +44,13 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
 
     class HomeViewHolder extends RecyclerView.ViewHolder{
         ImageView ivCarImage;
+        TextView tvCarName;
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ivCarImage = itemView.findViewById(R.id.ivCarImage);
+            tvCarName = itemView.findViewById(R.id.tvCarName);
         }
 
 
