@@ -21,7 +21,7 @@ import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
 
 public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.MyViewHolder> {
     private ArrayList<Brand> brands = new ArrayList<>();
-    private ArrayList<String> selectedBrands = new ArrayList<>();
+    private static ArrayList<String> selectedBrands = new ArrayList<>();
 
     @NonNull
     @Override
@@ -73,5 +73,9 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.MyViewHolder
         brands.clear();
         brands.addAll(newBrands);
         notifyDataSetChanged();
+    }
+
+    public static ArrayList<String> getSelectedBrands() {
+        return selectedBrands;
     }
 }

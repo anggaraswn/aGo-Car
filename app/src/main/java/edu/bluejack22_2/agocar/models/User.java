@@ -8,7 +8,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -17,29 +19,48 @@ import edu.bluejack22_2.agocar.conn.Database;
 import edu.bluejack22_2.agocar.other.RetrievedUserListener;
 
 public class User {
+    private String id;
     private String username;
     private String email;
     private String password;
     private String role;
 
-    private String preference;
+    private ArrayList<String> preference;
 
-    public User(String username, String email, String password, String role, String preference) {
+    public User(String id, String username, String email, String password, String role, ArrayList<String> preference) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
-
-        //Check Password Benar ato ga
-//        BCrypt.Result result = BCrypt.verifyer().verify(string, string);
-//        if(result.verified){
-//
-//        }else{
-//
-//        }
+        this.role = role;
+        this.preference = preference;
+    }
+    public User(String username, String email, String password, String role, ArrayList<String> preference) {
+        this.id = null;
+        this.username = username;
+        this.email = email;
+        this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
         this.role = role;
         this.preference = preference;
     }
 
+    public void update(edu.bluejack22_2.agocar.other.OnSuccessListener listener){
+        Database.getInstance().collection("users").document(this.id).update("email",
+                this.email, "password", this.password, "role", this.role, "username",
+                this.username, "preference", this.preference).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onSuccess(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onSuccess(false);
+            }
+        });
+    }
+
+    public void storeUserToSharedPref(){}
     public void insert(edu.bluejack22_2.agocar.other.OnSuccessListener listener) {
         Map<String, Object> user = new HashMap<>();
         user.put("username", this.username);
@@ -55,8 +76,8 @@ public class User {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        id = documentReference.getId().toString();
                         listener.onSuccess(true);
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -77,17 +98,19 @@ public class User {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), queryDocumentSnapshots.getDocuments().get(0).getString("password").toString());
                         if(result.verified){
+                            String retId = queryDocumentSnapshots.getDocuments().get(0).getId().toString();
                             String retEmail = queryDocumentSnapshots.getDocuments().get(0).getString("email").toString();
                             String retPassword = queryDocumentSnapshots.getDocuments().get(0).getString("password").toString();
                             String retRole = queryDocumentSnapshots.getDocuments().get(0).getString("role").toString();
-                            String retPreference = null;
-                            if(queryDocumentSnapshots.getDocuments().get(0).getString("preference") != null){
-                                retPreference = queryDocumentSnapshots.getDocuments().get(0).getString("preference").toString();
+                            ArrayList<String> retPreference = null;
+                            if(queryDocumentSnapshots.getDocuments().get(0).get("preference") != null){
+                                retPreference = (ArrayList<String>)queryDocumentSnapshots.getDocuments().get(0).get("preference");
                             }
 
                             String retUsername = queryDocumentSnapshots.getDocuments().get(0).getString("username").toString();
 
-                            listener.retrievedUser(new User(retUsername, retEmail, retPassword, retRole, retPreference));
+                            listener.retrievedUser(new User(retId, retUsername, retEmail, retPassword, retRole, retPreference));
+
                         }else{
                             listener.retrievedUser(null);
                         }
@@ -151,5 +174,21 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public ArrayList<String> getPreference() {
+        return preference;
+    }
+
+    public void setPreference(ArrayList<String> preference) {
+        this.preference = preference;
     }
 }

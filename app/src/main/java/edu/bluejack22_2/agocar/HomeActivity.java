@@ -7,13 +7,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 import edu.bluejack22_2.agocar.models.User;
 
 public class HomeActivity extends AppCompatActivity {
-    private User user = null;
+    public static User user = null;
+    private TextView tvGreetings;
+
 
     void authenticateUser(){
         Gson gson = new Gson();
@@ -27,11 +30,22 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    void getComponents(){
+        this.tvGreetings = findViewById(R.id.tvGreetings);
+    }
+
+    void setComponents(){
+        tvGreetings.setText("Hello, "+this.user.getUsername()+ " !");
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         authenticateUser();
+        getComponents();
+
+        setComponents();
     }
 }
