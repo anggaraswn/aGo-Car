@@ -15,16 +15,23 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import edu.bluejack22_2.agocar.adapter.HomeBrandsAdapter;
+import edu.bluejack22_2.agocar.adapter.HomeCarsAdapter;
 import edu.bluejack22_2.agocar.models.Brand;
+import edu.bluejack22_2.agocar.models.Car;
 import edu.bluejack22_2.agocar.models.User;
 import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
+import edu.bluejack22_2.agocar.other.RetrievedCarsListener;
 
 public class HomeActivity extends AppCompatActivity {
     public static User user = null;
     TextView tvGreetings;
-    RecyclerView rvBrands;
+    RecyclerView rvBrands, rvCars;
 
     HomeBrandsAdapter brandsAdapter;
+
+    HomeCarsAdapter carsAdapter;
+
+
 
 
     void authenticateUser(){
@@ -54,10 +61,15 @@ public class HomeActivity extends AppCompatActivity {
 
         tvGreetings = findViewById(R.id.tvGreetings);
         rvBrands = findViewById(R.id.rvBrands);
+        rvCars = findViewById(R.id.rvCars);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvBrands.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvCars.setLayoutManager(linearLayoutManager2);
         brandsAdapter = new HomeBrandsAdapter();
+        carsAdapter = new HomeCarsAdapter();
         rvBrands.setAdapter(brandsAdapter);
+        rvCars.setAdapter(carsAdapter);
         Brand.getBrands(new RetrievedBrandsListener() {
             @Override
             public void retrievedBrands(ArrayList<Brand> retBrands) {
@@ -66,6 +78,17 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Car.getCars(new RetrievedCarsListener() {
+            @Override
+            public void retrievedCars(ArrayList<Car> cars) {
+                if(!cars.isEmpty()){
+                    carsAdapter.setCars(cars);
+                }
+            }
+        });
+
+
         authenticateUser();
 
         getComponents();
