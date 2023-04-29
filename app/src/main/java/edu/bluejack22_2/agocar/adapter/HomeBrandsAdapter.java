@@ -33,7 +33,6 @@ public class HomeBrandsAdapter extends RecyclerView.Adapter<HomeBrandsAdapter.Ho
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         Brand brand = brands.get(position);
         Picasso.get().load(brand.getImage()).into(holder.ivBrandImage);
-        holder.tvBrandName.setText(brand.getName());
     }
 
     @Override
@@ -43,13 +42,11 @@ public class HomeBrandsAdapter extends RecyclerView.Adapter<HomeBrandsAdapter.Ho
 
     class HomeViewHolder extends RecyclerView.ViewHolder{
         ImageView ivBrandImage;
-        TextView tvBrandName;
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ivBrandImage = itemView.findViewById(R.id.ivBrandImage);
-            tvBrandName = itemView.findViewById(R.id.tvBrandName);
         }
 
 
