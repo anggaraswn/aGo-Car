@@ -80,7 +80,11 @@ public class User {
                             String retEmail = queryDocumentSnapshots.getDocuments().get(0).getString("email").toString();
                             String retPassword = queryDocumentSnapshots.getDocuments().get(0).getString("password").toString();
                             String retRole = queryDocumentSnapshots.getDocuments().get(0).getString("role").toString();
-                            String retPreference = queryDocumentSnapshots.getDocuments().get(0).getString("preference").toString();
+                            String retPreference = null;
+                            if(queryDocumentSnapshots.getDocuments().get(0).getString("preference") != null){
+                                retPreference = queryDocumentSnapshots.getDocuments().get(0).getString("preference").toString();
+                            }
+
                             String retUsername = queryDocumentSnapshots.getDocuments().get(0).getString("username").toString();
 
                             listener.retrievedUser(new User(retUsername, retEmail, retPassword, retRole, retPreference));

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void storeUser(User user){
-        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences("userPref", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(user);
@@ -47,8 +48,13 @@ public class LoginActivity extends AppCompatActivity {
                  User.getUser(emailField.getText().toString(), passwordField.getText().toString(), new RetrievedUserListener() {
                      @Override
                      public void retrievedUser(User user) {
+
                         if(user!=null){
                             storeUser(user);
+
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
                         }else{
                             Toast.makeText(LoginActivity.this, "Invalid Username / Password !", Toast.LENGTH_LONG).show();
                         }
