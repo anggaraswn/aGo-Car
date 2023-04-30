@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import edu.bluejack22_2.agocar.conn.Database;
 import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
-import edu.bluejack22_2.agocar.other.RetrievedUserListener;
 
 public class Brand {
 

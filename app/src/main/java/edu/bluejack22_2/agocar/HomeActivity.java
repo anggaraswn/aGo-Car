@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -30,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     HomeBrandsAdapter brandsAdapter;
 
     HomeCarsAdapter carsAdapter;
-
+    LinearLayout navNews;
 
 
 
@@ -70,6 +72,8 @@ public class HomeActivity extends AppCompatActivity {
         carsAdapter = new HomeCarsAdapter();
         rvBrands.setAdapter(brandsAdapter);
         rvCars.setAdapter(carsAdapter);
+        navNews = findViewById(R.id.navNews);
+
         Brand.getBrands(new RetrievedBrandsListener() {
             @Override
             public void retrievedBrands(ArrayList<Brand> retBrands) {
@@ -85,6 +89,15 @@ public class HomeActivity extends AppCompatActivity {
                 if(!cars.isEmpty()){
                     carsAdapter.setCars(cars);
                 }
+            }
+        });
+
+        navNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, NewsActivity.class);
+                finish();
+                startActivity(intent);
             }
         });
 

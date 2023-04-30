@@ -36,7 +36,7 @@
     
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFeaturedArticles"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="112dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/tvFeaturedArticles"
@@ -70,97 +70,98 @@
         />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="68dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:background="@color/grey"
-        >
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
         <LinearLayout
+            android:id="@+id/navHome"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginEnd="40dp"
             android:layout_marginStart="10dp"
-            >
+            android:layout_marginEnd="40dp"
+            android:orientation="vertical">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_home"
-                />
+                android:src="@drawable/ic_home" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/title_home"
-                android:textStyle="bold"
                 android:textAlignment="center"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navCars"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginEnd="40dp"
-
+            android:orientation="vertical"
             >
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_car"
-                />
+                android:src="@drawable/ic_car" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/cars"
-                android:textStyle="bold"
                 android:textAlignment="center"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navNews"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginEnd="40dp"
-
+            android:orientation="vertical"
             >
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_news"
-                />
+                android:src="@drawable/ic_news" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/news"
-                android:textStyle="bold"
                 android:textAlignment="center"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navProfile"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginEnd="10dp"
-            >
+            android:orientation="vertical">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_profile"
-                />
+                android:src="@drawable/ic_profile" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/profile"
-                android:textStyle="bold"
                 android:textAlignment="center"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 

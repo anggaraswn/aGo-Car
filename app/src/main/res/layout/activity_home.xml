@@ -113,6 +113,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
+            android:id="@+id/navHome"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -134,11 +135,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navCars"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:orientation="vertical"
-
             >
 
             <ImageView
@@ -156,11 +157,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navNews"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:orientation="vertical"
-
             >
 
             <ImageView
@@ -178,6 +179,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/navProfile"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
