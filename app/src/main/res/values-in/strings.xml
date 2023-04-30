@@ -43,5 +43,6 @@
     <string name="articles">Artikel</string>
     <string name="featuredArticles">Artikel Unggulan</string>
     <string name="recommendedForYou">Direkomendasikan untuk Anda</string>
+    <string name="notifications">Notifikasi</string>
 
 </resources>

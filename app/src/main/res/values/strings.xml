@@ -44,5 +44,6 @@
     <string name="articles">Articles</string>
     <string name="featuredArticles">Featured Articles</string>
     <string name="recommendedForYou">Recommended For You</string>
+    <string name="notifications">Notifications</string>
 
 </resources>

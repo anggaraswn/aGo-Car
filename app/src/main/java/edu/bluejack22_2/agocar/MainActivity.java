@@ -30,14 +30,18 @@ public class MainActivity extends AppCompatActivity {
     void authenticateUser(){
         Gson gson = new Gson();
         SharedPreferences mPrefs = getSharedPreferences("userPref", Context.MODE_PRIVATE);
-        String json = mPrefs.getString("user", "");
+        if(mPrefs!=null){
+            String json = mPrefs.getString("user", "");
+            if(!json.equals("")){
+                HomeActivity.user = gson.fromJson(json, User.class);
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
 
-        if(json != null){
-            HomeActivity.user = gson.fromJson(json, User.class);
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
         }
+
+
 
     }
 

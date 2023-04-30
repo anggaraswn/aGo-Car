@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -26,14 +28,15 @@ import edu.bluejack22_2.agocar.other.RetrievedCarsListener;
 
 public class HomeActivity extends AppCompatActivity {
     public static User user = null;
-    TextView tvGreetings;
-    RecyclerView rvBrands, rvCars;
+    private TextView tvGreetings;
+    private RecyclerView rvBrands, rvCars;
 
-    HomeBrandsAdapter brandsAdapter;
+    private HomeBrandsAdapter brandsAdapter;
 
-    HomeCarsAdapter carsAdapter;
-    LinearLayout navNews;
+    private HomeCarsAdapter carsAdapter;
+    private LinearLayout navNews;
 
+    private ImageView notification;
 
 
     void authenticateUser(){
@@ -51,11 +54,20 @@ public class HomeActivity extends AppCompatActivity {
 
     void getComponents(){
         this.tvGreetings = findViewById(R.id.tvGreetings);
+
     }
 
     void setComponents(){
         tvGreetings.setText("Hello, "+this.user.getUsername()+ " !");
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         rvBrands.setAdapter(brandsAdapter);
         rvCars.setAdapter(carsAdapter);
         navNews = findViewById(R.id.navNews);
+        notification = findViewById(R.id.ivNotification);
 
         Brand.getBrands(new RetrievedBrandsListener() {
             @Override
@@ -97,6 +110,14 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, NewsActivity.class);
                 finish();
+                startActivity(intent);
+            }
+        });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, NotificationActivity.class);
                 startActivity(intent);
             }
         });
