@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="150dp"
+    android:gravity="center"
+    >
+
+    <ImageView
+        android:id="@+id/ivRecArticleImage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_width="225dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:divider="@drawable/empty_tall_divider"
+        >
+        <TextView
+            android:id="@+id/tvRecArticleTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="Article Title"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            />
+        <TextView
+            android:id="@+id/tvRecArticleDate"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Date Posted"
+            android:textSize="15dp"
+            android:textColor="@color/grey"
+            />
+        <TextView
+            android:id="@+id/tvRecArticleCreator"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Article Creator"
+            android:height="20dp"
+            android:textSize="15dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

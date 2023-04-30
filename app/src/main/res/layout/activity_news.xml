@@ -60,6 +60,7 @@
         />
     
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecommendedForYou"
         android:layout_width="283dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
