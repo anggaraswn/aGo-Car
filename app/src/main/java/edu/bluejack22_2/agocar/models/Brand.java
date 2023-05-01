@@ -5,7 +5,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 
 import edu.bluejack22_2.agocar.conn.Database;
+import edu.bluejack22_2.agocar.other.RetrievedBrandListener;
 import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
+import edu.bluejack22_2.agocar.other.RetrievedCarListener;
 
 public class Brand {
 
@@ -70,6 +72,29 @@ public class Brand {
                 .addOnFailureListener(e -> {
                     // Error occurred
 //                    listener.retrievedUser(null);
+                });
+    };
+
+    public static void getBrand(RetrievedBrandListener listener, String brandID){
+
+        Database.getInstance().collection("brands").document(brandID)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots != null){
+
+                       String name = queryDocumentSnapshots.getString("name");
+                       String id = queryDocumentSnapshots.getId();
+                       String image = queryDocumentSnapshots.getString("image");
+
+
+                        Brand brand = new Brand(id, name, image);
+
+                        listener.retrievedBrand(brand);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+                    listener.retrievedBrand(null);
                 });
     };
 

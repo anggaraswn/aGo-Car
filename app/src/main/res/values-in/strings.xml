@@ -45,4 +45,6 @@
     <string name="recommendedForYou">Direkomendasikan untuk Anda</string>
     <string name="notifications">Notifikasi</string>
 
+    <string name="carNamePlaceholder">Nama Mobil</string>
+
 </resources>

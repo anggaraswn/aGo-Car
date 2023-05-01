@@ -46,4 +46,6 @@
     <string name="recommendedForYou">Recommended For You</string>
     <string name="notifications">Notifications</string>
 
+    <string name="carNamePlaceholder">Car Name</string>
+
 </resources>

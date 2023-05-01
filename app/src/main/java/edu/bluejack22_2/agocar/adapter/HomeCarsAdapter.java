@@ -1,5 +1,6 @@
 package edu.bluejack22_2.agocar.adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import edu.bluejack22_2.agocar.CarDetailActivity;
+import edu.bluejack22_2.agocar.HomeActivity;
 import edu.bluejack22_2.agocar.R;
 import edu.bluejack22_2.agocar.models.Brand;
 import edu.bluejack22_2.agocar.models.Car;
@@ -42,7 +45,7 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
         return cars.size();
     }
 
-    class HomeViewHolder extends RecyclerView.ViewHolder{
+    class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView ivCarImage;
         TextView tvCarName;
 
@@ -51,9 +54,18 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
 
             ivCarImage = itemView.findViewById(R.id.ivCarImage);
             tvCarName = itemView.findViewById(R.id.tvCarName);
+            itemView.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Car car = cars.get(position);
+            Intent i = new Intent(v.getContext(), CarDetailActivity.class);
+            i.putExtra("carID", car.getId());
+            v.getContext().startActivity(i);
+        }
     }
 
     public void setCars(ArrayList<Car> newCars) {
