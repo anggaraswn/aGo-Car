@@ -42,7 +42,7 @@
          />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCars"
+        android:id="@+id/rvNotifications"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
