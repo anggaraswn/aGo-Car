@@ -1,5 +1,6 @@
 package edu.bluejack22_2.agocar.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import edu.bluejack22_2.agocar.ArticleDetailActivity;
 import edu.bluejack22_2.agocar.R;
 import edu.bluejack22_2.agocar.models.Article;
 
@@ -42,7 +44,7 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
         return articles.size();
     }
 
-    class HomeViewHolder extends RecyclerView.ViewHolder{
+    class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView ivArticleImage;
         TextView tvArticleTitle, tvArticleDate, tvArticleCreator;
 
@@ -53,9 +55,20 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
             tvArticleTitle = itemView.findViewById(R.id.tvRecArticleTitle);
             tvArticleDate = itemView.findViewById(R.id.tvRecArticleDate);
             tvArticleCreator = itemView.findViewById(R.id.tvRecArticleCreator);
+            itemView.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+
+            Article article = articles.get(position);
+
+            Intent i = new Intent(v.getContext(), ArticleDetailActivity.class);
+            i.putExtra("articleID", article.getArticleID());
+            v.getContext().startActivity(i);
+        }
     }
 
     public void setArticles(ArrayList<Article> newArticles) {
