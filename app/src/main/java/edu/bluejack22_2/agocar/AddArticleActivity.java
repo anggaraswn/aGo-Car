@@ -16,7 +16,7 @@ public class AddArticleActivity extends AppCompatActivity {
 
     void getComponents(){
         ivDisplayedImage = findViewById(R.id.ivDisplayedImage);
-        //Test
+        
     }
 
     void handleImageSelection(Intent data){
