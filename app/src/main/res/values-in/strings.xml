@@ -47,5 +47,7 @@
 
     <string name="carNamePlaceholder">Nama Mobil</string>
     <string name="fuelType">Bahan Bakar</string>
+    <string name="addArticle">Tambah Artikel</string>
+    <string name="save">Simpan</string>
 
 </resources>
