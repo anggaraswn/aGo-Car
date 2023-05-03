@@ -49,9 +49,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAddArticle"
-        tools:srcCompat="@tools:sample/avatars"
-        android:layout_marginTop="30dp"
+        android:src="@drawable/material_symbols_add_a_photo"
+        android:layout_marginTop="50dp"
         />
 
+    <EditText
+        android:id="@+id/etArticleTitle"
+        android:layout_width="313dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="59dp"
+        android:background="@drawable/round_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivDisplayedImage"
+        android:hint="@string/articleTitle"
+        android:paddingLeft="15dp"
+        />
+    <EditText
+        android:gravity="top"
+        android:paddingTop="10dp"
+        android:id="@+id/etArticleDescription"
+        android:layout_width="313dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etArticleTitle"
+        android:hint="@string/articleDescription"
+        android:paddingLeft="15dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
