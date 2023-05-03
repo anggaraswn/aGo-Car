@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.makeText(RegisterActivity.this, "Invalid Confirmation Password !", Toast.LENGTH_LONG).show();
                             }else{
                                 //Success
-                                User newUser = new User(usernameET.getText().toString(), emailET.getText().toString(), passwordET.getText().toString(), "User", null);
+                                User newUser = new User(usernameET.getText().toString(), emailET.getText().toString(), passwordET.getText().toString(), "User", "https://res.cloudinary.com/dwtby8jpe/image/upload/v1683130416/TPA_Android/users/user_vs5pyh.png",null);
 
                                 //Cara biar bisa retrieve hasil Booleannya
                                 newUser.insert(new OnSuccessListener(){

@@ -25,29 +25,33 @@ public class User {
     private String password;
     private String role;
 
+    private String image;
+
     private ArrayList<String> preference;
 
-    public User(String id, String username, String email, String password, String role, ArrayList<String> preference) {
+    public User(String id, String username, String email, String password, String role, String image, ArrayList<String> preference) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
         this.role = role;
+        this.image = image;
         this.preference = preference;
     }
-    public User(String username, String email, String password, String role, ArrayList<String> preference) {
+    public User(String username, String email, String password, String role, String image,ArrayList<String> preference) {
         this.id = null;
         this.username = username;
         this.email = email;
         this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
         this.role = role;
+        this.image = image;
         this.preference = preference;
     }
 
     public void update(edu.bluejack22_2.agocar.other.OnSuccessListener listener){
         Database.getInstance().collection("users").document(this.id).update("email",
                 this.email, "password", this.password, "role", this.role, "username",
-                this.username, "preference", this.preference).addOnSuccessListener(new OnSuccessListener<Void>() {
+                this.username, "preference", this.preference, "image", this.image).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 listener.onSuccess(true);
@@ -68,6 +72,7 @@ public class User {
         user.put("password", this.password);
         user.put("role", this.role);
         user.put("preference", this.preference);
+        user.put("image", this.image);
 
 
 
@@ -102,6 +107,7 @@ public class User {
                             String retEmail = queryDocumentSnapshots.getDocuments().get(0).getString("email").toString();
                             String retPassword = queryDocumentSnapshots.getDocuments().get(0).getString("password").toString();
                             String retRole = queryDocumentSnapshots.getDocuments().get(0).getString("role").toString();
+                            String retImage = queryDocumentSnapshots.getDocuments().get(0).getString("image").toString();
                             ArrayList<String> retPreference = null;
                             if(queryDocumentSnapshots.getDocuments().get(0).get("preference") != null){
                                 retPreference = (ArrayList<String>)queryDocumentSnapshots.getDocuments().get(0).get("preference");
@@ -109,8 +115,7 @@ public class User {
 
                             String retUsername = queryDocumentSnapshots.getDocuments().get(0).getString("username").toString();
 
-                            listener.retrievedUser(new User(retId, retUsername, retEmail, retPassword, retRole, retPreference));
-
+                            listener.retrievedUser(new User(retId, retUsername, retEmail, retPassword, retRole, retImage,retPreference));
                         }else{
                             listener.retrievedUser(null);
                         }
@@ -174,6 +179,14 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getId() {

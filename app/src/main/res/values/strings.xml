@@ -11,7 +11,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
+    <string name="favourites">Favourites</string>
+    <string name="viewAll">View All</string>
 
     <string name="login">Login</string>
     <string name="signUp">Sign Up</string>
@@ -53,5 +54,10 @@
     <string name="save">Save</string>
     <string name="articleTitle">Article Title</string>
     <string name="articleDescription">Article Description</string>
+    <string name="logOut">Log Out</string>
+    <string name="yourReviews">Your Reviews</string>
+    <string name="editProfile">Edit Profile</string>
+    <string name="currentPassword">Current Password</string>
+    <string name="newPassword">New Password</string>
 
 </resources>

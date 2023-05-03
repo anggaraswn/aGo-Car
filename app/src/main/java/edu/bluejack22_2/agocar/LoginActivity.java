@@ -51,10 +51,10 @@ public class LoginActivity extends AppCompatActivity {
 
                         if(user!=null){
                             storeUser(user);
-                            Intent intent = new Intent(LoginActivity.this, AddArticleActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
                         }else{
-                            Toast.makeText(LoginActivity.this, "Invalid Username / Password !", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Invalid Email / Password !", Toast.LENGTH_LONG).show();
                         }
                      }
                  });
