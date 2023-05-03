@@ -30,7 +30,7 @@ public class CarDetailActivity extends AppCompatActivity {
         Car.getCar(new RetrievedCarListener() {
             @Override
             public void retrievedCar(Car car) {
-                this.retrievedCar = car;
+                retrievedCar = car;
             }
         }, carID);
 
