@@ -49,6 +49,7 @@ public class NewsActivity extends AppCompatActivity {
 
         setComponents();
 
+        //Hai
 
         //Ini Buat Featured yang Diatas
         Article.getArticles(new RetrievedArticlesListener() {

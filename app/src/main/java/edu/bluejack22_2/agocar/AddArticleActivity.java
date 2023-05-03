@@ -16,11 +16,14 @@ public class AddArticleActivity extends AppCompatActivity {
 
     void getComponents(){
         ivDisplayedImage = findViewById(R.id.ivDisplayedImage);
+        
     }
 
     void handleImageSelection(Intent data){
         Uri selectedImageUri = data.getData();
+//        ivDisplayedImage.setImageURI(selectedImageUri);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
