@@ -42,5 +42,16 @@
         app:layout_constraintLeft_toRightOf="@id/tvAddArticle"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/ivDisplayedImage"
+        android:layout_width="313dp"
+        android:layout_height="161dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAddArticle"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_marginTop="30dp"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
