@@ -51,9 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if(user!=null){
                             storeUser(user);
-
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            Intent intent = new Intent(LoginActivity.this, AddArticleActivity.class);
                             startActivity(intent);
                         }else{
                             Toast.makeText(LoginActivity.this, "Invalid Username / Password !", Toast.LENGTH_LONG).show();

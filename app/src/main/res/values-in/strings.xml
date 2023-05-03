@@ -46,5 +46,6 @@
     <string name="notifications">Notifikasi</string>
 
     <string name="carNamePlaceholder">Nama Mobil</string>
+    <string name="fuelType">Bahan Bakar</string>
 
 </resources>

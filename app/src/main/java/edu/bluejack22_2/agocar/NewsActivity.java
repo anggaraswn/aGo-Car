@@ -70,6 +70,16 @@ public class NewsActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
+
+
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewsActivity.this, AddArticleActivity.class);
+                startActivity(intent);
+
+            }
+        });
         navHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

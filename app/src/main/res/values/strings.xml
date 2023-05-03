@@ -47,5 +47,6 @@
     <string name="notifications">Notifications</string>
 
     <string name="carNamePlaceholder">Car Name</string>
+    <string name="fuelType">Fuel Type</string>
 
 </resources>
