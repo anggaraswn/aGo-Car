@@ -1,5 +1,7 @@
 package edu.bluejack22_2.agocar.adapter;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import edu.bluejack22_2.agocar.NewsDetailActivity;
 import edu.bluejack22_2.agocar.R;
 import edu.bluejack22_2.agocar.models.Article;
 
@@ -39,7 +42,7 @@ public class NewsFeaturedArticleAdapter extends RecyclerView.Adapter<NewsFeature
         return articles.size();
     }
 
-    class FeaturedArticleViewHolder extends RecyclerView.ViewHolder{
+    class FeaturedArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView ivImage;
         TextView tvTitle;
@@ -49,6 +52,19 @@ public class NewsFeaturedArticleAdapter extends RecyclerView.Adapter<NewsFeature
 
             ivImage = itemView.findViewById(R.id.ivImage);
             tvTitle = itemView.findViewById(R.id.tvTitle);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.d("AGTest", "Clicked");
+            int position = getAdapterPosition();
+            Article article = articles.get(position);
+            Intent intent = new Intent(view.getContext(), NewsDetailActivity.class);
+            intent.putExtra("articleID", article.getArticleID());
+            intent.putExtra("image", article.getImage());
+            intent.putExtra("title", article.getTitle());
+            intent.putExtra("content", article.getContent());
+            view.getContext().startActivity(intent);
         }
     }
 

@@ -1,0 +1,633 @@
+Index: app/src/main/java/edu/bluejack22_2/agocar/ArticleDetailActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/bluejack22_2/agocar/ArticleDetailActivity.java b/app/src/main/java/edu/bluejack22_2/agocar/ArticleDetailActivity.java
+new file mode 100644
+--- /dev/null	(date 1683085504831)
++++ b/app/src/main/java/edu/bluejack22_2/agocar/ArticleDetailActivity.java	(date 1683085504831)
+@@ -0,0 +1,73 @@
++package edu.bluejack22_2.agocar;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++import android.os.Bundle;
++import android.view.View;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import com.squareup.picasso.Picasso;
++
++import edu.bluejack22_2.agocar.models.Article;
++import edu.bluejack22_2.agocar.other.RetrievedArticleListener;
++
++public class ArticleDetailActivity extends AppCompatActivity {
++
++    private ImageView ivBack, ivArticleImage;
++
++    private TextView tvArticleTitle, tvArticleContent;
++    private String articleID;
++
++    private Article retrievedArticle;
++
++    void getExtras(){
++        Bundle bundle = getIntent().getExtras();
++        this.articleID = bundle.getString("articleID");
++    }
++
++
++    void setComponents(){
++        tvArticleTitle.setText(retrievedArticle.getTitle());
++        tvArticleContent.setText(retrievedArticle.getContent());
++        Picasso.get().load(retrievedArticle.getImage()).into(ivArticleImage);
++    }
++
++    void getComponents(){
++        ivBack = findViewById(R.id.ivBackButton);
++        tvArticleTitle = findViewById(R.id.tvArticleTitle);
++        tvArticleContent = findViewById(R.id.tvArticleContent);
++        ivArticleImage = findViewById(R.id.ivArticleImage);
++
++        Article.getArticle(new RetrievedArticleListener() {
++            @Override
++            public void retrievedArticle(Article article) {
++                retrievedArticle = article;
++                setComponents();
++            }
++        }, articleID);
++
++    }
++
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_article_detail);
++        getExtras();
++
++
++        if(articleID != null){
++            getComponents();
++        }
++
++
++
++        ivBack.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                finish();
++            }
++        });
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_article_detail.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_article_detail.xml b/app/src/main/res/layout/activity_article_detail.xml
+new file mode 100644
+--- /dev/null	(date 1683085504838)
++++ b/app/src/main/res/layout/activity_article_detail.xml	(date 1683085504838)
+@@ -0,0 +1,67 @@
++<?xml version="1.0" encoding="utf-8"?>
++<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".MainActivity">
++
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    tools:context=".ArticleDetailActivity">
++
++    <TextView
++        android:id="@+id/tvArticleTitle"
++        android:layout_width="285dp"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="36dp"
++        android:text="@string/carNamePlaceholder"
++        app:layout_constraintHorizontal_bias="0.498"
++        android:textSize="20sp"
++        android:fontFamily="@font/lexendmed"
++        app:layout_constraintLeft_toLeftOf="@id/ivBackButton"
++        android:layout_marginStart="50dp"
++
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <ImageView
++        android:id="@+id/ivBackButton"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="40dp"
++        android:layout_marginEnd="10dp"
++        app:layout_constraintStart_toStartOf="parent"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toTopOf="parent"
++        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
++
++    <ImageView
++        android:id="@+id/ivArticleImage"
++        android:layout_width="300dp"
++        android:layout_height="170dp"
++        android:layout_marginTop="45dp"
++        app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        tools:srcCompat="@tools:sample/avatars" />
++
++    <TextView
++        android:id="@+id/tvArticleContent"
++        android:layout_width="300dp"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="47dp"
++        android:text="TextView"
++        android:textSize="18sp"
++        android:fontFamily="@font/lexendmed"
++        app:layout_constraintTop_toBottomOf="@+id/ivArticleImage"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        />
++
++
++</androidx.constraintlayout.widget.ConstraintLayout>
++
++</ScrollView>
+\ No newline at end of file
+Index: app/src/main/java/edu/bluejack22_2/agocar/other/RetrievedArticleListener.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/bluejack22_2/agocar/other/RetrievedArticleListener.java b/app/src/main/java/edu/bluejack22_2/agocar/other/RetrievedArticleListener.java
+new file mode 100644
+--- /dev/null	(date 1683085504836)
++++ b/app/src/main/java/edu/bluejack22_2/agocar/other/RetrievedArticleListener.java	(date 1683085504836)
+@@ -0,0 +1,8 @@
++package edu.bluejack22_2.agocar.other;
++
++import edu.bluejack22_2.agocar.models.Article;
++import edu.bluejack22_2.agocar.models.Car;
++
++public interface RetrievedArticleListener {
++    void retrievedArticle(Article article);
++}
+Index: app/src/main/java/edu/bluejack22_2/agocar/models/Article.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.bluejack22_2.agocar.models;\r\n\r\nimport com.google.firebase.Timestamp;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\n\r\nimport java.util.ArrayList;\r\n\r\nimport edu.bluejack22_2.agocar.conn.Database;\r\nimport edu.bluejack22_2.agocar.other.RetrievedArticlesListener;\r\n\r\npublic class Article {\r\n\r\n    private String articleID, title, image, postedBy, content;\r\n    private Timestamp postDate;\r\n\r\n    public Article(String articleID, String title, String image, String postedBy, String content, Timestamp postDate) {\r\n        this.articleID = articleID;\r\n        this.title = title;\r\n        this.image = image;\r\n        this.postedBy = postedBy;\r\n        this.content = content;\r\n        this.postDate = postDate;\r\n    }\r\n\r\n    public String getArticleID() {\r\n        return articleID;\r\n    }\r\n\r\n    public String getTitle() {\r\n        return title;\r\n    }\r\n\r\n    public String getImage() {\r\n        return image;\r\n    }\r\n\r\n    public String getPostedBy() {\r\n        return postedBy;\r\n    }\r\n\r\n    public String getContent() {\r\n        return content;\r\n    }\r\n\r\n    public Timestamp getPostDate() {\r\n        return postDate;\r\n    }\r\n\r\n    public void setArticleID(String articleID) {\r\n        this.articleID = articleID;\r\n    }\r\n\r\n    public void setTitle(String title) {\r\n        this.title = title;\r\n    }\r\n\r\n    public void setImage(String image) {\r\n        this.image = image;\r\n    }\r\n\r\n    public void setPostedBy(String postedBy) {\r\n        this.postedBy = postedBy;\r\n    }\r\n\r\n    public void setContent(String content) {\r\n        this.content = content;\r\n    }\r\n\r\n    public void setPostDate(Timestamp postDate) {\r\n        this.postDate = postDate;\r\n    }\r\n\r\n    public static void getArticles(RetrievedArticlesListener listener){\r\n        ArrayList<Article> articles = new ArrayList<>();\r\n        Database.getInstance().collection(\"articles\")\r\n                .get()\r\n                .addOnSuccessListener(queryDocumentSnapshots -> {\r\n                    if(!queryDocumentSnapshots.isEmpty()){\r\n                        for(QueryDocumentSnapshot b : queryDocumentSnapshots){\r\n                            String documentID = b.getId();\r\n                            String title = b.getString(\"title\");\r\n                            String image = b.getString(\"image\");\r\n                            String postedBy = b.getString(\"postedBy\");\r\n                            String content = b.getString(\"content\");\r\n                            Timestamp postDate = b.getTimestamp(\"postDate\");\r\n                            articles.add(new Article(documentID, title, image, postedBy, content, postDate));\r\n                        }\r\n                        listener.retrievedArticles(articles);\r\n                    }\r\n                })\r\n                .addOnFailureListener(e -> {\r\n                    // Error occurred\r\n//                    listener.retrievedUser(null);\r\n                });\r\n    };\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/bluejack22_2/agocar/models/Article.java b/app/src/main/java/edu/bluejack22_2/agocar/models/Article.java
+--- a/app/src/main/java/edu/bluejack22_2/agocar/models/Article.java	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/java/edu/bluejack22_2/agocar/models/Article.java	(date 1683085504835)
+@@ -6,7 +6,10 @@
+ import java.util.ArrayList;
+ 
+ import edu.bluejack22_2.agocar.conn.Database;
++import edu.bluejack22_2.agocar.other.RetrievedArticleListener;
+ import edu.bluejack22_2.agocar.other.RetrievedArticlesListener;
++import edu.bluejack22_2.agocar.other.RetrievedBrandListener;
++import edu.bluejack22_2.agocar.other.RetrievedCarListener;
+ 
+ public class Article {
+ 
+@@ -94,4 +97,26 @@
+                 });
+     };
+ 
++    public static void getArticle(RetrievedArticleListener listener, String articleID){
++        Database.getInstance().collection("articles").document(articleID)
++                .get()
++                .addOnSuccessListener(queryDocumentSnapshots -> {
++                    if(queryDocumentSnapshots != null){
++                        String documentID = queryDocumentSnapshots.getId();
++                        String title = queryDocumentSnapshots.getString("title");
++                        String image = queryDocumentSnapshots.getString("image");
++                        String postedBy = queryDocumentSnapshots.getString("postedBy");
++                        String content = queryDocumentSnapshots.getString("content");
++                        Timestamp postDate = queryDocumentSnapshots.getTimestamp("postDate");
++
++                        Article article = new Article(documentID, title, image, postedBy, content, postDate);
++                        listener.retrievedArticle(article);
++                    }
++                })
++                .addOnFailureListener(e -> {
++                    // Error occurred
++                    listener.retrievedArticle(null);
++                });
++    };
++
+ }
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">AGOCar</string>\r\n    <string name=\"landing_desc\">Discover your Dream Car Here</string>\r\n\r\n    <string name=\"app_quotes\">\"Our Quotes\"</string>\r\n\r\n\r\n    <string name=\"title_activity_login\">LoginActivity</string>\r\n    <!-- Strings used for fragments for navigation -->\r\n    <string name=\"first_fragment_label\">First Fragment</string>\r\n    <string name=\"second_fragment_label\">Second Fragment</string>\r\n    <string name=\"next\">Next</string>\r\n    <string name=\"previous\">Previous</string>\r\n\r\n\r\n    <string name=\"login\">Login</string>\r\n    <string name=\"signUp\">Sign Up</string>\r\n    <string name=\"register\">Register</string>\r\n    <string name=\"emailAddress\">Email Address</string>\r\n    <string name=\"password\">Password</string>\r\n    <string name=\"enterYourEmail\">Enter Your Email. . .</string>\r\n    <string name=\"enterYourPassword\">Enter Your Password. . .</string>\r\n    <string name=\"forgotPassword\">Forgot Password?</string>\r\n    <string name=\"noAccount\">Don\\'t Have an Account?</string>\r\n    <string name=\"username\">Username</string>\r\n    <string name=\"enterYourUsername\">Enter Your Username. . .</string>\r\n    <string name=\"confirmPassword\">Confirm Password</string>\r\n    <string name=\"enterConfirmPassword\">Re-enter Your Password. . .</string>\r\n    <string name=\"haveAccount\">Already Have an Account?</string>\r\n    <string name=\"preferences\">Preferences</string>\r\n    <string name=\"skip\">Skip</string>\r\n    <string name=\"whichBrand\">Which brand of car you prefer?</string>\r\n    <string name=\"done\">Done</string>\r\n    <string name=\"title_activity_home\">HomeActivity</string>\r\n    <string name=\"title_home\">Home</string>\r\n    <string name=\"title_dashboard\">Dashboard</string>\r\n    <string name=\"title_notifications\">Notifications</string>\r\n    <string name=\"hello\">Hello, You</string>\r\n    <string name=\"brands\">Brands</string>\r\n    <string name=\"selectedCars\">Selected cars for you</string>\r\n    <string name=\"cars\">Cars</string>\r\n    <string name=\"news\">News</string>\r\n    <string name=\"profile\">Profile</string>\r\n    <string name=\"articles\">Articles</string>\r\n    <string name=\"featuredArticles\">Featured Articles</string>\r\n    <string name=\"recommendedForYou\">Recommended For You</string>\r\n    <string name=\"notifications\">Notifications</string>\r\n\r\n    <string name=\"carNamePlaceholder\">Car Name</string>\r\n\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/res/values/strings.xml	(date 1683085504841)
+@@ -47,5 +47,6 @@
+     <string name="notifications">Notifications</string>
+ 
+     <string name="carNamePlaceholder">Car Name</string>
++    <string name="fuelType">Fuel Type</string>
+ 
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/drawable/baseline_add_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/baseline_add_24.xml b/app/src/main/res/drawable/baseline_add_24.xml
+new file mode 100644
+--- /dev/null	(date 1683085504836)
++++ b/app/src/main/res/drawable/baseline_add_24.xml	(date 1683085504836)
+@@ -0,0 +1,5 @@
++<vector android:height="24dp" android:tint="#000000"
++    android:viewportHeight="24" android:viewportWidth="24"
++    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="@android:color/white" android:pathData="M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
++</vector>
+Index: app/src/main/res/drawable/baseline_settings_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/baseline_settings_24.xml b/app/src/main/res/drawable/baseline_settings_24.xml
+new file mode 100644
+--- /dev/null	(date 1683085504837)
++++ b/app/src/main/res/drawable/baseline_settings_24.xml	(date 1683085504837)
+@@ -0,0 +1,5 @@
++<vector android:height="24dp" android:tint="#000000"
++    android:viewportHeight="24" android:viewportWidth="24"
++    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="@android:color/white" android:pathData="M19.14,12.94c0.04,-0.3 0.06,-0.61 0.06,-0.94c0,-0.32 -0.02,-0.64 -0.07,-0.94l2.03,-1.58c0.18,-0.14 0.23,-0.41 0.12,-0.61l-1.92,-3.32c-0.12,-0.22 -0.37,-0.29 -0.59,-0.22l-2.39,0.96c-0.5,-0.38 -1.03,-0.7 -1.62,-0.94L14.4,2.81c-0.04,-0.24 -0.24,-0.41 -0.48,-0.41h-3.84c-0.24,0 -0.43,0.17 -0.47,0.41L9.25,5.35C8.66,5.59 8.12,5.92 7.63,6.29L5.24,5.33c-0.22,-0.08 -0.47,0 -0.59,0.22L2.74,8.87C2.62,9.08 2.66,9.34 2.86,9.48l2.03,1.58C4.84,11.36 4.8,11.69 4.8,12s0.02,0.64 0.07,0.94l-2.03,1.58c-0.18,0.14 -0.23,0.41 -0.12,0.61l1.92,3.32c0.12,0.22 0.37,0.29 0.59,0.22l2.39,-0.96c0.5,0.38 1.03,0.7 1.62,0.94l0.36,2.54c0.05,0.24 0.24,0.41 0.48,0.41h3.84c0.24,0 0.44,-0.17 0.47,-0.41l0.36,-2.54c0.59,-0.24 1.13,-0.56 1.62,-0.94l2.39,0.96c0.22,0.08 0.47,0 0.59,-0.22l1.92,-3.32c0.12,-0.22 0.07,-0.47 -0.12,-0.61L19.14,12.94zM12,15.6c-1.98,0 -3.6,-1.62 -3.6,-3.6s1.62,-3.6 3.6,-3.6s3.6,1.62 3.6,3.6S13.98,15.6 12,15.6z"/>
++</vector>
+Index: app/src/main/res/layout/activity_car_detail.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".CarDetailActivity\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvCarName\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"36dp\"\r\n        android:text=\"@string/carNamePlaceholder\"\r\n        app:layout_constraintHorizontal_bias=\"0.498\"\r\n        android:textSize=\"25sp\"\r\n        android:fontFamily=\"@font/lexendmed\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        app:layout_constraintRight_toRightOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/ivBackButton\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"40dp\"\r\n        android:layout_marginEnd=\"52dp\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/tvCarName\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:srcCompat=\"@drawable/baseline_arrow_back_ios_24\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/ivCarImage\"\r\n        android:layout_width=\"300dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"49dp\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/tvCarName\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        app:layout_constraintRight_toRightOf=\"parent\"\r\n        tools:srcCompat=\"@tools:sample/avatars\" />\r\n\r\n    <View\r\n        android:id=\"@+id/squareContainer1\"\r\n        android:layout_width=\"90dp\"\r\n        android:layout_height=\"90dp\"\r\n        android:layout_marginTop=\"38dp\"\r\n        android:layout_marginEnd=\"15dp\"\r\n        android:background=\"@drawable/ic_rectangle_container\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/squareContainer2\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/ivCarImage\" />\r\n\r\n    <View\r\n        android:id=\"@+id/squareContainer2\"\r\n        android:layout_width=\"90dp\"\r\n        android:layout_height=\"90dp\"\r\n        android:layout_marginTop=\"38dp\"\r\n        android:background=\"@drawable/ic_rectangle_container\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/ivCarImage\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        app:layout_constraintRight_toRightOf=\"parent\"\r\n         />\r\n\r\n    <View\r\n        android:id=\"@+id/squareContainer3\"\r\n        android:layout_width=\"90dp\"\r\n        android:layout_height=\"90dp\"\r\n        android:layout_marginStart=\"15dp\"\r\n        android:layout_marginTop=\"36dp\"\r\n        android:background=\"@drawable/ic_rectangle_container\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/squareContainer2\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/ivCarImage\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_car_detail.xml b/app/src/main/res/layout/activity_car_detail.xml
+--- a/app/src/main/res/layout/activity_car_detail.xml	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/res/layout/activity_car_detail.xml	(date 1683085504839)
+@@ -32,7 +32,7 @@
+     <ImageView
+         android:id="@+id/ivCarImage"
+         android:layout_width="300dp"
+-        android:layout_height="wrap_content"
++        android:layout_height="150dp"
+         android:layout_marginTop="49dp"
+         app:layout_constraintTop_toBottomOf="@+id/tvCarName"
+         app:layout_constraintLeft_toLeftOf="parent"
+@@ -70,4 +70,57 @@
+         app:layout_constraintStart_toEndOf="@+id/squareContainer2"
+         app:layout_constraintTop_toBottomOf="@+id/ivCarImage" />
+ 
++    <ImageView
++        android:id="@+id/ivFuel"
++        android:layout_width="34dp"
++        android:layout_height="35dp"
++        app:srcCompat="@drawable/baseline_local_gas_station_24"
++        app:layout_constraintStart_toEndOf="@id/squareContainer2"
++        android:layout_marginLeft="25dp"
++        android:layout_marginTop="50dp"
++        app:layout_constraintTop_toBottomOf="@id/ivCarImage"
++        />
++
++    <TextView
++        android:id="@+id/tvFuel"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="@string/fuelType"
++        app:layout_constraintTop_toBottomOf="@id/ivFuel"
++        app:layout_constraintStart_toEndOf="@id/squareContainer2"
++        android:layout_marginLeft="25dp"
++        android:textSize="10sp"
++        android:fontFamily="@font/lexendmed"
++        />
++
++    <TextView
++        android:id="@+id/tvFuelDesc"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="@string/fuelType"
++        app:layout_constraintTop_toBottomOf="@id/tvFuel"
++        app:layout_constraintStart_toEndOf="@id/squareContainer2"
++        android:layout_marginLeft="25dp"
++        android:textSize="10sp"
++        android:fontFamily="@font/lexendmed"
++        android:textStyle="bold"
++        />
++
++
++
++<!--    <TextView-->
++<!--        android:id="@+id/tvTransmission"-->
++<!--        android:layout_width="wrap_content"-->
++<!--        android:layout_height="wrap_content"-->
++<!--        android:text="@string/fuelType"-->
++<!--        app:layout_constraintStart_toEndOf="@id/squareContainer2"-->
++<!--        android:layout_marginLeft="25dp"-->
++<!--        android:layout_marginTop="50dp"-->
++<!--        android:textSize="10sp"-->
++<!--        android:fontFamily="@font/lexendmed"-->
++<!--        />-->
++
++
++
++
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.AGOCar\"\r\n        tools:targetApi=\"31\">\r\n        <activity\r\n            android:name=\".CarDetailActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".NotificationActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".NewsActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".HomeActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".PreferencesActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".RegisterActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".LoginActivity\"\r\n            android:exported=\"false\"\r\n            android:label=\"@string/title_activity_login\"\r\n            android:theme=\"@style/Theme.AGOCar\" />\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/AndroidManifest.xml	(date 1683085504830)
+@@ -13,6 +13,9 @@
+         android:theme="@style/Theme.AGOCar"
+         tools:targetApi="31">
+         <activity
++            android:name=".ArticleDetailActivity"
++            android:exported="false" />
++        <activity
+             android:name=".CarDetailActivity"
+             android:exported="false" />
+         <activity
+Index: app/src/main/res/values-in/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n\r\n<resources>\r\n\r\n    <string name=\"app_name\">AGOCar</string>\r\n    <string name=\"title_activity_login\">LoginActivity</string>\r\n\r\n    <string name=\"landing_desc\">Temukan Mobil Impian anda !</string>\r\n    <!-- Strings used for fragments for navigation -->\r\n    <string name=\"first_fragment_label\">First Fragment</string>\r\n    <string name=\"second_fragment_label\">Second Fragment</string>\r\n    <string name=\"next\">Next</string>\r\n    <string name=\"previous\">Previous</string>\r\n    <string name=\"app_quotes\">\"Quotes Kami\"</string>\r\n    <string name=\"login\">Masuk</string>\r\n    <string name=\"signUp\">Daftar</string>\r\n    <string name=\"register\">Daftar</string>\r\n    <string name=\"emailAddress\">Alamat Email</string>\r\n    <string name=\"password\">Kata Sandi</string>\r\n    <string name=\"enterYourEmail\">Masukkan Email Anda. . .</string>\r\n    <string name=\"enterYourPassword\">Masukkan Password Anda. . .</string>\r\n    <string name=\"forgotPassword\">Lupa Password?</string>\r\n    <string name=\"noAccount\">Belum punya akun?</string>\r\n    <string name=\"username\">Nama Pengguna</string>\r\n    <string name=\"enterYourUsername\">Masukkan Nama Pengguna. . .</string>\r\n    <string name=\"confirmPassword\">Konfirmasi Kata Sandi</string>\r\n    <string name=\"enterConfirmPassword\">Masukkan Kembali Kata Sandi Anda. . .</string>\r\n    <string name=\"haveAccount\">Sudah Punya Akun?</string>\r\n    <string name=\"preferences\">Preferences</string>\r\n    <string name=\"skip\">Lewati</string>\r\n    <string name=\"whichBrand\">Merek mobil apa yang Anda sukai?</string>\r\n    <string name=\"done\">Selesai</string>\r\n    <string name=\"title_activity_home\">HomeActivity</string>\r\n    <string name=\"title_home\">Home</string>\r\n    <string name=\"title_dashboard\">Dashboard</string>\r\n    <string name=\"title_notifications\">Notifications</string>\r\n    <string name=\"hello\">Halo, Kamu</string>\r\n    <string name=\"brands\">Merek-merek</string>\r\n    <string name=\"selectedCars\">Mobil pilihan untuk Anda</string>\r\n    <string name=\"cars\">Mobil</string>\r\n    <string name=\"news\">Berita</string>\r\n    <string name=\"profile\">Profil</string>\r\n    <string name=\"articles\">Artikel</string>\r\n    <string name=\"featuredArticles\">Artikel Unggulan</string>\r\n    <string name=\"recommendedForYou\">Direkomendasikan untuk Anda</string>\r\n    <string name=\"notifications\">Notifikasi</string>\r\n\r\n    <string name=\"carNamePlaceholder\">Nama Mobil</string>\r\n\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values-in/strings.xml b/app/src/main/res/values-in/strings.xml
+--- a/app/src/main/res/values-in/strings.xml	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/res/values-in/strings.xml	(date 1683085504840)
+@@ -46,5 +46,6 @@
+     <string name="notifications">Notifikasi</string>
+ 
+     <string name="carNamePlaceholder">Nama Mobil</string>
++    <string name="fuelType">Bahan Bakar</string>
+ 
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/drawable/baseline_local_gas_station_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/baseline_local_gas_station_24.xml b/app/src/main/res/drawable/baseline_local_gas_station_24.xml
+new file mode 100644
+--- /dev/null	(date 1683085504836)
++++ b/app/src/main/res/drawable/baseline_local_gas_station_24.xml	(date 1683085504836)
+@@ -0,0 +1,5 @@
++<vector android:height="24dp" android:tint="#000000"
++    android:viewportHeight="24" android:viewportWidth="24"
++    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="@android:color/white" android:pathData="M19.77,7.23l0.01,-0.01 -3.72,-3.72L15,4.56l2.11,2.11c-0.94,0.36 -1.61,1.26 -1.61,2.33 0,1.38 1.12,2.5 2.5,2.5 0.36,0 0.69,-0.08 1,-0.21v7.21c0,0.55 -0.45,1 -1,1s-1,-0.45 -1,-1L17,14c0,-1.1 -0.9,-2 -2,-2h-1L14,5c0,-1.1 -0.9,-2 -2,-2L6,3c-1.1,0 -2,0.9 -2,2v16h10v-7.5h1.5v5c0,1.38 1.12,2.5 2.5,2.5s2.5,-1.12 2.5,-2.5L20.5,9c0,-0.69 -0.28,-1.32 -0.73,-1.77zM12,10L6,10L6,5h6v5zM18,10c-0.55,0 -1,-0.45 -1,-1s0.45,-1 1,-1 1,0.45 1,1 -0.45,1 -1,1z"/>
++</vector>
+Index: app/src/main/java/edu/bluejack22_2/agocar/CarDetailActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.bluejack22_2.agocar;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport edu.bluejack22_2.agocar.models.Car;\r\nimport edu.bluejack22_2.agocar.other.RetrievedCarListener;\r\n\r\npublic class CarDetailActivity extends AppCompatActivity {\r\n    private String carID;\r\n    private Car retrievedCar;\r\n    private TextView tvCarName;\r\n    private ImageView ivCarImage;\r\n\r\n    void getExtras(){\r\n        Bundle bundle = getIntent().getExtras();\r\n        this.carID = bundle.getString(\"carID\");\r\n    }\r\n\r\n    void getComponents(){\r\n        tvCarName = findViewById(R.id.tvCarName);\r\n        ivCarImage = findViewById(R.id.ivCarImage);\r\n\r\n\r\n        //Retrieve Car From DB\r\n        Car.getCar(new RetrievedCarListener() {\r\n            @Override\r\n            public void retrievedCar(Car car) {\r\n                retrievedCar = car;\r\n            }\r\n        }, carID);\r\n\r\n    }\r\n    void setComponents(){}\r\n\r\n\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_car_detail);\r\n        getExtras();\r\n\r\n        if(carID != null){\r\n            getComponents();\r\n            setComponents();\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/bluejack22_2/agocar/CarDetailActivity.java b/app/src/main/java/edu/bluejack22_2/agocar/CarDetailActivity.java
+--- a/app/src/main/java/edu/bluejack22_2/agocar/CarDetailActivity.java	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/java/edu/bluejack22_2/agocar/CarDetailActivity.java	(date 1683085614441)
+@@ -4,9 +4,12 @@
+ 
+ import android.os.Bundle;
+ import android.util.Log;
++import android.view.View;
+ import android.widget.ImageView;
+ import android.widget.TextView;
+ 
++import com.squareup.picasso.Picasso;
++
+ import edu.bluejack22_2.agocar.models.Car;
+ import edu.bluejack22_2.agocar.other.RetrievedCarListener;
+ 
+@@ -14,7 +17,7 @@
+     private String carID;
+     private Car retrievedCar;
+     private TextView tvCarName;
+-    private ImageView ivCarImage;
++    private ImageView ivCarImage, ivBack;
+ 
+     void getExtras(){
+         Bundle bundle = getIntent().getExtras();
+@@ -24,6 +27,7 @@
+     void getComponents(){
+         tvCarName = findViewById(R.id.tvCarName);
+         ivCarImage = findViewById(R.id.ivCarImage);
++        ivBack = findViewById(R.id.ivBackButton);
+ 
+ 
+         //Retrieve Car From DB
+@@ -31,11 +35,15 @@
+             @Override
+             public void retrievedCar(Car car) {
+                 retrievedCar = car;
++                setComponents();
+             }
+         }, carID);
+ 
+     }
+-    void setComponents(){}
++    void setComponents(){
++        tvCarName.setText(retrievedCar.getName());
++        Picasso.get().load(retrievedCar.getImage()).into(ivCarImage);
++    }
+ 
+ 
+ 
+@@ -47,7 +55,14 @@
+ 
+         if(carID != null){
+             getComponents();
+-            setComponents();
++
+         }
++
++        ivBack.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                finish();
++            }
++        });
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/java/edu/bluejack22_2/agocar/NewsActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.bluejack22_2.agocar;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.LinearLayout;\r\n\r\nimport java.util.ArrayList;\r\n\r\nimport edu.bluejack22_2.agocar.adapter.NewsFeaturedArticleAdapter;\r\nimport edu.bluejack22_2.agocar.adapter.RecommendedArticleAdapter;\r\nimport edu.bluejack22_2.agocar.models.Article;\r\nimport edu.bluejack22_2.agocar.other.RetrievedArticlesListener;\r\n\r\npublic class NewsActivity extends AppCompatActivity {\r\n\r\n    LinearLayout navHome;\r\n    RecyclerView rvFeaturedArticles, rvRecommendedArticles;\r\n    NewsFeaturedArticleAdapter featuredArticleAdapter;\r\n    RecommendedArticleAdapter recommendedArticleAdapter;\r\n\r\n\r\n    void setComponents(){\r\n        navHome = findViewById(R.id.navHome);\r\n\r\n        //RecyclerView Featured Articles\r\n        rvFeaturedArticles = findViewById(R.id.rvFeaturedArticles);\r\n        featuredArticleAdapter = new NewsFeaturedArticleAdapter();\r\n        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);\r\n        rvFeaturedArticles.setLayoutManager(linearLayoutManager);\r\n        rvFeaturedArticles.setAdapter(featuredArticleAdapter);\r\n\r\n\r\n        //RecyclerView Recommended Articles\r\n        rvRecommendedArticles = findViewById(R.id.rvRecommendedForYou);\r\n        recommendedArticleAdapter = new RecommendedArticleAdapter();\r\n        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);\r\n        rvRecommendedArticles.setLayoutManager(linearLayoutManager1);\r\n        rvRecommendedArticles.setAdapter(recommendedArticleAdapter);\r\n    }\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_news);\r\n\r\n        setComponents();\r\n\r\n\r\n        //Ini Buat Featured yang Diatas\r\n        Article.getArticles(new RetrievedArticlesListener() {\r\n            @Override\r\n            public void retrievedArticles(ArrayList<Article> retArticles) {\r\n                if(!retArticles.isEmpty()){\r\n                    featuredArticleAdapter.setArticles(retArticles);\r\n                    recommendedArticleAdapter.setArticles(retArticles);\r\n                }\r\n            }\r\n        });\r\n\r\n        //Ini Buat yang Recommended (Belom ada algoritma jadi langsung getall aja)\r\n//        Article.getArticles(new RetrievedArticlesListener() {\r\n//            @Override\r\n//            public void retrievedArticles(ArrayList<Article> retArticles) {\r\n//                if(!retArticles.isEmpty()){\r\n//                    recommendedArticleAdapter.setArticles(retArticles);\r\n//                }\r\n//            }\r\n//        });\r\n        navHome.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                Intent intent = new Intent(NewsActivity.this, HomeActivity.class);\r\n                finish();\r\n                startActivity(intent);\r\n            }\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/bluejack22_2/agocar/NewsActivity.java b/app/src/main/java/edu/bluejack22_2/agocar/NewsActivity.java
+--- a/app/src/main/java/edu/bluejack22_2/agocar/NewsActivity.java	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/java/edu/bluejack22_2/agocar/NewsActivity.java	(date 1683085504833)
+@@ -6,9 +6,12 @@
+ 
+ import android.content.Intent;
+ import android.os.Bundle;
++import android.util.Log;
+ import android.view.View;
+ import android.widget.LinearLayout;
+ 
++import com.google.android.material.floatingactionbutton.FloatingActionButton;
++
+ import java.util.ArrayList;
+ 
+ import edu.bluejack22_2.agocar.adapter.NewsFeaturedArticleAdapter;
+@@ -23,9 +26,12 @@
+     NewsFeaturedArticleAdapter featuredArticleAdapter;
+     RecommendedArticleAdapter recommendedArticleAdapter;
+ 
++    FloatingActionButton fabAdd;
++
+ 
+     void setComponents(){
+         navHome = findViewById(R.id.navHome);
++        fabAdd = findViewById(R.id.fabAdd);
+ 
+         //RecyclerView Featured Articles
+         rvFeaturedArticles = findViewById(R.id.rvFeaturedArticles);
+@@ -41,6 +47,14 @@
+         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+         rvRecommendedArticles.setLayoutManager(linearLayoutManager1);
+         rvRecommendedArticles.setAdapter(recommendedArticleAdapter);
++
++
++        //Authenticate User Action
++        Log.d("Role", HomeActivity.user.getRole());
++        if(HomeActivity.user.getRole().equals("Admin")){
++            Log.d("Role", HomeActivity.user.getRole());
++            fabAdd.setVisibility(View.VISIBLE);
++        }
+     }
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+Index: app/src/main/java/edu/bluejack22_2/agocar/HomeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.bluejack22_2.agocar;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.gson.Gson;\r\n\r\nimport java.util.ArrayList;\r\n\r\nimport edu.bluejack22_2.agocar.adapter.HomeBrandsAdapter;\r\nimport edu.bluejack22_2.agocar.adapter.HomeCarsAdapter;\r\nimport edu.bluejack22_2.agocar.models.Brand;\r\nimport edu.bluejack22_2.agocar.models.Car;\r\nimport edu.bluejack22_2.agocar.models.User;\r\nimport edu.bluejack22_2.agocar.other.RetrievedBrandsListener;\r\nimport edu.bluejack22_2.agocar.other.RetrievedCarsListener;\r\n\r\npublic class HomeActivity extends AppCompatActivity {\r\n    public static User user = null;\r\n    private TextView tvGreetings;\r\n    private RecyclerView rvBrands, rvCars;\r\n\r\n    private HomeBrandsAdapter brandsAdapter;\r\n\r\n    private HomeCarsAdapter carsAdapter;\r\n    private LinearLayout navNews;\r\n\r\n    private ImageView notification;\r\n\r\n\r\n    void authenticateUser(){\r\n        Gson gson = new Gson();\r\n        SharedPreferences mPrefs = getSharedPreferences(\"userPref\", Context.MODE_PRIVATE);\r\n        String json = mPrefs.getString(\"user\", \"\");\r\n        user = gson.fromJson(json, User.class);\r\n\r\n        if(user == null){\r\n            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);\r\n            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);\r\n            startActivity(intent);\r\n        }\r\n    }\r\n\r\n    void getComponents(){\r\n        this.tvGreetings = findViewById(R.id.tvGreetings);\r\n\r\n    }\r\n\r\n    void setComponents(){\r\n        tvGreetings.setText(\"Hello, \"+this.user.getUsername()+ \" !\");\r\n    }\r\n\r\n    @Override\r\n    protected void onStart() {\r\n        super.onStart();\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_home);\r\n\r\n        tvGreetings = findViewById(R.id.tvGreetings);\r\n        rvBrands = findViewById(R.id.rvBrands);\r\n        rvCars = findViewById(R.id.rvCars);\r\n        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);\r\n        rvBrands.setLayoutManager(linearLayoutManager);\r\n        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);\r\n        rvCars.setLayoutManager(linearLayoutManager2);\r\n        brandsAdapter = new HomeBrandsAdapter();\r\n        carsAdapter = new HomeCarsAdapter();\r\n        rvBrands.setAdapter(brandsAdapter);\r\n        rvCars.setAdapter(carsAdapter);\r\n        navNews = findViewById(R.id.navNews);\r\n        notification = findViewById(R.id.ivNotification);\r\n\r\n        Brand.getBrands(new RetrievedBrandsListener() {\r\n            @Override\r\n            public void retrievedBrands(ArrayList<Brand> retBrands) {\r\n                if(!retBrands.isEmpty()){\r\n                    brandsAdapter.setBrands(retBrands);\r\n                }\r\n            }\r\n        });\r\n\r\n        Car.getCars(new RetrievedCarsListener() {\r\n            @Override\r\n            public void retrievedCars(ArrayList<Car> cars) {\r\n                if(!cars.isEmpty()){\r\n                    carsAdapter.setCars(cars);\r\n                }\r\n            }\r\n        });\r\n\r\n        navNews.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                Intent intent = new Intent(HomeActivity.this, NewsActivity.class);\r\n                finish();\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n        notification.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                Intent intent = new Intent(HomeActivity.this, NotificationActivity.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n\r\n        authenticateUser();\r\n\r\n        getComponents();\r\n\r\n        setComponents();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/bluejack22_2/agocar/HomeActivity.java b/app/src/main/java/edu/bluejack22_2/agocar/HomeActivity.java
+--- a/app/src/main/java/edu/bluejack22_2/agocar/HomeActivity.java	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/java/edu/bluejack22_2/agocar/HomeActivity.java	(date 1683085504833)
+@@ -45,6 +45,7 @@
+         String json = mPrefs.getString("user", "");
+         user = gson.fromJson(json, User.class);
+ 
++
+         if(user == null){
+             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+Index: app/src/main/res/layout/activity_news.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".NewsActivity\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvArticles\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        android:text=\"@string/articles\"\r\n        android:fontFamily=\"@font/lexendmed\"\r\n        android:textStyle=\"bold\"\r\n        android:textSize=\"24sp\"\r\n        android:layout_marginTop=\"9dp\"\r\n        android:layout_marginLeft=\"18dp\"\r\n        />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvFeaturedArticles\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/tvArticles\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        android:layout_marginLeft=\"18dp\"\r\n        android:layout_marginTop=\"12dp\"\r\n        android:text=\"@string/featuredArticles\"\r\n        android:fontFamily=\"@font/lexendmed\"\r\n        android:textStyle=\"bold\"\r\n        android:textSize=\"18sp\"\r\n        />\r\n    \r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/rvFeaturedArticles\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"112dp\"\r\n        android:orientation=\"horizontal\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/tvFeaturedArticles\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        android:layout_marginLeft=\"18dp\"\r\n        android:layout_marginTop=\"6dp\"\r\n        />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvRecommendedForYou\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/rvFeaturedArticles\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        android:layout_marginLeft=\"18dp\"\r\n        android:layout_marginTop=\"13dp\"\r\n        android:text=\"@string/recommendedForYou\"\r\n        android:fontFamily=\"@font/lexendmed\"\r\n        android:textStyle=\"bold\"\r\n        android:textSize=\"18sp\"\r\n        />\r\n    \r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/rvRecommendedForYou\"\r\n        android:layout_width=\"283dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"vertical\"\r\n        app:layout_constraintTop_toBottomOf=\"@id/tvRecommendedForYou\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        android:layout_marginLeft=\"18dp\"\r\n        android:layout_marginTop=\"6dp\"\r\n        />\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/linearLayout2\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"68dp\"\r\n        android:background=\"@color/grey\"\r\n        android:gravity=\"center\"\r\n        android:orientation=\"horizontal\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\">\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/navHome\"\r\n            android:layout_width=\"56dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"10dp\"\r\n            android:layout_marginEnd=\"40dp\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <ImageView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:src=\"@drawable/ic_home\" />\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:text=\"@string/title_home\"\r\n                android:textAlignment=\"center\"\r\n                android:textStyle=\"bold\" />\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/navCars\"\r\n            android:layout_width=\"56dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginEnd=\"40dp\"\r\n            android:orientation=\"vertical\"\r\n            >\r\n\r\n            <ImageView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:src=\"@drawable/ic_car\" />\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:text=\"@string/cars\"\r\n                android:textAlignment=\"center\"\r\n                android:textStyle=\"bold\" />\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/navNews\"\r\n            android:layout_width=\"56dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginEnd=\"40dp\"\r\n            android:orientation=\"vertical\"\r\n            >\r\n\r\n            <ImageView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:src=\"@drawable/ic_news\" />\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:text=\"@string/news\"\r\n                android:textAlignment=\"center\"\r\n                android:textStyle=\"bold\" />\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/navProfile\"\r\n            android:layout_width=\"56dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginEnd=\"10dp\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <ImageView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:src=\"@drawable/ic_profile\" />\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:text=\"@string/profile\"\r\n                android:textAlignment=\"center\"\r\n                android:textStyle=\"bold\" />\r\n\r\n        </LinearLayout>\r\n\r\n    </LinearLayout>\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_news.xml b/app/src/main/res/layout/activity_news.xml
+--- a/app/src/main/res/layout/activity_news.xml	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/res/layout/activity_news.xml	(date 1683085504840)
+@@ -168,4 +168,16 @@
+ 
+     </LinearLayout>
+ 
++    <com.google.android.material.floatingactionbutton.FloatingActionButton
++        android:id="@+id/fabAdd"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginEnd="25dp"
++        android:layout_marginBottom="40dp"
++        android:clickable="true"
++        android:visibility="invisible"
++        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:srcCompat="@drawable/baseline_add_24" />
++
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/edu/bluejack22_2/agocar/adapter/RecommendedArticleAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.bluejack22_2.agocar.adapter;\r\n\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.squareup.picasso.Picasso;\r\n\r\nimport java.util.ArrayList;\r\n\r\nimport edu.bluejack22_2.agocar.R;\r\nimport edu.bluejack22_2.agocar.models.Article;\r\n\r\npublic class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedArticleAdapter.HomeViewHolder> {\r\n\r\n    private ArrayList<Article> articles = new ArrayList<>();\r\n\r\n\r\n    @NonNull\r\n    @Override\r\n    public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommended_articles_card, parent, false);\r\n        return new RecommendedArticleAdapter.HomeViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {\r\n        Article article = articles.get(position);\r\n        Picasso.get().load(article.getImage()).into(holder.ivArticleImage);\r\n        holder.tvArticleTitle.setText(article.getTitle());\r\n        holder.tvArticleDate.setText(article.getPostDate().toDate().toString());\r\n        holder.tvArticleCreator.setText(article.getPostedBy());\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return articles.size();\r\n    }\r\n\r\n    class HomeViewHolder extends RecyclerView.ViewHolder{\r\n        ImageView ivArticleImage;\r\n        TextView tvArticleTitle, tvArticleDate, tvArticleCreator;\r\n\r\n        public HomeViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n\r\n            ivArticleImage = itemView.findViewById(R.id.ivRecArticleImage);\r\n            tvArticleTitle = itemView.findViewById(R.id.tvRecArticleTitle);\r\n            tvArticleDate = itemView.findViewById(R.id.tvRecArticleDate);\r\n            tvArticleCreator = itemView.findViewById(R.id.tvRecArticleCreator);\r\n        }\r\n\r\n\r\n    }\r\n\r\n    public void setArticles(ArrayList<Article> newArticles) {\r\n        articles.clear();\r\n        articles.addAll(newArticles);\r\n        notifyDataSetChanged();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/edu/bluejack22_2/agocar/adapter/RecommendedArticleAdapter.java b/app/src/main/java/edu/bluejack22_2/agocar/adapter/RecommendedArticleAdapter.java
+--- a/app/src/main/java/edu/bluejack22_2/agocar/adapter/RecommendedArticleAdapter.java	(revision 880abbfa326a849f2dc24b7fdfa2ec0bd9cb48d9)
++++ b/app/src/main/java/edu/bluejack22_2/agocar/adapter/RecommendedArticleAdapter.java	(date 1683085504834)
+@@ -1,5 +1,6 @@
+ package edu.bluejack22_2.agocar.adapter;
+ 
++import android.content.Intent;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -13,6 +14,7 @@
+ 
+ import java.util.ArrayList;
+ 
++import edu.bluejack22_2.agocar.ArticleDetailActivity;
+ import edu.bluejack22_2.agocar.R;
+ import edu.bluejack22_2.agocar.models.Article;
+ 
+@@ -42,7 +44,7 @@
+         return articles.size();
+     }
+ 
+-    class HomeViewHolder extends RecyclerView.ViewHolder{
++    class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+         ImageView ivArticleImage;
+         TextView tvArticleTitle, tvArticleDate, tvArticleCreator;
+ 
+@@ -53,9 +55,20 @@
+             tvArticleTitle = itemView.findViewById(R.id.tvRecArticleTitle);
+             tvArticleDate = itemView.findViewById(R.id.tvRecArticleDate);
+             tvArticleCreator = itemView.findViewById(R.id.tvRecArticleCreator);
++            itemView.setOnClickListener(this);
+         }
+ 
+ 
++        @Override
++        public void onClick(View v) {
++            int position = getAdapterPosition();
++
++            Article article = articles.get(position);
++
++            Intent i = new Intent(v.getContext(), ArticleDetailActivity.class);
++            i.putExtra("articleID", article.getArticleID());
++            v.getContext().startActivity(i);
++        }
+     }
+ 
+     public void setArticles(ArrayList<Article> newArticles) {
