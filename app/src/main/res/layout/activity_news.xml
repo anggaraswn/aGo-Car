@@ -33,7 +33,7 @@
         android:textStyle="bold"
         android:textSize="18sp"
         />
-    
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFeaturedArticles"
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
         android:textStyle="bold"
         android:textSize="18sp"
         />
-    
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecommendedForYou"
         android:layout_width="283dp"
@@ -167,5 +167,17 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="40dp"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/baseline_add_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

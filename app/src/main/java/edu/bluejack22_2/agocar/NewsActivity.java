@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -23,9 +26,12 @@ public class NewsActivity extends AppCompatActivity {
     NewsFeaturedArticleAdapter featuredArticleAdapter;
     RecommendedArticleAdapter recommendedArticleAdapter;
 
+    FloatingActionButton fabAdd;
 
-    void setComponents(){
+
+    void setComponents() {
         navHome = findViewById(R.id.navHome);
+        fabAdd = findViewById(R.id.fabAdd);
 
         //RecyclerView Featured Articles
         rvFeaturedArticles = findViewById(R.id.rvFeaturedArticles);
@@ -41,7 +47,16 @@ public class NewsActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvRecommendedArticles.setLayoutManager(linearLayoutManager1);
         rvRecommendedArticles.setAdapter(recommendedArticleAdapter);
+
+
+        //Authenticate User Action
+        Log.d("Role", HomeActivity.user.getRole());
+        if (HomeActivity.user.getRole().equals("Admin")) {
+            Log.d("Role", HomeActivity.user.getRole());
+            fabAdd.setVisibility(View.VISIBLE);
+        }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +70,7 @@ public class NewsActivity extends AppCompatActivity {
         Article.getArticles(new RetrievedArticlesListener() {
             @Override
             public void retrievedArticles(ArrayList<Article> retArticles) {
-                if(!retArticles.isEmpty()){
+                if (!retArticles.isEmpty()) {
                     featuredArticleAdapter.setArticles(retArticles);
                     recommendedArticleAdapter.setArticles(retArticles);
                 }

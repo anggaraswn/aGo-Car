@@ -49,4 +49,9 @@
     <string name="carNamePlaceholder">Car Name</string>
     <string name="fuelType">Fuel Type</string>
 
+    <string name="addArticle">Add Article</string>
+    <string name="save">Save</string>
+    <string name="articleTitle">Article Title</string>
+    <string name="articleDescription">Article Description</string>
+
 </resources>

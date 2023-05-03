@@ -6,7 +6,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 
 import edu.bluejack22_2.agocar.conn.Database;
+import edu.bluejack22_2.agocar.other.RetrievedArticleListener;
 import edu.bluejack22_2.agocar.other.RetrievedArticlesListener;
+import edu.bluejack22_2.agocar.other.RetrievedBrandListener;
+import edu.bluejack22_2.agocar.other.RetrievedCarListener;
 
 public class Article {
 
@@ -91,6 +94,28 @@ public class Article {
                 .addOnFailureListener(e -> {
                     // Error occurred
 //                    listener.retrievedUser(null);
+                });
+    };
+
+    public static void getArticle(RetrievedArticleListener listener, String articleID){
+        Database.getInstance().collection("articles").document(articleID)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots != null){
+                        String documentID = queryDocumentSnapshots.getId();
+                        String title = queryDocumentSnapshots.getString("title");
+                        String image = queryDocumentSnapshots.getString("image");
+                        String postedBy = queryDocumentSnapshots.getString("postedBy");
+                        String content = queryDocumentSnapshots.getString("content");
+                        Timestamp postDate = queryDocumentSnapshots.getTimestamp("postDate");
+
+                        Article article = new Article(documentID, title, image, postedBy, content, postDate);
+                        listener.retrievedArticle(article);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+                    listener.retrievedArticle(null);
                 });
     };
 
