@@ -3,6 +3,7 @@ package edu.bluejack22_2.agocar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     void getComponents(){
         tvTitle = findViewById(R.id.tvTitle);
         tvContent = findViewById(R.id.tvContent);
-        ivImage = findViewById(R.id.ivImage);
+        ivImage = findViewById(R.id.ivArticleImage);
     }
 
 
@@ -38,6 +39,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         tvTitle.setText(title);
         tvContent.setText(content);
+        Log.d("Image", this.image);
         Picasso.get().load(image).into(ivImage);
     }
 }

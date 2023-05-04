@@ -1,9 +1,16 @@
 package edu.bluejack22_2.agocar.models;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.bluejack22_2.agocar.conn.Database;
 import edu.bluejack22_2.agocar.other.RetrievedArticleListener;
@@ -18,6 +25,13 @@ public class Article {
 
     public Article(String articleID, String title, String image, String postedBy, String content, Timestamp postDate) {
         this.articleID = articleID;
+        this.title = title;
+        this.image = image;
+        this.postedBy = postedBy;
+        this.content = content;
+        this.postDate = postDate;
+    }
+    public Article(String title, String image, String postedBy, String content, Timestamp postDate) {
         this.title = title;
         this.image = image;
         this.postedBy = postedBy;
@@ -118,5 +132,33 @@ public class Article {
                     listener.retrievedArticle(null);
                 });
     };
+
+    public void insert(edu.bluejack22_2.agocar.other.OnSuccessListener listener) {
+        Map<String, Object> article = new HashMap<>();
+        article.put("title", this.title);
+        article.put("image", this.image);
+        article.put("content", this.content);
+        article.put("postedBy", this.postedBy);
+        article.put("postDate", this.postDate);
+
+
+
+        Database.getInstance().collection("articles")
+                .add(article)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        listener.onSuccess(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.onSuccess(false);
+                    }
+                });
+
+
+    }
 
 }
