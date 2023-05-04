@@ -61,7 +61,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecommendedForYou"
-        android:layout_width="283dp"
+        android:layout_width="380dp"
         android:layout_height="420dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tvRecommendedForYou"

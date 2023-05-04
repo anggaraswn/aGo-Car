@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import edu.bluejack22_2.agocar.ArticleDetailActivity;
 import edu.bluejack22_2.agocar.NewsDetailActivity;
 import edu.bluejack22_2.agocar.R;
 import edu.bluejack22_2.agocar.models.Article;
@@ -65,7 +66,7 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
             Log.d("AGTest", "Clicked");
             int position = getAdapterPosition();
             Article article = articles.get(position);
-            Intent intent = new Intent(view.getContext(), NewsDetailActivity.class);
+            Intent intent = new Intent(view.getContext(), ArticleDetailActivity.class);
             intent.putExtra("articleID", article.getArticleID());
             intent.putExtra("image", article.getImage());
             intent.putExtra("title", article.getTitle());
