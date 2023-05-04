@@ -52,5 +52,13 @@
     <string name="save">Simpan</string>
     <string name="articleTitle">Judul Artikel</string>
     <string name="articleDescription">Deskripsi Artikel</string>
+    <string name="logOut">Keluar</string>
+    <string name="favourites">Favorit</string>
+    <string name="viewAll">Lihat Semua</string>
+    <string name="yourReviews">Ulasan Anda</string>
+    <string name="editProfile">Edit Profil</string>
+    <string name="currentPassword">Kata Sandi Saat Ini</string>
+    <string name="newPassword">Password Baru</string>
+
 
 </resources>
