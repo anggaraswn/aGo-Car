@@ -1,0 +1,76 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddArticleActivity"
+    android:background="@color/grey"
+    android:paddingBottom="20dp"
+    >
+
+
+
+
+
+
+
+    <ImageView
+        android:id="@+id/ivDisplayedImage"
+        android:layout_width="260dp"
+        android:layout_height="101dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/material_symbols_add_a_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etArticleTitle"
+        android:layout_width="313dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="59dp"
+        android:background="@drawable/round_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivDisplayedImage"
+        android:hint="@string/articleTitle"
+        android:paddingLeft="15dp"
+        />
+
+    <EditText
+        android:id="@+id/etArticleDescription"
+        android:layout_width="321dp"
+        android:layout_height="235dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_edit_text"
+        android:gravity="top"
+        android:hint="@string/articleDescription"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etArticleTitle" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:text="Save"
+        app:layout_constraintTop_toBottomOf="@+id/etArticleDescription"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/ivClose"
+        android:layout_width="53dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_close_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

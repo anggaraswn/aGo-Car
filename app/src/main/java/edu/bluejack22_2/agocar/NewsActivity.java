@@ -1,5 +1,6 @@
 package edu.bluejack22_2.agocar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -21,7 +23,7 @@ import edu.bluejack22_2.agocar.other.RetrievedArticlesListener;
 
 public class NewsActivity extends AppCompatActivity {
 
-    LinearLayout navHome;
+    LinearLayout navHome, navCars, navProfile;
     RecyclerView rvFeaturedArticles, rvRecommendedArticles;
     NewsFeaturedArticleAdapter featuredArticleAdapter;
     RecommendedArticleAdapter recommendedArticleAdapter;
@@ -43,31 +45,42 @@ public class NewsActivity extends AppCompatActivity {
 
         //RecyclerView Recommended Articles
         rvRecommendedArticles = findViewById(R.id.rvRecommendedForYou);
-        recommendedArticleAdapter = new RecommendedArticleAdapter();
+        recommendedArticleAdapter = new RecommendedArticleAdapter(this);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvRecommendedArticles.setLayoutManager(linearLayoutManager1);
         rvRecommendedArticles.setAdapter(recommendedArticleAdapter);
 
+        navProfile = findViewById(R.id.navProfile);
 
         //Authenticate User Action
         Log.d("Role", HomeActivity.user.getRole());
         if (HomeActivity.user.getRole().equals("Admin")) {
-            Log.d("Role", HomeActivity.user.getRole());
+
             fabAdd.setVisibility(View.VISIBLE);
         }
     }
+
 
     void loadArticles(){
         Article.getArticles(new RetrievedArticlesListener() {
             @Override
             public void retrievedArticles(ArrayList<Article> retArticles) {
                 if (!retArticles.isEmpty()) {
-                    featuredArticleAdapter.setArticles(retArticles);
                     recommendedArticleAdapter.setArticles(retArticles);
                 }
             }
         });
+        Article.getFeaturedArticles(new RetrievedArticlesListener() {
+            @Override
+            public void retrievedArticles(ArrayList<Article> retArticles) {
+                if (!retArticles.isEmpty()) {
+                    featuredArticleAdapter.setArticles(retArticles);
+                }
+            }
+        });
+
     }
+
 
     @Override
     protected void onResume() {
@@ -110,6 +123,14 @@ public class NewsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewsActivity.this, HomeActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
+        navProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewsActivity.this, ProfileActivity.class);
                 finish();
                 startActivity(intent);
             }

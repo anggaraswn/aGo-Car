@@ -29,6 +29,7 @@ import java.util.Map;
 
 import edu.bluejack22_2.agocar.models.Article;
 import edu.bluejack22_2.agocar.other.OnSuccessListener;
+import edu.bluejack22_2.agocar.util.Calculator;
 
 public class AddArticleActivity extends AppCompatActivity {
     private static final int IMAGE_PICKER_REQUEST_CODE = 1001;
@@ -130,9 +131,13 @@ public class AddArticleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(etTitle.getText().equals("") || etDescription.getText().equals("") || selectedImageUri == null){
                     Toast.makeText(AddArticleActivity.this, "All Fields must be Filled!", Toast.LENGTH_LONG).show();
+                }else if(etDescription.getText().length() < 100){
+                    Toast.makeText(AddArticleActivity.this, "Article Description minimum 100 characters !", Toast.LENGTH_LONG).show();
+                }else if(Calculator.getImageSize(selectedImageUri, v.getContext()) > (1024 * 1024)){
+                    Toast.makeText(AddArticleActivity.this, "Article Image size maximum 1 MegaBytes !", Toast.LENGTH_LONG).show();
+
                 }else{
                     uploadImage();
-
                 }
 
             }

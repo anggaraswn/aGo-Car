@@ -16,7 +16,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import edu.bluejack22_2.agocar.ArticleDetailActivity;
-import edu.bluejack22_2.agocar.NewsDetailActivity;
 import edu.bluejack22_2.agocar.R;
 import edu.bluejack22_2.agocar.models.Article;
 

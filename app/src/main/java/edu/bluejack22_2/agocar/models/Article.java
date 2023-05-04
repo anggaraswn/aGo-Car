@@ -6,9 +6,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,6 +113,32 @@ public class Article {
                 });
     };
 
+    public static void getFeaturedArticles(RetrievedArticlesListener listener){
+        ArrayList<Article> articles = new ArrayList<>();
+        Database.getInstance().collection("articles")
+                .orderBy("postDate", Query.Direction.DESCENDING) // Sort by postDate in ascending order
+                .limit(5) // Limit the result to 5
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(!queryDocumentSnapshots.isEmpty()){
+                        for(QueryDocumentSnapshot b : queryDocumentSnapshots){
+                            String documentID = b.getId();
+                            String title = b.getString("title");
+                            String image = b.getString("image");
+                            String postedBy = b.getString("postedBy");
+                            String content = b.getString("content");
+                            Timestamp postDate = b.getTimestamp("postDate");
+                            articles.add(new Article(documentID, title, image, postedBy, content, postDate));
+                        }
+                        listener.retrievedArticles(articles);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+//                    listener.retrievedUser(null);
+                });
+    };
+
     public static void getArticle(RetrievedArticleListener listener, String articleID){
         Database.getInstance().collection("articles").document(articleID)
                 .get()
@@ -132,6 +160,22 @@ public class Article {
                     listener.retrievedArticle(null);
                 });
     };
+
+
+
+    public void delete(edu.bluejack22_2.agocar.other.OnSuccessListener listener, String articleID){
+        Database.getInstance().document("articles/"+articleID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onSuccess(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onSuccess(false);
+            }
+        });
+    }
 
     public void insert(edu.bluejack22_2.agocar.other.OnSuccessListener listener) {
         Map<String, Object> article = new HashMap<>();
