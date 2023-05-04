@@ -59,6 +59,10 @@
     <string name="editProfile">Edit Profil</string>
     <string name="currentPassword">Kata Sandi Saat Ini</string>
     <string name="newPassword">Password Baru</string>
+    <string name="search">Cari. . .</string>
+    <string name="popularCars">Mobil Populer</string>
+    <string name="ratings">5.0</string>
+    <string name="hp">1600 hp</string>
 
 
 </resources>

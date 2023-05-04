@@ -59,5 +59,9 @@
     <string name="editProfile">Edit Profile</string>
     <string name="currentPassword">Current Password</string>
     <string name="newPassword">New Password</string>
+    <string name="search">Search. . .</string>
+    <string name="popularCars">Popular Cars</string>
+    <string name="ratings">5.0</string>
+    <string name="hp">1600 hp</string>
 
 </resources>
