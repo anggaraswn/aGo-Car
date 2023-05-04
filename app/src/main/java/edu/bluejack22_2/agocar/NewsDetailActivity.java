@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +15,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     private  String title, image, content;
 
     private TextView tvTitle, tvContent;
-    private ImageView ivImage;
+    private ImageView ivImage, ivBack;
 
     void getExtras(){
         Bundle bundle = getIntent().getExtras();
@@ -27,6 +28,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.tvTitle);
         tvContent = findViewById(R.id.tvContent);
         ivImage = findViewById(R.id.ivArticleImage);
+        ivBack = findViewById(R.id.ivBackButton);
     }
 
 
@@ -36,6 +38,8 @@ public class NewsDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news_detail);
         getExtras();
         getComponents();
+
+
 
         tvTitle.setText(title);
         tvContent.setText(content);
