@@ -56,6 +56,7 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
             tvArticleTitle = itemView.findViewById(R.id.tvRecArticleTitle);
             tvArticleDate = itemView.findViewById(R.id.tvRecArticleDate);
             tvArticleCreator = itemView.findViewById(R.id.tvRecArticleCreator);
+            itemView.setOnClickListener(this);
         }
 
 

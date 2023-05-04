@@ -17,6 +17,9 @@
             android:name=".AddArticleActivity"
             android:exported="false" />
         <activity
+            android:name=".NewsDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ArticleDetailActivity"
             android:exported="false" />
         <activity

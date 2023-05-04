@@ -57,6 +57,24 @@ public class NewsActivity extends AppCompatActivity {
         }
     }
 
+    void loadArticles(){
+        Article.getArticles(new RetrievedArticlesListener() {
+            @Override
+            public void retrievedArticles(ArrayList<Article> retArticles) {
+                if (!retArticles.isEmpty()) {
+                    featuredArticleAdapter.setArticles(retArticles);
+                    recommendedArticleAdapter.setArticles(retArticles);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadArticles();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,15 +85,7 @@ public class NewsActivity extends AppCompatActivity {
         //Hai
 
         //Ini Buat Featured yang Diatas
-        Article.getArticles(new RetrievedArticlesListener() {
-            @Override
-            public void retrievedArticles(ArrayList<Article> retArticles) {
-                if (!retArticles.isEmpty()) {
-                    featuredArticleAdapter.setArticles(retArticles);
-                    recommendedArticleAdapter.setArticles(retArticles);
-                }
-            }
-        });
+        loadArticles();
 
         //Ini Buat yang Recommended (Belom ada algoritma jadi langsung getall aja)
 //        Article.getArticles(new RetrievedArticlesListener() {

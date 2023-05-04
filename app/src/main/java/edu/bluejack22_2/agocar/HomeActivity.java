@@ -45,6 +45,8 @@ public class HomeActivity extends AppCompatActivity {
         String json = mPrefs.getString("user", "");
         user = gson.fromJson(json, User.class);
 
+
+
         if(user == null){
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
