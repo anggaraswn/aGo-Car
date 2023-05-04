@@ -1,10 +1,12 @@
 package edu.bluejack22_2.agocar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -27,6 +29,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView ivBack;
     private CircleImageView civImage;
     private User user;
+    private static final int IMAGE_PICKER_REQUEST_CODE = 1001;
+
 
     void getComponents(){
         etUsername = findViewById(R.id.etUsername);
@@ -51,6 +55,11 @@ public class EditProfileActivity extends AppCompatActivity {
         Picasso.get().load(user.getImage()).into(civImage);
     }
 
+    void handleImageSelection(Intent data){
+        Uri selectedImageUri = data.getData();
+        civImage.setImageURI(selectedImageUri);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +67,15 @@ public class EditProfileActivity extends AppCompatActivity {
         getComponents();
         getUser();
         setComponents();
+
+        civImage.setOnClickListener(e -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, IMAGE_PICKER_REQUEST_CODE);
+        });
+
+        ivBack.setOnClickListener(e -> {
+            finish();
+        });
 
         btnSave.setOnClickListener(e -> {
             String username, email, cPassword, newPassword;
@@ -97,5 +115,13 @@ public class EditProfileActivity extends AppCompatActivity {
             });
 
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK){
+            handleImageSelection(data);
+        }
     }
 }
