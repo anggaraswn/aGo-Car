@@ -166,9 +166,19 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
                                                     @Override
                                                     public void retrievedArticles(ArrayList<Article> articles) {
                                                         setArticles(articles);
-                                                        //Update yang featured
+
                                                     }
                                                 });
+
+                                                Article.getFeaturedArticles(new RetrievedArticlesListener() {
+                                                    @Override
+                                                    public void retrievedArticles(ArrayList<Article> articles) {
+                                                        NewsActivity.featuredArticleAdapter.setArticles(articles);
+                                                    }
+                                                });
+
+                                                //Update yang featured
+
                                             }else{
 
                                             }

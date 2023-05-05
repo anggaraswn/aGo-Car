@@ -12,7 +12,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import edu.bluejack22_2.agocar.HomeActivity;
 import edu.bluejack22_2.agocar.conn.Database;
 import edu.bluejack22_2.agocar.other.RetrievedBrandListener;
 import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
@@ -22,9 +25,9 @@ import edu.bluejack22_2.agocar.other.RetrievedCarsListener;
 public class Car {
     private String id, name, transmission, image, fuel, description, brandID;
     private Brand brand;
-    private double engine;
+    private double engine, rating, price;
 
-    public Car(String id, String name, String transmission, String image, String fuel, String description, Brand brand, double engine) {
+    public Car(String id, String name, String transmission, String image, String fuel, String description, Brand brand, double engine, double rating, double price) {
         this.id = id;
         this.name = name;
         this.transmission = transmission;
@@ -34,8 +37,10 @@ public class Car {
         this.brand = brand;
         this.brandID = brand.getDocumentID();
         this.engine = engine;
+        this.rating = rating;
+        this.price = price;
     }
-    public Car(String id, String name, String transmission, String image, String fuel, String description, String brandID, double engine) {
+    public Car(String id, String name, String transmission, String image, String fuel, String description, String brandID, double engine, double rating, double price) {
         this.id = id;
         this.name = name;
         this.transmission = transmission;
@@ -44,6 +49,8 @@ public class Car {
         this.description = description;
         this.brandID = brandID;
         this.engine = engine;
+        this.rating = rating;
+        this.price = price;
     }
 
     public static void getCars(RetrievedCarsListener listener){
@@ -61,7 +68,9 @@ public class Car {
                             String fuel = b.getString("fuel");
                             String brandID = b.getString("brand");
                             Double engine = b.getDouble("engine");
-                            cars.add(new Car(id, name, transmission, image, fuel, description, brandID, engine));
+                            Double rating = b.getDouble("rating");
+                            Double price = b.getDouble("price");
+                            cars.add(new Car(id, name, transmission, image, fuel, description, brandID, engine, rating, price));
                         }
                         listener.retrievedCars(cars);
                     }
@@ -71,6 +80,75 @@ public class Car {
 //                    listener.retrievedUser(null);
                 });
     };
+
+    public static void getSearchedCars(RetrievedCarsListener listener, String search){
+        ArrayList<Car> cars = new ArrayList<>();
+        Database.getInstance().collection("cars")
+                .whereGreaterThanOrEqualTo("name", search)
+                .whereLessThanOrEqualTo("name", search + "\uf8ff") // \uf8ff is a high Unicode character used to indicate the end of a string
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(!queryDocumentSnapshots.isEmpty()){
+                        for(QueryDocumentSnapshot b : queryDocumentSnapshots){
+                            String id = b.getId();
+                            String name = b.getString("name");
+                            String description = b.getString("description");
+                            String transmission = b.getString("transmission");
+                            String image = b.getString("image");
+                            String fuel = b.getString("fuel");
+                            String brandID = b.getString("brand");
+                            Double engine = b.getDouble("engine");
+                            Double rating = b.getDouble("rating");
+                            Double price = b.getDouble("price");
+                            cars.add(new Car(id, name, transmission, image, fuel, description, brandID, engine, rating, price));
+                        }
+                        listener.retrievedCars(cars);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+//                    listener.retrievedUser(null);
+                });
+    };
+
+    public static void getPreferredCars(RetrievedCarsListener listener){
+        Log.d("TotalPreferred", HomeActivity.user.getPreference().size()+"");
+
+        HomeActivity.user.getPreference().forEach(e -> {
+            Log.d("BrandID", e);
+        });
+        ArrayList<Car> cars = new ArrayList<>();
+
+        List<String> list = new ArrayList<>();
+        list.addAll(HomeActivity.user.getPreference());
+        Database.getInstance().collection("cars").whereIn("brand", list)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(!queryDocumentSnapshots.isEmpty()){
+                        Log.d("Gakosong", "Gakosong");
+                        for(QueryDocumentSnapshot b : queryDocumentSnapshots){
+                            String id = b.getId();
+                            String name = b.getString("name");
+                            String description = b.getString("description");
+                            String transmission = b.getString("transmission");
+                            String image = b.getString("image");
+                            String fuel = b.getString("fuel");
+                            String brandID = b.getString("brand");
+                            Double engine = b.getDouble("engine");
+                            Double rating = b.getDouble("rating");
+                            Double price = b.getDouble("price");
+                            cars.add(new Car(id, name, transmission, image, fuel, description, brandID, engine, rating, price));
+                        }
+                        listener.retrievedCars(cars);
+                    }else{
+                        Log.d("Kosong", "Kosong");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+//                    listener.retrievedUser(null);
+                });
+    }
 
     public static void getCar(RetrievedCarListener listener, String carID){
 
@@ -85,12 +163,13 @@ public class Car {
                             String image = queryDocumentSnapshots.getString("image");
                             String fuel = queryDocumentSnapshots.getString("fuel");
                             double engine = queryDocumentSnapshots.getDouble("engine");
-
+                            double rating = queryDocumentSnapshots.getDouble("rating");
+                            double price = queryDocumentSnapshots.getDouble("price");
                             Brand.getBrand(new RetrievedBrandListener() {
                                 @Override
                                 public void retrievedBrand(Brand brand) {
                                     if(brand != null){
-                                        Car car = new Car(id, name, transmission, image, fuel, description, brand, engine);
+                                        Car car = new Car(id, name, transmission, image, fuel, description, brand, engine, rating, price);
                                         listener.retrievedCar(car);
                                     }
                                 }
@@ -176,5 +255,21 @@ public class Car {
 
     public void setBrandID(String brandID) {
         this.brandID = brandID;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
