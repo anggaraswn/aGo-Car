@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -26,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -36,12 +34,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.bluejack22_2.agocar.AddArticleActivity;
 import edu.bluejack22_2.agocar.ArticleDetailActivity;
-import edu.bluejack22_2.agocar.EditProfileActivity;
 import edu.bluejack22_2.agocar.HomeActivity;
 import edu.bluejack22_2.agocar.NewsActivity;
-import edu.bluejack22_2.agocar.ProfileActivity;
 import edu.bluejack22_2.agocar.R;
 import edu.bluejack22_2.agocar.models.Article;
 import edu.bluejack22_2.agocar.other.OnSuccessListener;
@@ -55,6 +50,8 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
     private Context context;
 
     private int currentlyEditingPosition = -1; // initialize to -1 to indicate no currently editing position
+    private Uri imageUri;
+
 
     public int getCurrentlyEditingPosition() {
         return currentlyEditingPosition;
@@ -65,9 +62,11 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
         this.context = context;
     }
 
-    public void updateImage(Uri imageUri, int position){
-        articles.get(position).setImageUri(imageUri);
-        notifyItemChanged(position);
+    public void updateImage(Uri imageUri, int pos){
+        articles.get(pos).setImageUri(imageUri);
+        this.imageUri = imageUri;
+        Log.d("Uriasd", ""+articles.get(currentlyEditingPosition).getImageUri());
+        notifyItemChanged(pos);
     }
 
 
@@ -149,6 +148,7 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
                 @Override
                 public void onSuccess(boolean success) {
                     dialog.dismiss();
+                    NewsActivity.loadArticles();
                     Toast.makeText(context, "Successfully Update an Article!", Toast.LENGTH_LONG).show();
                 }
             });
@@ -180,6 +180,9 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
                             String imageUrl = (String) uploadResult.get("secure_url");
 
                             if(imageUrl != null){
+                                imageUri = null;
+                                articles.get(currentlyEditingPosition).setImageUri(null);
+                                currentlyEditingPosition = -1;
                                 updateData(updatedArticle, imageUrl);
                             }
                         } catch (IOException e) {
@@ -194,6 +197,7 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
         }
 
         public void showModal() {
+            setConnection();
             LayoutInflater inflater = this.inflater;
             View modalView = inflater.inflate(R.layout.edit_article_modal, null);
             AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
@@ -225,25 +229,29 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
                 @Override
                 public void onClick(View v) {
                     currentlyEditingPosition = getAdapterPosition();
-                    Log.d("bnmx", ""+getAdapterPosition());
+                    Log.d("bnmx", ""+  getAdapterPosition());
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     ((NewsActivity) context).startActivityForResult(intent, IMAGE_PICKER_REQUEST_CODE);
+                    dialog.dismiss();
                 }
             });
 
             btnSave.setOnClickListener(e -> {
-                setConnection();
-                Log.d("asd", "Test");
-                Log.d("zxc", ""+getCurrentlyEditingPosition());
+                Log.d("asdcposition", ""+ currentlyEditingPosition);
+                Log.d("zxc", ""+getAdapterPosition());
+
                 String title, description;
                 title = etArticleTitle.getText().toString();
                 description = etArticleDescription.getText().toString();
-                Article article = articles.get(getAdapterPosition());
+                Article article = articles.get(currentlyEditingPosition != -1 ? currentlyEditingPosition : getAdapterPosition());
                 Article updatedArticle = new Article(article.getArticleID(), title, "", article.getPostedBy(), description, article.getPostDate());
+                updatedArticle.setImageUri(imageUri);
 
-                if(article.getImageUri() != null){
+                Log.d("Uri", ""+article.getImageUri());
+                if(imageUri != null){
                     uploadImage(updatedArticle);
                 }else{
+//                    Article a = articles.get(getAdapterPosition());
                     updateData(updatedArticle, article.getImage());
                 }
             });

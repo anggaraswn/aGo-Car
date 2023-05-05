@@ -66,7 +66,7 @@ public class NewsActivity extends AppCompatActivity {
     }
 
 
-    void loadArticles(){
+    public static void loadArticles(){
         Article.getArticles(new RetrievedArticlesListener() {
             @Override
             public void retrievedArticles(ArrayList<Article> retArticles) {
@@ -89,7 +89,7 @@ public class NewsActivity extends AppCompatActivity {
 
     public void handleImageSelection(Intent data){
         Uri selectedImageUri = data.getData();
-        recommendedArticleAdapter.updateImage(selectedImageUri, recommendedArticleAdapter.getCurrentlyEditingPosition());
+        recommendedArticleAdapter.updateImage(selectedImageUri ,recommendedArticleAdapter.getCurrentlyEditingPosition());
     }
 
     @Override
