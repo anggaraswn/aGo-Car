@@ -1,5 +1,7 @@
 package edu.bluejack22_2.agocar.models;
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,6 +26,8 @@ public class Article {
 
     private String articleID, title, image, postedBy, content;
     private Timestamp postDate;
+
+    private Uri imageUri;
 
     public Article(String articleID, String title, String image, String postedBy, String content, Timestamp postDate) {
         this.articleID = articleID;
@@ -65,6 +69,10 @@ public class Article {
         return postDate;
     }
 
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
     public void setArticleID(String articleID) {
         this.articleID = articleID;
     }
@@ -87,6 +95,10 @@ public class Article {
 
     public void setPostDate(Timestamp postDate) {
         this.postDate = postDate;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
     }
 
     public static void getArticles(RetrievedArticlesListener listener){
@@ -112,6 +124,20 @@ public class Article {
 //                    listener.retrievedUser(null);
                 });
     };
+
+    public void update(edu.bluejack22_2.agocar.other.OnSuccessListener listener){
+        Database.getInstance().collection("articles").document(this.articleID).update("content", this.content, "image", this.image, "title", this.title).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onSuccess(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onSuccess(false);
+            }
+        });
+    }
 
     public static void getFeaturedArticles(RetrievedArticlesListener listener){
         ArrayList<Article> articles = new ArrayList<>();

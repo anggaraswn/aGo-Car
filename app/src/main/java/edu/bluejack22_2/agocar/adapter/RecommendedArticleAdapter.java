@@ -1,16 +1,19 @@
 package edu.bluejack22_2.agocar.adapter;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.text.Layout;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,14 +24,24 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import edu.bluejack22_2.agocar.AddArticleActivity;
 import edu.bluejack22_2.agocar.ArticleDetailActivity;
+import edu.bluejack22_2.agocar.EditProfileActivity;
 import edu.bluejack22_2.agocar.HomeActivity;
-import edu.bluejack22_2.agocar.LoginActivity;
 import edu.bluejack22_2.agocar.NewsActivity;
+import edu.bluejack22_2.agocar.ProfileActivity;
 import edu.bluejack22_2.agocar.R;
 import edu.bluejack22_2.agocar.models.Article;
 import edu.bluejack22_2.agocar.other.OnSuccessListener;
@@ -39,15 +52,30 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
     private ArrayList<Article> articles = new ArrayList<>();
     private LayoutInflater inflater;
 
+    private Context context;
+
+    private int currentlyEditingPosition = -1; // initialize to -1 to indicate no currently editing position
+
+    public int getCurrentlyEditingPosition() {
+        return currentlyEditingPosition;
+    }
+
     public RecommendedArticleAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
+        this.context = context;
     }
+
+    public void updateImage(Uri imageUri, int position){
+        articles.get(position).setImageUri(imageUri);
+        notifyItemChanged(position);
+    }
+
 
     @NonNull
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommended_articles_card, parent, false);
-        return new RecommendedArticleAdapter.HomeViewHolder(view, inflater);
+        return new RecommendedArticleAdapter.HomeViewHolder(view, inflater, context);
     }
 
     @Override
@@ -57,6 +85,13 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
         holder.tvArticleTitle.setText(article.getTitle());
         holder.tvArticleDate.setText(article.getPostDate().toDate().toString());
         holder.tvArticleCreator.setText(article.getPostedBy());
+
+        if(article.getImageUri() != null){
+            Log.d("qwer", ""+position);
+            Log.d("test", ""+article.getImageUri());
+            holder.showModal();
+            holder.ivDisplayedEditImage.setImageURI(article.getImageUri());
+        }
     }
 
     @Override
@@ -70,6 +105,11 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
         LayoutInflater inflater;
         ConstraintLayout clEdit;
         EditText etArticleTitle, etArticleDescription;
+        Button btnSave;
+        Context context;
+        private static final int IMAGE_PICKER_REQUEST_CODE = 1001;
+        private Map<String, String> cloudinaryConfig = new HashMap<>();
+        AlertDialog dialog;
 
         void authenticateUser(){
             if(!HomeActivity.user.getRole().equals("Admin")){
@@ -77,15 +117,80 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
             }
         }
 
+        public void setImageUri(Uri imageUri) {
+            ivDisplayedEditImage.setImageURI(imageUri);
+        }
+
         void setElements(View modalView){
             Article selectedArticle = articles.get(getPosition());
             etArticleTitle = modalView.findViewById(R.id.etArticleTitle);
             etArticleDescription = modalView.findViewById(R.id.etArticleDescription);
             ivDisplayedEditImage = modalView.findViewById(R.id.ivDisplayedImage);
+            btnSave = modalView.findViewById(R.id.button2);
+
 
             etArticleTitle.setText(selectedArticle.getTitle());
             etArticleDescription.setText(selectedArticle.getContent());
             Picasso.get().load(selectedArticle.getImage()).into(ivDisplayedEditImage);
+        }
+
+        void setConnection(){
+            cloudinaryConfig.put("cloud_name", "dmpbgjnrc");
+            cloudinaryConfig.put("api_key", "596936696592152");
+            cloudinaryConfig.put("api_secret", "m5pavlf12IXv1Y4maOCv5OE5DNU");
+        }
+
+        void updateData(Article updateArticle ,String imageUrl){
+            Log.d("test", "AGin");
+            Log.d("asd", imageUrl);
+            updateArticle.setImage(imageUrl);
+
+            updateArticle.update(new OnSuccessListener() {
+                @Override
+                public void onSuccess(boolean success) {
+                    dialog.dismiss();
+                    Toast.makeText(context, "Successfully Update an Article!", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        void uploadImage(Article updatedArticle){
+            Log.d("uplimg", "Test");
+            Cloudinary cloudinary = new Cloudinary(cloudinaryConfig);
+
+            try {
+                ContentResolver resolver = context.getContentResolver();
+                InputStream inputStream = resolver.openInputStream(updatedArticle.getImageUri());
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = inputStream.read(buffer)) > -1 ) {
+                    baos.write(buffer, 0, len);
+                }
+                baos.flush();
+                byte[] imageData = baos.toByteArray();
+
+
+                new Thread(new Runnable() {
+                    public void run() {
+
+                        // Perform Cloudinary upload operation here
+                        try {
+                            Map uploadResult = cloudinary.uploader().upload(imageData, ObjectUtils.emptyMap());
+                            String imageUrl = (String) uploadResult.get("secure_url");
+
+                            if(imageUrl != null){
+                                updateData(updatedArticle, imageUrl);
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         public void showModal() {
@@ -93,7 +198,7 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
             View modalView = inflater.inflate(R.layout.edit_article_modal, null);
             AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
             builder.setView(modalView);
-            AlertDialog dialog = builder.create();
+            dialog = builder.create();
             // Set the window properties of the dialog
             Window window = dialog.getWindow();
             if (window != null) {
@@ -114,13 +219,40 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
                 }
             });
 
+
+
+            ivDisplayedEditImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentlyEditingPosition = getAdapterPosition();
+                    Log.d("bnmx", ""+getAdapterPosition());
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    ((NewsActivity) context).startActivityForResult(intent, IMAGE_PICKER_REQUEST_CODE);
+                }
+            });
+
+            btnSave.setOnClickListener(e -> {
+                setConnection();
+                Log.d("asd", "Test");
+                Log.d("zxc", ""+getCurrentlyEditingPosition());
+                String title, description;
+                title = etArticleTitle.getText().toString();
+                description = etArticleDescription.getText().toString();
+                Article article = articles.get(getAdapterPosition());
+                Article updatedArticle = new Article(article.getArticleID(), title, "", article.getPostedBy(), description, article.getPostDate());
+
+                if(article.getImageUri() != null){
+                    uploadImage(updatedArticle);
+                }else{
+                    updateData(updatedArticle, article.getImage());
+                }
+            });
         }
 
-
-
-        public HomeViewHolder(@NonNull View itemView, LayoutInflater inflater) {
+        public HomeViewHolder(@NonNull View itemView, LayoutInflater inflater, Context context) {
             super(itemView);
             this.inflater = inflater;
+            this.context = context;
 
             ivArticleImage = itemView.findViewById(R.id.ivRecArticleImage);
             tvArticleTitle = itemView.findViewById(R.id.tvRecArticleTitle);
@@ -129,7 +261,6 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
             ivEdit = itemView.findViewById(R.id.ivEdit);
             ivDelete = itemView.findViewById(R.id.ivDelete);
             clEdit = itemView.findViewById(R.id.clEdit);
-
 
 
 
@@ -203,6 +334,11 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
             intent.putExtra("content", article.getContent());
             view.getContext().startActivity(intent);
         }
+
+        public ImageView getDisplayedEditImage() {
+            return ivDisplayedEditImage;
+        }
+
     }
 
     public void setArticles(ArrayList<Article> newArticles) {

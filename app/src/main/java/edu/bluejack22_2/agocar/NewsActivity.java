@@ -1,11 +1,13 @@
 package edu.bluejack22_2.agocar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,8 @@ public class NewsActivity extends AppCompatActivity {
     RecommendedArticleAdapter recommendedArticleAdapter;
 
     FloatingActionButton fabAdd;
+    private static final int IMAGE_PICKER_REQUEST_CODE = 1001;
+
 
 
     void setComponents() {
@@ -81,6 +85,19 @@ public class NewsActivity extends AppCompatActivity {
 
     }
 
+
+    public void handleImageSelection(Intent data){
+        Uri selectedImageUri = data.getData();
+        recommendedArticleAdapter.updateImage(selectedImageUri, recommendedArticleAdapter.getCurrentlyEditingPosition());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK){
+            handleImageSelection(data);
+        }
+    }
 
     @Override
     protected void onResume() {
