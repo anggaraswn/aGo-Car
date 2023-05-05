@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     private HomeBrandsAdapter brandsAdapter;
 
     private HomeCarsAdapter carsAdapter;
-    private LinearLayout navNews, navProfile;
+    private LinearLayout navNews, navProfile, navCars;
 
     private ImageView notification;
 
@@ -88,6 +88,7 @@ public class HomeActivity extends AppCompatActivity {
         navNews = findViewById(R.id.navNews);
         navProfile = findViewById(R.id.navProfile);
         notification = findViewById(R.id.ivNotification);
+        navCars = findViewById(R.id.navCars);
 
         Brand.getBrands(new RetrievedBrandsListener() {
             @Override
@@ -98,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        Car.getCars(new RetrievedCarsListener() {
+        Car.getPreferredCars(new RetrievedCarsListener() {
             @Override
             public void retrievedCars(ArrayList<Car> cars) {
                 if(!cars.isEmpty()){
@@ -120,6 +121,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
+        navCars.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, CarsActivity.class);
                 finish();
                 startActivity(intent);
             }

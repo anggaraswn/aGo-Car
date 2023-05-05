@@ -27,8 +27,8 @@ public class NewsActivity extends AppCompatActivity {
 
     LinearLayout navHome, navCars, navProfile;
     RecyclerView rvFeaturedArticles, rvRecommendedArticles;
-    NewsFeaturedArticleAdapter featuredArticleAdapter;
-    RecommendedArticleAdapter recommendedArticleAdapter;
+    public static NewsFeaturedArticleAdapter featuredArticleAdapter;
+    public static RecommendedArticleAdapter recommendedArticleAdapter;
 
     FloatingActionButton fabAdd;
     private static final int IMAGE_PICKER_REQUEST_CODE = 1001;
@@ -37,6 +37,7 @@ public class NewsActivity extends AppCompatActivity {
 
     void setComponents() {
         navHome = findViewById(R.id.navHome);
+        navCars = findViewById(R.id.navCars);
         fabAdd = findViewById(R.id.fabAdd);
 
         //RecyclerView Featured Articles
@@ -112,20 +113,9 @@ public class NewsActivity extends AppCompatActivity {
 
         setComponents();
 
-        //Hai
 
-        //Ini Buat Featured yang Diatas
         loadArticles();
 
-        //Ini Buat yang Recommended (Belom ada algoritma jadi langsung getall aja)
-//        Article.getArticles(new RetrievedArticlesListener() {
-//            @Override
-//            public void retrievedArticles(ArrayList<Article> retArticles) {
-//                if(!retArticles.isEmpty()){
-//                    recommendedArticleAdapter.setArticles(retArticles);
-//                }
-//            }
-//        });
 
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +138,14 @@ public class NewsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewsActivity.this, ProfileActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
+        navCars.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewsActivity.this, CarsActivity.class);
                 finish();
                 startActivity(intent);
             }

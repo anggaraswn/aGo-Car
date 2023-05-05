@@ -49,6 +49,7 @@
             android:layout_weight="1"
             >
             <ImageView
+                android:id="@+id/ivCommentImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="Comment"
@@ -57,7 +58,7 @@
                 />
 
             <TextView
-                android:id="@+id/tvCarComment"
+                android:id="@+id/tvCommentCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -73,15 +74,33 @@
             android:orientation="horizontal"
             android:layout_weight="1"
             >
-            <ImageView
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="Comment"
-                android:src="@drawable/baseline_thumb_up_20"
-                android:layout_marginTop="2dp"
-                />
+
+                >
+                <ImageView
+                    android:id="@+id/ivLikeImageFilled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Comment"
+                    android:src="@drawable/baseline_thumb_up_20"
+                    android:layout_marginTop="2dp"
+                    android:visibility="invisible"
+                    />
+                <ImageView
+                    android:id="@+id/ivLikeImageEmpty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Comment"
+                    android:src="@drawable/baseline_thumb_up_off_alt_24"
+                    android:layout_marginTop="2dp"
+                    />
+
+            </FrameLayout>
+
             <TextView
-                android:id="@+id/tvCarLike"
+                android:id="@+id/tvLikeCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
