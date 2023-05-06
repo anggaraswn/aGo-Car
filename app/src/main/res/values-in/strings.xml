@@ -71,5 +71,6 @@
     <string name="carPrice">Harga Mobil</string>
     <string name="carRating">Nilai Mobil</string>
     <string name="addCar">Tambah Mobil</string>
+    <string name="rating">Nilai</string>
 
 </resources>

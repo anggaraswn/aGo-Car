@@ -70,5 +70,6 @@
     <string name="carPrice">Car Price</string>
     <string name="carRating">Car Rating</string>
     <string name="addCar">Add Car</string>
+    <string name="rating">Rating</string>
 
 </resources>
