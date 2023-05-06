@@ -64,5 +64,12 @@
     <string name="ratings">5.0</string>
     <string name="hp">1600 hp</string>
 
+    <string name="carName">Nama Mobil</string>
+    <string name="carDescription">Deskripsi Mobil</string>
+
+    <string name="engineHP">Tenaga Kuda Mesin</string>
+    <string name="carPrice">Harga Mobil</string>
+    <string name="carRating">Nilai Mobil</string>
+    <string name="addCar">Tambah Mobil</string>
 
 </resources>

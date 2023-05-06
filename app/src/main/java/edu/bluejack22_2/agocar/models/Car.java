@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -13,7 +14,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.bluejack22_2.agocar.HomeActivity;
 import edu.bluejack22_2.agocar.conn.Database;
@@ -48,6 +51,19 @@ public class Car {
         this.fuel = fuel;
         this.description = description;
         this.brandID = brandID;
+        this.engine = engine;
+        this.rating = rating;
+        this.price = price;
+    }
+
+    public Car(String name, String transmission, String image, String fuel, String description, Brand brand, double engine, double rating, double price) {
+        this.name = name;
+        this.transmission = transmission;
+        this.image = image;
+        this.fuel = fuel;
+        this.description = description;
+        this.brand = brand;
+        this.brandID = brand.getDocumentID();
         this.engine = engine;
         this.rating = rating;
         this.price = price;
@@ -110,6 +126,38 @@ public class Car {
 //                    listener.retrievedUser(null);
                 });
     };
+
+    public void insert(edu.bluejack22_2.agocar.other.OnSuccessListener listener) {
+        Map<String, Object> car = new HashMap<>();
+        car.put("name", this.name);
+        car.put("brand", this.brandID);
+        car.put("description", this.description);
+        car.put("engine", this.engine);
+        car.put("fuel", this.fuel);
+        car.put("image", this.image);
+        car.put("price", this.price);
+        car.put("rating", this.rating);
+        car.put("transmission", this.transmission);
+
+
+
+        Database.getInstance().collection("cars")
+                .add(car)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        listener.onSuccess(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.onSuccess(false);
+                    }
+                });
+
+
+    }
 
     public static void getPreferredCars(RetrievedCarsListener listener){
         Log.d("TotalPreferred", HomeActivity.user.getPreference().size()+"");

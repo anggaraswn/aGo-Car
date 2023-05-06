@@ -64,4 +64,11 @@
     <string name="ratings">5.0</string>
     <string name="hp">1600 hp</string>
 
+    <string name="carName">Car Name</string>
+    <string name="carDescription">Car Description</string>
+    <string name="engineHP">Engine Horsepower</string>
+    <string name="carPrice">Car Price</string>
+    <string name="carRating">Car Rating</string>
+    <string name="addCar">Add Car</string>
+
 </resources>

@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -22,6 +26,10 @@ public class CarsActivity extends AppCompatActivity {
     private PopularCarsAdapter popularCarsAdapter;
 
     private EditText etSearch;
+
+    private LinearLayout navHome, navNews, navProfile;
+
+    private FloatingActionButton fabAdd;
 
 
 
@@ -48,7 +56,19 @@ public class CarsActivity extends AppCompatActivity {
         rvPopularCars.setLayoutManager(linearLayoutManager);
         rvPopularCars.setAdapter(popularCarsAdapter);
 
+
+        navHome = findViewById(R.id.navHome);
+        navNews = findViewById(R.id.navNews);
+        navProfile = findViewById(R.id.navProfile);
+
+        fabAdd = findViewById(R.id.fabAdd);
+
+        if (HomeActivity.user.getRole().equals("Admin")) {
+
+            fabAdd.setVisibility(View.VISIBLE);
+        }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,5 +99,41 @@ public class CarsActivity extends AppCompatActivity {
         });
 
         loadCars();
+
+
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CarsActivity.this, AddCarActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        navNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CarsActivity.this, NewsActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
+
+        navProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CarsActivity.this, ProfileActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
+        navHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CarsActivity.this, HomeActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
+
     }
 }

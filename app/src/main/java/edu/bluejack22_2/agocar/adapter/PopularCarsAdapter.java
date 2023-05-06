@@ -20,8 +20,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import edu.bluejack22_2.agocar.CarDetailActivity;
@@ -51,7 +53,15 @@ public class PopularCarsAdapter extends RecyclerView.Adapter<PopularCarsAdapter.
         Car car = cars.get(position);
         Picasso.get().load(car.getImage()).into(holder.ivImage);
         holder.tvName.setText(car.getName());
-        holder.tvPrice.setText(String.format("%,f", car.getPrice()));
+
+        double number = car.getPrice();
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
+        formatter.setMinimumFractionDigits(0);
+        formatter.setMaximumFractionDigits(3);
+
+        String formattedNumber = formatter.format(number);
+
+        holder.tvPrice.setText("$" +formattedNumber);
         holder.tvRatings.setText(car.getRating()+"");
         holder.tvHP.setText(car.getEngine()+"");
         holder.tvTransmission.setText(car.getTransmission());

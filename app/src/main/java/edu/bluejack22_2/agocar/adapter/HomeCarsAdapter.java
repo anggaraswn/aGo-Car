@@ -39,7 +39,7 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
     private ArrayList<Car> cars = new ArrayList<>();
 
     void loadCars(View v){
-        Car.getCars(new RetrievedCarsListener() {
+        Car.getPreferredCars(new RetrievedCarsListener() {
             @Override
             public void retrievedCars(ArrayList<Car> cars) {
                 if(cars != null){
@@ -93,6 +93,7 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
         holder.ivLikeImageFilled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Database.getInstance().collection("userlikes")
                         .whereEqualTo("carid", car.getId())
                         .whereEqualTo("userid", HomeActivity.user.getId())
@@ -130,7 +131,7 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
         TextView tvCarName, tvLikeCount, tvCommentCount;
 
         void checkUserLiked(Car car){
-            Database.getInstance().collection("userlikes").whereEqualTo("carid", car.getId())
+            Database.getInstance().collection("userlikes").whereEqualTo("carid", car.getId()).whereEqualTo("userid", HomeActivity.user.getId())
                     .get()
                     .addOnSuccessListener(queryDocumentSnapshots -> {
                         if(queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()){
