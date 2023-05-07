@@ -129,6 +129,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, CarsActivity.class);
+//                Intent intent = new Intent(HomeActivity.this, TestActivity.class);
                 finish();
                 startActivity(intent);
             }

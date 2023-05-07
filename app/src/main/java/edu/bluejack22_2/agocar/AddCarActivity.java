@@ -83,6 +83,7 @@ public class AddCarActivity extends AppCompatActivity {
                 public void onSuccess(boolean success) {
                     if(success){
                         Toast.makeText(AddCarActivity.this, "Successfully Inserted new Car!", Toast.LENGTH_LONG).show();
+                        CarsActivity.loadCars();
                         finish();
                     }
                 }

@@ -1,5 +1,6 @@
 package edu.bluejack22_2.agocar.models;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ public class Car {
     private String id, name, transmission, image, fuel, description, brandID;
     private Brand brand;
     private double engine, rating, price;
+    private Uri imageUri;
 
     public Car(String id, String name, String transmission, String image, String fuel, String description, Brand brand, double engine, double rating, double price) {
         this.id = id;
@@ -158,6 +160,36 @@ public class Car {
 
 
     }
+
+    public void update(edu.bluejack22_2.agocar.other.OnSuccessListener listener){
+        Database.getInstance().collection("cars").document(this.id).update("brand", this.brandID, "description", this.description, "engine", this.engine, "fuel", this.fuel, "image", this.image, "name", this.name, "price", this.price, "rating", this.rating, "transmission", this.transmission).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onSuccess(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onSuccess(false);
+            }
+        });
+    }
+
+    public void delete(edu.bluejack22_2.agocar.other.OnSuccessListener listener, String articleID){
+        Database.getInstance().document("cars/"+articleID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onSuccess(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onSuccess(false);
+            }
+        });
+    }
+
+
 
     public static void getPreferredCars(RetrievedCarsListener listener){
         Log.d("TotalPreferred", HomeActivity.user.getPreference().size()+"");
@@ -319,5 +351,13 @@ public class Car {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
     }
 }

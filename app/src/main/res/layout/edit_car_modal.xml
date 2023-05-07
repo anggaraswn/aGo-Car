@@ -1,0 +1,170 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:paddingBottom="20dp"
+    tools:context=".AddArticleActivity">
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".AddArticleActivity">
+
+            <ImageView
+                android:id="@+id/ivDisplayedImage"
+                android:layout_width="260dp"
+                android:layout_height="101dp"
+                android:layout_marginTop="100dp"
+                android:src="@drawable/material_symbols_add_a_photo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/etCarName"
+                android:layout_width="313dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="59dp"
+                android:background="@drawable/round_edit_text"
+                android:hint="@string/carName"
+                android:paddingLeft="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivDisplayedImage" />
+
+
+            <!--    <EditText-->
+            <!--        android:id="@+id/etCarDescription"-->
+            <!--        android:layout_width="313dp"-->
+            <!--        android:layout_height="50dp"-->
+            <!--        android:layout_marginTop="20dp"-->
+            <!--        android:background="@drawable/round_edit_text"-->
+            <!--        app:layout_constraintEnd_toEndOf="parent"-->
+            <!--        app:layout_constraintStart_toStartOf="parent"-->
+            <!--        app:layout_constraintTop_toBottomOf="@+id/spCarTransmission"-->
+            <!--        android:hint="@string/carDescription"-->
+            <!--        android:paddingLeft="15dp"-->
+            <!--        />-->
+
+            <Spinner
+                android:id="@+id/spCarTransmission"
+                android:layout_width="313dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:drawable/btn_dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etCarName" />
+
+            <Spinner
+                android:id="@+id/spCarBrand"
+                android:layout_width="313dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:drawable/btn_dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spCarTransmission" />
+
+            <Spinner
+                android:id="@+id/spCarFuel"
+                android:layout_width="313dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:drawable/btn_dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spCarBrand" />
+
+
+            <EditText
+                android:id="@+id/etCarEngineHP"
+                android:layout_width="313dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_edit_text"
+                android:hint="@string/engineHP"
+                android:inputType="numberDecimal"
+                android:paddingLeft="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spCarFuel" />
+
+            <EditText
+                android:id="@+id/etCarPrice"
+                android:layout_width="313dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_edit_text"
+                android:hint="@string/carPrice"
+                android:inputType="numberDecimal"
+                android:paddingLeft="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etCarEngineHP" />
+
+            <EditText
+                android:id="@+id/etCarRating"
+                android:layout_width="313dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_edit_text"
+                android:hint="@string/carRating"
+                android:inputType="numberDecimal"
+                android:paddingLeft="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etCarPrice" />
+
+            <EditText
+                android:id="@+id/etCarDescription"
+                android:layout_width="313dp"
+                android:layout_height="280dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_edit_text"
+                android:gravity="top"
+                android:hint="@string/carDescription"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etCarRating" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="41dp"
+                android:text="Save"
+                app:layout_constraintTop_toBottomOf="@+id/etCarDescription"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="53dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_close_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
