@@ -130,6 +130,37 @@ public class User {
                 });
     }
 
+    public static void getUser(String id, RetrievedUserListener listener){
+        Database.getInstance().collection("users").document(id)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots.exists()) {
+
+                            String retId = queryDocumentSnapshots.getId().toString();
+                            String retEmail = queryDocumentSnapshots.getString("email").toString();
+                            String retPassword = queryDocumentSnapshots.getString("password").toString();
+                            String retRole = queryDocumentSnapshots.getString("role").toString();
+                            String retImage = queryDocumentSnapshots.getString("image").toString();
+                            ArrayList<String> retPreference = null;
+                            if(queryDocumentSnapshots.get("preference") != null){
+                                retPreference = (ArrayList<String>)queryDocumentSnapshots.get("preference");
+                            }
+
+                            String retUsername = queryDocumentSnapshots.getString("username").toString();
+
+                            listener.retrievedUser(new User(retId, retUsername, retEmail, retPassword, retRole, retImage,retPreference));
+
+
+                    } else {
+                        listener.retrievedUser(null);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+                    listener.retrievedUser(null);
+                });
+    }
+
     public static void checkUserExist(String email, edu.bluejack22_2.agocar.other.OnSuccessListener listener) {
         Database.getInstance().collection("users")
                 .whereEqualTo("email", email)

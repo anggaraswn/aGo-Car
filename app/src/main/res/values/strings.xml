@@ -73,5 +73,6 @@
     <string name="rating">Rating</string>
     <string name="engine">Engine</string>
     <string name="transmission">Transmission</string>
+    <string name="comment">Comment</string>
 
 </resources>

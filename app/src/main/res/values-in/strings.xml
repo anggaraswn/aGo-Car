@@ -74,6 +74,7 @@
     <string name="rating">Nilai</string>
     <string name="engine">Mesin</string>
     <string name="transmission">Transmisi</string>
+    <string name="comment">Komentar</string>
 
 
 </resources>
