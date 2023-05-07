@@ -4,7 +4,7 @@
     android:layout_height="241dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/round_edit_text"
-    android:paddingHorizontal="7dp"
+    android:paddingHorizontal="5dp"
     android:paddingVertical="12dp"
     android:orientation="vertical">
     
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:src="@drawable/ic_search"
+            android:src="@drawable/ic_engine"
             android:layout_marginLeft="40dp"
             />
 
@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:layout_constraintLeft_toRightOf="@id/tvHP"
-            android:layout_marginLeft="78dp"
+            android:layout_marginLeft="34dp"
             android:text="@string/hello"
             android:textColor="@color/black"
             android:textSize="10sp"

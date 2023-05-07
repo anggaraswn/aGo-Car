@@ -71,5 +71,7 @@
     <string name="carRating">Car Rating</string>
     <string name="addCar">Add Car</string>
     <string name="rating">Rating</string>
+    <string name="engine">Engine</string>
+    <string name="transmission">Transmission</string>
 
 </resources>

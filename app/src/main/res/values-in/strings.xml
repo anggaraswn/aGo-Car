@@ -72,5 +72,8 @@
     <string name="carRating">Nilai Mobil</string>
     <string name="addCar">Tambah Mobil</string>
     <string name="rating">Nilai</string>
+    <string name="engine">Mesin</string>
+    <string name="transmission">Transmisi</string>
+
 
 </resources>

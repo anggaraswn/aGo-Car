@@ -17,7 +17,7 @@ import edu.bluejack22_2.agocar.other.RetrievedCarListener;
 public class CarDetailActivity extends AppCompatActivity {
     private String carID;
     private Car retrievedCar;
-    private TextView tvCarName;
+    private TextView tvCarName, tvCarEngine, tvCarTransmission, tvCarFuel;
     private ImageView ivCarImage, ivBackButton;
 
     void getExtras(){
@@ -29,6 +29,9 @@ public class CarDetailActivity extends AppCompatActivity {
         tvCarName = findViewById(R.id.tvCarName);
         ivCarImage = findViewById(R.id.ivCarImage);
         ivBackButton = findViewById(R.id.ivBackButton);
+        tvCarEngine = findViewById(R.id.tvHP);
+        tvCarTransmission = findViewById(R.id.tvTransmissionCar);
+        tvCarFuel = findViewById(R.id.tvFuelCar);
 
 
         ivBackButton.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +55,9 @@ public class CarDetailActivity extends AppCompatActivity {
             Log.d("AGTest", retrievedCar.getName());
             tvCarName.setText(retrievedCar.getName());
             Picasso.get().load(retrievedCar.getImage()).into(ivCarImage);
+            tvCarEngine.setText(""+retrievedCar.getEngine());
+            tvCarTransmission.setText(retrievedCar.getTransmission());
+            tvCarFuel.setText(retrievedCar.getFuel());
         }else{
             Log.d("AGTest", "Test");
         }
