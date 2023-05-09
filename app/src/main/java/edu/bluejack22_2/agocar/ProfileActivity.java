@@ -1,11 +1,14 @@
 package edu.bluejack22_2.agocar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,8 +17,13 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import edu.bluejack22_2.agocar.adapter.ProfileReviewAdapter;
 import edu.bluejack22_2.agocar.models.User;
+import edu.bluejack22_2.agocar.models.UserReview;
+import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -24,7 +32,18 @@ public class ProfileActivity extends AppCompatActivity {
     private CircleImageView civProfile;
     private Button btnLogOut;
     private User user;
-    private LinearLayout navHome, navNews;
+    private LinearLayout navHome, navNews, navCars;
+    private RecyclerView rvYourReviews;
+    private ProfileReviewAdapter reviewAdapter;
+
+    void loadReviews(){
+        UserReview.getReviewsByUser(this.user.getId(), new RetrievedUserReviewsListener() {
+            @Override
+            public void retrievedUserReviews(ArrayList<UserReview> userReviews) {
+                reviewAdapter.setUserReviews(userReviews);
+            }
+        });
+    }
 
     void getComponents(){
         tvName = findViewById(R.id.tvName);
@@ -36,11 +55,19 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogOut = findViewById(R.id.btnLogOut);
         navHome = findViewById(R.id.navHome);
         navNews = findViewById(R.id.navNews);
+        navCars = findViewById(R.id.navCars);
+
+        rvYourReviews = findViewById(R.id.rvYourReviews);
+        reviewAdapter = new ProfileReviewAdapter();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvYourReviews.setLayoutManager(linearLayoutManager);
+        rvYourReviews.setAdapter(reviewAdapter);
 
         Gson gson = new Gson();
         SharedPreferences mPrefs = getSharedPreferences("userPref", Context.MODE_PRIVATE);
         String json = mPrefs.getString("user", "");
         user = gson.fromJson(json, User.class);
+        loadReviews();
     }
 
     void setComponents(){
@@ -51,6 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("asd", "Test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         getComponents();
@@ -77,6 +105,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         navNews.setOnClickListener(e -> {
             Intent intent = new Intent(ProfileActivity.this, NewsActivity.class);
+            startActivity(intent);
+        });
+
+        navCars.setOnClickListener(e -> {
+            Intent intent = new Intent(ProfileActivity.this, CarsActivity.class);
             startActivity(intent);
         });
     }

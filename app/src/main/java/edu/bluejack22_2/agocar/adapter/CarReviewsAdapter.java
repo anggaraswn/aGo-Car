@@ -95,8 +95,6 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvRating = itemView.findViewById(R.id.tvRating);
             tvComment = itemView.findViewById(R.id.tvComment);
-
-
         }
 
 

@@ -47,6 +47,28 @@ public class UserReview {
                 });
     }
 
+    public static void getReviewsByUser(String userID, RetrievedUserReviewsListener listener){
+        ArrayList<UserReview> userReviews = new ArrayList<>();
+        Database.getInstance().collection("userreviews").whereEqualTo("userid", userID)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(!queryDocumentSnapshots.isEmpty()){
+                        for(QueryDocumentSnapshot b : queryDocumentSnapshots){
+                            String id = b.getId();
+                            String comment = b.getString("comment");
+                            Double rating = b.getDouble("rating");
+                            String carID = b.getString("carid");
+                            userReviews.add(new UserReview(carID, comment, userID, rating));
+                        }
+                        listener.retrievedUserReviews(userReviews);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+//                    listener.retrievedUser(null);
+                });
+    }
+
     public void insert(OnSuccessListener listener){
         Map<String, Object> userReview = new HashMap<>();
         userReview.put("carid", this.carID);

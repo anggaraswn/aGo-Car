@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="111dp"
+    android:orientation="horizontal"
+    android:padding="13dp"
+    android:layout_marginBottom="13dp"
+    android:background="@drawable/round_edit_text"
+    >
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="125dp"
+        android:layout_height="78dp"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+        />
+    <TextView
+        android:id="@+id/tvReviews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="13dp"
+        android:maxLines="6"
+        android:ellipsize="end"
+        android:fontFamily="@font/lexendmed"
+        android:textSize="9sp"
+        android:textColor="@color/black"
+        />
+</LinearLayout>

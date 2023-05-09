@@ -325,7 +325,6 @@ public class PopularCarsAdapter extends RecyclerView.Adapter<PopularCarsAdapter.
         }
 
         public void showModal(int itemPos){
-            if (!HomeActivity.user.getRole().equals("Admin")) return;
             Log.d("qwer", "Called");
             setConnection();
             LayoutInflater inflater = this.inflater;
@@ -421,6 +420,7 @@ public class PopularCarsAdapter extends RecyclerView.Adapter<PopularCarsAdapter.
         }
 
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            if (!HomeActivity.user.getRole().equals("Admin")) return;
             contextMenu.setHeaderTitle("Select Action");
             contextMenu.add(getAdapterPosition(), 1001, 0, "Update");
             contextMenu.add(getAdapterPosition(), 1002, 1, "Delete");
