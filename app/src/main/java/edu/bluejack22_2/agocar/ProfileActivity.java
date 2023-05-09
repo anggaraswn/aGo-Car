@@ -14,13 +14,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import edu.bluejack22_2.agocar.adapter.ProfileFavouritesAdapter;
 import edu.bluejack22_2.agocar.adapter.ProfileReviewAdapter;
+import edu.bluejack22_2.agocar.conn.Database;
+import edu.bluejack22_2.agocar.models.Car;
 import edu.bluejack22_2.agocar.models.User;
 import edu.bluejack22_2.agocar.models.UserReview;
 import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
@@ -33,10 +37,11 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnLogOut;
     private User user;
     private LinearLayout navHome, navNews, navCars;
-    private RecyclerView rvYourReviews;
+    private RecyclerView rvYourReviews, rvFavourites;
     private ProfileReviewAdapter reviewAdapter;
+    private ProfileFavouritesAdapter favouritesAdapter;
 
-    void loadReviews(){
+    void loadReviews() {
         UserReview.getReviewsByUser(this.user.getId(), new RetrievedUserReviewsListener() {
             @Override
             public void retrievedUserReviews(ArrayList<UserReview> userReviews) {
@@ -45,7 +50,21 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    void getComponents(){
+    void loadFavourites() {
+        ArrayList<String> listCardID = new ArrayList<>();
+        Database.getInstance().collection("userlikes").whereEqualTo("userid", HomeActivity.user.getId())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for(QueryDocumentSnapshot b : queryDocumentSnapshots){
+                        String id = b.getString("carid");
+                        listCardID.add(id);
+                        Log.d("qwer", id);
+                    }
+                });
+        favouritesAdapter.setFavourites(listCardID);
+    }
+
+    void getComponents() {
         tvName = findViewById(R.id.tvName);
         tvEmail = findViewById(R.id.tvEmail);
         tvViewAllFavourites = findViewById(R.id.tvViewAllFav);
@@ -63,14 +82,22 @@ public class ProfileActivity extends AppCompatActivity {
         rvYourReviews.setLayoutManager(linearLayoutManager);
         rvYourReviews.setAdapter(reviewAdapter);
 
+        rvFavourites = findViewById(R.id.rvFavourites);
+        favouritesAdapter = new ProfileFavouritesAdapter();
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvFavourites.setLayoutManager(linearLayoutManager2);
+        rvFavourites.setAdapter(favouritesAdapter);
+
+
         Gson gson = new Gson();
         SharedPreferences mPrefs = getSharedPreferences("userPref", Context.MODE_PRIVATE);
         String json = mPrefs.getString("user", "");
         user = gson.fromJson(json, User.class);
         loadReviews();
+        loadFavourites();
     }
 
-    void setComponents(){
+    void setComponents() {
         tvName.setText(user.getUsername());
         tvEmail.setText(user.getEmail());
         Picasso.get().load(user.getImage()).into(civProfile);
@@ -84,7 +111,7 @@ public class ProfileActivity extends AppCompatActivity {
         getComponents();
         setComponents();
 
-        btnLogOut.setOnClickListener(e ->{
+        btnLogOut.setOnClickListener(e -> {
             SharedPreferences mPrefs = getSharedPreferences("userPref", MODE_PRIVATE);
             SharedPreferences.Editor editor = mPrefs.edit();
             editor.clear();
