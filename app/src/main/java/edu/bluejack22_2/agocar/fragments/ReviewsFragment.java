@@ -78,7 +78,7 @@ public class ReviewsFragment extends Fragment {
         Picasso.get().load(user.getImage()).into(civProfile);
 
         rvReviews = view.findViewById(R.id.rvYourReviews);
-        reviewAdapter = new ProfileReviewAdapter();
+        reviewAdapter = new ProfileReviewAdapter(getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvReviews.setLayoutManager(linearLayoutManager);
         rvReviews.setAdapter(reviewAdapter);

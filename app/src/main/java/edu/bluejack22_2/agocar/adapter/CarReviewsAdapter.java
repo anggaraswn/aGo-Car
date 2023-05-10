@@ -96,7 +96,7 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
             @Override
             public void onClick(View v) {
                 Map<String, Object> userReviewLikes = new HashMap<>();
-                userReviewLikes.put("reviewid", userReview.getId());
+                userReviewLikes.put("reviewid", userReview.getDocumentID());
                 userReviewLikes.put("userid", HomeActivity.user.getId());
 
                 Database.getInstance().collection("userreviewlikes")
@@ -105,7 +105,7 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 loadUserReviews(v);
-                                notifyLikedReviewUser(userReview.getId());
+                                notifyLikedReviewUser(userReview.getDocumentID());
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -122,7 +122,7 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
             @Override
             public void onClick(View v) {
                 Database.getInstance().collection("userreviewlikes")
-                        .whereEqualTo("reviewid", userReview.getId())
+                        .whereEqualTo("reviewid", userReview.getDocumentID())
                         .whereEqualTo("userid", HomeActivity.user.getId())
                         .get()
                         .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -179,7 +179,7 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
             return false;
         }
             void checkUserLiked(UserReview userReview){
-                Database.getInstance().collection("userreviewlikes").whereEqualTo("reviewid", userReview.getId()).whereEqualTo("userid", HomeActivity.user.getId())
+                Database.getInstance().collection("userreviewlikes").whereEqualTo("reviewid", userReview.getDocumentID()).whereEqualTo("userid", HomeActivity.user.getId())
                         .get()
                         .addOnSuccessListener(queryDocumentSnapshots -> {
                             if(queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()){

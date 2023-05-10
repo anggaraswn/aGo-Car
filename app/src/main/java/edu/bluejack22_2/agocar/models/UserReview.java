@@ -19,19 +19,22 @@ import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
 
 public class UserReview {
 
-    private String id;
-    private String carID, comment, userID;
+
+    private String carID, comment, userID, documentID;
+
     private double rating;
 
-    public UserReview(String id, String carID, String comment, String userID, double rating) {
-        this.id = id;
+
+
+    public UserReview(String carID, String comment, String userID, String documentID, double rating) {
         this.carID = carID;
         this.comment = comment;
         this.userID = userID;
+        this.documentID = documentID;
         this.rating = rating;
     }
 
-    public static void getReviews(String carID ,RetrievedUserReviewsListener listener){
+    public static void getReviews(String carID , RetrievedUserReviewsListener listener){
         ArrayList<UserReview> userReviews = new ArrayList<>();
         Database.getInstance().collection("userreviews").whereEqualTo("carid",carID)
                 .get()
@@ -64,7 +67,8 @@ public class UserReview {
                             String comment = b.getString("comment");
                             Double rating = b.getDouble("rating");
                             String carID = b.getString("carid");
-                            userReviews.add(new UserReview(id, carID, comment, userID, rating));
+                            userReviews.add(new UserReview(carID, comment, userID, id, rating));
+
                         }
                         listener.retrievedUserReviews(userReviews);
                     }
@@ -123,6 +127,36 @@ public class UserReview {
                 });
     }
 
+    public void update(edu.bluejack22_2.agocar.other.OnSuccessListener listener){
+        Database.getInstance().collection("userreviews").document(this.getDocumentID()).update("comment", this.comment, "rating", this.rating).addOnSuccessListener(new com.google.android.gms.tasks.OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onSuccess(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onSuccess(false);
+            }
+        });
+    }
+
+
+    public void delete(edu.bluejack22_2.agocar.other.OnSuccessListener listener, String reviewID){
+        Database.getInstance().document("userreviews/"+reviewID).delete().addOnSuccessListener(new com.google.android.gms.tasks.OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onSuccess(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onSuccess(false);
+            }
+        });
+    }
+
+
     public String getCarID() {
         return carID;
     }
@@ -155,11 +189,13 @@ public class UserReview {
         this.rating = rating;
     }
 
-    public String getId() {
-        return id;
+
+    public String getDocumentID() {
+        return documentID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+
     }
 }
