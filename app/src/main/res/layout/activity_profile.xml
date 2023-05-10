@@ -6,8 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-    <ScrollView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pagerView"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="match_parent"
         android:paddingBottom="80dp"
         >
@@ -192,6 +194,9 @@
 
 
     </ScrollView>
+=======
+        android:layout_height="match_parent" />
+>>>>>>> 83d91f072ae7d412b71496e627ed3fdf2d1e5df5
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -220,9 +225,8 @@
                 android:layout_height="match_parent"
                 android:text="@string/title_home"
                 android:textAlignment="center"
-                android:textStyle="bold"
                 android:textColor="@color/white"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -231,8 +235,7 @@
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -244,9 +247,8 @@
                 android:layout_height="match_parent"
                 android:text="@string/cars"
                 android:textAlignment="center"
-                android:textStyle="bold"
                 android:textColor="@color/white"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -255,8 +257,7 @@
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -268,9 +269,8 @@
                 android:layout_height="match_parent"
                 android:text="@string/news"
                 android:textAlignment="center"
-                android:textStyle="bold"
                 android:textColor="@color/white"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -291,15 +291,12 @@
                 android:layout_height="match_parent"
                 android:text="@string/profile"
                 android:textAlignment="center"
-                android:textStyle="bold"
                 android:textColor="@color/white"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
