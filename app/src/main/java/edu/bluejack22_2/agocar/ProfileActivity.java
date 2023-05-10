@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import edu.bluejack22_2.agocar.conn.Database;
 import edu.bluejack22_2.agocar.models.Car;
 import edu.bluejack22_2.agocar.models.User;
 import edu.bluejack22_2.agocar.models.UserReview;
+import edu.bluejack22_2.agocar.other.OnSuccessListener;
 import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -34,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvName, tvEmail, tvViewAllFavourites, tvViewAllReviews;
     private ImageView ivEdit;
     private CircleImageView civProfile;
-    private Button btnLogOut;
+    private Button btnLogOut, btnDeleteAccount;
     private User user;
     private LinearLayout navHome, navNews, navCars;
     private RecyclerView rvYourReviews, rvFavourites;
@@ -88,6 +90,8 @@ public class ProfileActivity extends AppCompatActivity {
         rvFavourites.setLayoutManager(linearLayoutManager2);
         rvFavourites.setAdapter(favouritesAdapter);
 
+        btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
+
 
         Gson gson = new Gson();
         SharedPreferences mPrefs = getSharedPreferences("userPref", Context.MODE_PRIVATE);
@@ -110,6 +114,23 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         getComponents();
         setComponents();
+
+        btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences mPrefs = getSharedPreferences("userPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = mPrefs.edit();
+                editor.clear();
+                editor.commit();
+                HomeActivity.user.delete(new OnSuccessListener() {
+                    @Override
+                    public void onSuccess(boolean success) {
+                        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
 
         btnLogOut.setOnClickListener(e -> {
             SharedPreferences mPrefs = getSharedPreferences("userPref", MODE_PRIVATE);

@@ -38,6 +38,7 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +59,7 @@ import edu.bluejack22_2.agocar.models.Car;
 import edu.bluejack22_2.agocar.other.OnSuccessListener;
 import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
 import edu.bluejack22_2.agocar.other.RetrievedCarsListener;
+import edu.bluejack22_2.agocar.other.RetrievedRatingListener;
 
 public class PopularCarsAdapter extends RecyclerView.Adapter<PopularCarsAdapter.HomeViewHolder> {
 
@@ -103,7 +105,15 @@ public class PopularCarsAdapter extends RecyclerView.Adapter<PopularCarsAdapter.
         String formattedNumber = formatter.format(number);
 
         holder.tvPrice.setText("$" +formattedNumber);
-        holder.tvRatings.setText(car.getRating()+"");
+        car.getCarRating(new RetrievedRatingListener() {
+            @Override
+            public void retrievedRating(Double rating) {
+                DecimalFormat df = new DecimalFormat("#.##");
+                String formattedNumber = df.format(rating);
+                holder.tvRatings.setText(formattedNumber);
+            }
+        });
+
         holder.tvHP.setText(car.getEngine()+"");
         holder.tvTransmission.setText(car.getTransmission());
 

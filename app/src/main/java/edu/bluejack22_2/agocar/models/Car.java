@@ -25,6 +25,7 @@ import edu.bluejack22_2.agocar.other.RetrievedBrandListener;
 import edu.bluejack22_2.agocar.other.RetrievedBrandsListener;
 import edu.bluejack22_2.agocar.other.RetrievedCarListener;
 import edu.bluejack22_2.agocar.other.RetrievedCarsListener;
+import edu.bluejack22_2.agocar.other.RetrievedRatingListener;
 
 public class Car {
     private String id, name, transmission, image, fuel, description, brandID;
@@ -69,6 +70,27 @@ public class Car {
         this.engine = engine;
         this.rating = rating;
         this.price = price;
+    }
+
+    public void getCarRating(RetrievedRatingListener listener){
+        Database.getInstance().collection("userreviews").whereEqualTo("carid", this.id)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(!queryDocumentSnapshots.isEmpty()){
+                        double totalRating = 0;
+                        int counter = 0;
+                        for(QueryDocumentSnapshot b : queryDocumentSnapshots){
+                            totalRating+= b.getDouble("rating");
+                            counter++;
+                        }
+                        totalRating/=counter;
+                        listener.retrievedRating(totalRating);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+//                    listener.retrievedUser(null);
+                });
     }
 
     public static void getCars(RetrievedCarsListener listener){
@@ -192,42 +214,47 @@ public class Car {
 
 
     public static void getPreferredCars(RetrievedCarsListener listener){
-        Log.d("TotalPreferred", HomeActivity.user.getPreference().size()+"");
+        if(HomeActivity.user.getPreference() != null){
+            Log.d("TotalPreferred", HomeActivity.user.getPreference().size()+"");
 
-        HomeActivity.user.getPreference().forEach(e -> {
-            Log.d("BrandID", e);
-        });
-        ArrayList<Car> cars = new ArrayList<>();
+            HomeActivity.user.getPreference().forEach(e -> {
+                Log.d("BrandID", e);
+            });
+            ArrayList<Car> cars = new ArrayList<>();
 
-        List<String> list = new ArrayList<>();
-        list.addAll(HomeActivity.user.getPreference());
-        Database.getInstance().collection("cars").whereIn("brand", list)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if(!queryDocumentSnapshots.isEmpty()){
-                        Log.d("Gakosong", "Gakosong");
-                        for(QueryDocumentSnapshot b : queryDocumentSnapshots){
-                            String id = b.getId();
-                            String name = b.getString("name");
-                            String description = b.getString("description");
-                            String transmission = b.getString("transmission");
-                            String image = b.getString("image");
-                            String fuel = b.getString("fuel");
-                            String brandID = b.getString("brand");
-                            Double engine = b.getDouble("engine");
-                            Double rating = b.getDouble("rating");
-                            Double price = b.getDouble("price");
-                            cars.add(new Car(id, name, transmission, image, fuel, description, brandID, engine, rating, price));
+            List<String> list = new ArrayList<>();
+            list.addAll(HomeActivity.user.getPreference());
+            Database.getInstance().collection("cars").whereIn("brand", list)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if(!queryDocumentSnapshots.isEmpty()){
+                            Log.d("Gakosong", "Gakosong");
+                            for(QueryDocumentSnapshot b : queryDocumentSnapshots){
+                                String id = b.getId();
+                                String name = b.getString("name");
+                                String description = b.getString("description");
+                                String transmission = b.getString("transmission");
+                                String image = b.getString("image");
+                                String fuel = b.getString("fuel");
+                                String brandID = b.getString("brand");
+                                Double engine = b.getDouble("engine");
+                                Double rating = b.getDouble("rating");
+                                Double price = b.getDouble("price");
+                                cars.add(new Car(id, name, transmission, image, fuel, description, brandID, engine, rating, price));
+                            }
+                            listener.retrievedCars(cars);
+                        }else{
+                            Log.d("Kosong", "Kosong");
                         }
-                        listener.retrievedCars(cars);
-                    }else{
-                        Log.d("Kosong", "Kosong");
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    // Error occurred
+                    })
+                    .addOnFailureListener(e -> {
+                        // Error occurred
 //                    listener.retrievedUser(null);
-                });
+                    });
+        }else{
+            getCars(listener);
+        }
+
     }
 
     public static void getCar(RetrievedCarListener listener, String carID){

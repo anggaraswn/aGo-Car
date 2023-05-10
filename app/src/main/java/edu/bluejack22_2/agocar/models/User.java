@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import edu.bluejack22_2.agocar.conn.Database;
+import edu.bluejack22_2.agocar.other.RetrievedBrandListener;
 import edu.bluejack22_2.agocar.other.RetrievedUserListener;
 
 public class User {
@@ -62,6 +63,17 @@ public class User {
                 listener.onSuccess(false);
             }
         });
+    }
+
+    public void delete(edu.bluejack22_2.agocar.other.OnSuccessListener listener){
+        Database.getInstance().collection("users").document(this.id).delete()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    listener.onSuccess(true);
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+                    listener.onSuccess(false);
+                });
     }
 
     public void storeUserToSharedPref(){}
