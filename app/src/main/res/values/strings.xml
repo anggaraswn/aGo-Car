@@ -74,5 +74,7 @@
     <string name="engine">Engine</string>
     <string name="transmission">Transmission</string>
     <string name="comment">Comment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
