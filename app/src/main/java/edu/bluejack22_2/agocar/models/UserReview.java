@@ -45,7 +45,8 @@ public class UserReview {
                             String comment = b.getString("comment");
                             Double rating = b.getDouble("rating");
                             String userID = b.getString("userid");
-                            userReviews.add(new UserReview(id, carID, comment, userID, rating));
+                            UserReview userReview = new UserReview( carID, comment, userID,id, rating);
+                            userReviews.add(userReview);
                         }
                         listener.retrievedUserReviews(userReviews);
                     }
@@ -91,7 +92,7 @@ public class UserReview {
                         String carID = queryDocumentSnapshots.getString("carid");
                         String userID = queryDocumentSnapshots.getString("userid");
 
-                        UserReview userReview = new UserReview(id, carID, comment, userID, rating);
+                        UserReview userReview = new UserReview(carID, comment, userID,id,rating);
                         listener.retrievedUserReview(userReview);
                     }
                 })
