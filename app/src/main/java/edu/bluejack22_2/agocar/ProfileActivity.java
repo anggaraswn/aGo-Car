@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,11 +32,7 @@ import edu.bluejack22_2.agocar.fragments.ReviewsFragment;
 import edu.bluejack22_2.agocar.models.Car;
 import edu.bluejack22_2.agocar.models.User;
 import edu.bluejack22_2.agocar.models.UserReview;
-<<<<<<< HEAD
-import edu.bluejack22_2.agocar.other.OnSuccessListener;
-=======
 import edu.bluejack22_2.agocar.other.RetrievedFavouritesListener;
->>>>>>> 83d91f072ae7d412b71496e627ed3fdf2d1e5df5
 import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -45,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvName, tvEmail, tvViewAllFavourites, tvViewAllReviews;
     private ImageView ivEdit;
     private CircleImageView civProfile;
-    private Button btnLogOut, btnDeleteAccount;
+    private Button btnLogOut;
     private User user;
     private LinearLayout navHome, navNews, navCars;
     private ViewPager2 viewPager;
@@ -84,8 +79,6 @@ public class ProfileActivity extends AppCompatActivity {
 //        rvFavourites.setLayoutManager(linearLayoutManager2);
 //        rvFavourites.setAdapter(favouritesAdapter);
 
-        btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
-
 
 //        Gson gson = new Gson();
 //        SharedPreferences mPrefs = getSharedPreferences("userPref", Context.MODE_PRIVATE);
@@ -109,34 +102,6 @@ public class ProfileActivity extends AppCompatActivity {
         getComponents();
 //        setComponents();
 
-<<<<<<< HEAD
-        btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences mPrefs = getSharedPreferences("userPref", MODE_PRIVATE);
-                SharedPreferences.Editor editor = mPrefs.edit();
-                editor.clear();
-                editor.commit();
-                HomeActivity.user.delete(new OnSuccessListener() {
-                    @Override
-                    public void onSuccess(boolean success) {
-                        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }
-                });
-            }
-        });
-
-        btnLogOut.setOnClickListener(e -> {
-            SharedPreferences mPrefs = getSharedPreferences("userPref", MODE_PRIVATE);
-            SharedPreferences.Editor editor = mPrefs.edit();
-            editor.clear();
-            editor.commit();
-            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-            startActivity(intent);
-        });
-=======
->>>>>>> 83d91f072ae7d412b71496e627ed3fdf2d1e5df5
 
 
         navHome.setOnClickListener(e -> {
