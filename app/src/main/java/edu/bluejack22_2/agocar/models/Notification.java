@@ -1,8 +1,15 @@
 package edu.bluejack22_2.agocar.models;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.bluejack22_2.agocar.conn.Database;
 import edu.bluejack22_2.agocar.other.RetrievedCarsListener;
@@ -17,6 +24,18 @@ public class Notification {
         this.status = status;
         this.content = content;
         this.userid = userid;
+    }
+
+    public void insert(){
+        Map<String, Object> notification = new HashMap<>();
+        notification.put("content", this.content);
+        notification.put("status", this.status);
+        notification.put("userid", this.userid);
+
+
+
+        Database.getInstance().collection("notifications")
+                .add(notification);
     }
 
     public static void getNotifications(RetrievedNotificationsListener listener){

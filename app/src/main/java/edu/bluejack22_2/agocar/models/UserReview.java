@@ -12,13 +12,19 @@ import java.util.Map;
 
 import edu.bluejack22_2.agocar.conn.Database;
 import edu.bluejack22_2.agocar.other.OnSuccessListener;
+import edu.bluejack22_2.agocar.other.RetrievedBrandListener;
+import edu.bluejack22_2.agocar.other.RetrievedCarListener;
+import edu.bluejack22_2.agocar.other.RetrievedUserReviewListener;
 import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
 
 public class UserReview {
+
+    private String id;
     private String carID, comment, userID;
     private double rating;
 
-    public UserReview(String carID, String comment, String userID, double rating) {
+    public UserReview(String id, String carID, String comment, String userID, double rating) {
+        this.id = id;
         this.carID = carID;
         this.comment = comment;
         this.userID = userID;
@@ -36,7 +42,7 @@ public class UserReview {
                             String comment = b.getString("comment");
                             Double rating = b.getDouble("rating");
                             String userID = b.getString("userid");
-                            userReviews.add(new UserReview(carID, comment, userID, rating));
+                            userReviews.add(new UserReview(id, carID, comment, userID, rating));
                         }
                         listener.retrievedUserReviews(userReviews);
                     }
@@ -58,7 +64,7 @@ public class UserReview {
                             String comment = b.getString("comment");
                             Double rating = b.getDouble("rating");
                             String carID = b.getString("carid");
-                            userReviews.add(new UserReview(carID, comment, userID, rating));
+                            userReviews.add(new UserReview(id, carID, comment, userID, rating));
                         }
                         listener.retrievedUserReviews(userReviews);
                     }
@@ -68,6 +74,29 @@ public class UserReview {
 //                    listener.retrievedUser(null);
                 });
     }
+
+    public static void getUserReview(RetrievedUserReviewListener listener, String userReviewID){
+
+        Database.getInstance().collection("userreviews").document(userReviewID)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots != null){
+                        String id = queryDocumentSnapshots.getId();
+                        String comment = queryDocumentSnapshots.getString("comment");
+                        Double rating = queryDocumentSnapshots.getDouble("rating");
+                        String carID = queryDocumentSnapshots.getString("carid");
+                        String userID = queryDocumentSnapshots.getString("userid");
+
+                        UserReview userReview = new UserReview(id, carID, comment, userID, rating);
+                        listener.retrievedUserReview(userReview);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+                    listener.retrievedUserReview(null);
+                });
+    };
+
 
 
 
@@ -124,5 +153,13 @@ public class UserReview {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

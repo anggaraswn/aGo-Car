@@ -32,27 +32,41 @@ import edu.bluejack22_2.agocar.conn.Database;
 import edu.bluejack22_2.agocar.models.Article;
 import edu.bluejack22_2.agocar.models.Brand;
 import edu.bluejack22_2.agocar.models.Car;
+import edu.bluejack22_2.agocar.models.Notification;
 import edu.bluejack22_2.agocar.models.User;
 import edu.bluejack22_2.agocar.models.UserReview;
 import edu.bluejack22_2.agocar.other.RetrievedCarsListener;
 import edu.bluejack22_2.agocar.other.RetrievedUserListener;
+import edu.bluejack22_2.agocar.other.RetrievedUserReviewListener;
+import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
 
 public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.HomeViewHolder> {
 
     private ArrayList<UserReview> userReviews = new ArrayList<>();
 
-//    void loadCars(View v){
-//        Car.getPreferredCars(new RetrievedCarsListener() {
-//            @Override
-//            public void retrievedCars(ArrayList<Car> cars) {
-//                if(cars != null){
-//                    setCars(cars);
-//                }else{
-//                    Toast.makeText(v.getContext(), "Unable to like car right now! Please try again...", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
-//    }
+    void loadUserReviews(View v){
+        UserReview.getReviews(CarDetailActivity.carID, new RetrievedUserReviewsListener() {
+            @Override
+            public void retrievedUserReviews(ArrayList<UserReview> userReviews) {
+                if(userReviews != null){
+                    setUserReviews(userReviews);
+                }
+            }
+        });
+    }
+
+    void notifyLikedReviewUser(String userReviewId){
+        UserReview.getUserReview(new RetrievedUserReviewListener() {
+            @Override
+            public void retrievedUserReview(UserReview userReview) {
+                Notification notification = new Notification(null, "unread", "You have received new like !", userReview.getUserID());
+                notification.insert();
+            }
+        }, userReviewId);
+
+    }
+
+
 
     @NonNull
     @Override
@@ -75,6 +89,63 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
         });
         holder.tvRating.setText(userReview.getRating() + " / 5");
         holder.tvComment.setText(userReview.getComment());
+        holder.checkUserLiked(userReview);
+        holder.checkOwnComment(userReview);
+
+        holder.ivLikeImageEmpty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String, Object> userReviewLikes = new HashMap<>();
+                userReviewLikes.put("reviewid", userReview.getId());
+                userReviewLikes.put("userid", HomeActivity.user.getId());
+
+                Database.getInstance().collection("userreviewlikes")
+                        .add(userReviewLikes)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                loadUserReviews(v);
+                                notifyLikedReviewUser(userReview.getId());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(v.getContext(), "Unable to like car right now! Please try again...", Toast.LENGTH_LONG).show();
+                            }
+                        });
+            }
+
+        });
+
+        holder.ivLikeImageFilled.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Database.getInstance().collection("userreviewlikes")
+                        .whereEqualTo("reviewid", userReview.getId())
+                        .whereEqualTo("userid", HomeActivity.user.getId())
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                                DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                if (documentSnapshot != null) {
+                                    Database.getInstance().collection("userreviewlikes").document(documentSnapshot.getId()).delete()
+                                            .addOnSuccessListener(aVoid -> {
+                                                loadUserReviews(v);
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                // Error occurred while deleting the document
+                                                Toast.makeText(v.getContext(), "Unable to unlike car right now! Please try again...", Toast.LENGTH_LONG).show();
+                                            });
+                                }
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            // Error occurred while getting the document
+                            Toast.makeText(v.getContext(), "Unable to unlike car right now! Please try again...", Toast.LENGTH_LONG).show();
+                        });
+            }
+        });
 
     }
 
@@ -84,8 +155,54 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
     }
 
     class HomeViewHolder extends RecyclerView.ViewHolder {
-        ImageView civUserProfile;
+        ImageView civUserProfile, ivLikeImageEmpty, ivLikeImageFilled;
         TextView tvUsername, tvRating, tvComment;
+
+//        void checkUserLiked(Car car){
+//            Database.getInstance().collection("userreviewlikes").whereEqualTo("carid", car.getId()).whereEqualTo("userid", HomeActivity.user.getId())
+//                    .get()
+//                    .addOnSuccessListener(queryDocumentSnapshots -> {
+//                        if(queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()){
+//                            ivLikeImageEmpty.setVisibility(View.INVISIBLE);
+//                            ivLikeImageFilled.setVisibility(View.VISIBLE);
+//                        }else{
+//                            ivLikeImageEmpty.setVisibility(View.VISIBLE);
+//                            ivLikeImageFilled.setVisibility(View.INVISIBLE);
+//                        }
+//                    });
+//        }
+
+        boolean checkOwnComment(UserReview userReview){
+            if(userReview.getUserID().equals(HomeActivity.user.getId())){
+                return true;
+            }
+            return false;
+        }
+            void checkUserLiked(UserReview userReview){
+                Database.getInstance().collection("userreviewlikes").whereEqualTo("reviewid", userReview.getId()).whereEqualTo("userid", HomeActivity.user.getId())
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if(queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()){
+                                if(checkOwnComment(userReview) == false){
+                                    ivLikeImageEmpty.setVisibility(View.INVISIBLE);
+                                    ivLikeImageFilled.setVisibility(View.VISIBLE);
+                                }else{
+                                    ivLikeImageEmpty.setVisibility(View.INVISIBLE);
+                                    ivLikeImageFilled.setVisibility(View.INVISIBLE);
+                                }
+
+                            }else{
+                                if(checkOwnComment(userReview) == false){
+                                    ivLikeImageEmpty.setVisibility(View.VISIBLE);
+                                    ivLikeImageFilled.setVisibility(View.INVISIBLE);
+                                }else{
+                                    ivLikeImageEmpty.setVisibility(View.INVISIBLE);
+                                    ivLikeImageFilled.setVisibility(View.INVISIBLE);
+                                }
+
+                            }
+                        });
+            }
 
 
         public HomeViewHolder(@NonNull View itemView) {
@@ -95,6 +212,8 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvRating = itemView.findViewById(R.id.tvRating);
             tvComment = itemView.findViewById(R.id.tvComment);
+            ivLikeImageEmpty = itemView.findViewById(R.id.ivLikeImageEmpty);
+            ivLikeImageFilled = itemView.findViewById(R.id.ivLikeImageFilled);
         }
 
 

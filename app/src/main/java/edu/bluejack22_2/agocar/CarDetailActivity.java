@@ -28,7 +28,7 @@ import edu.bluejack22_2.agocar.other.RetrievedRatingListener;
 import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
 
 public class CarDetailActivity extends AppCompatActivity {
-    private String carID;
+    public static String carID;
     private Car retrievedCar;
     private TextView tvCarName, tvCarEngine, tvCarTransmission, tvCarFuel, tvCarDescription;
     private ImageView ivCarImage, ivBackButton;
@@ -88,7 +88,7 @@ public class CarDetailActivity extends AppCompatActivity {
                 if(validateFields() == false){
                     Toast.makeText(CarDetailActivity.this, "Rating and Comment Fields must be filled !", Toast.LENGTH_LONG).show();
                 }else{
-                    UserReview rev = new UserReview(carID, etCarComment.getText().toString(), HomeActivity.user.getId(), Double.parseDouble(etCarRating.getText().toString()));
+                    UserReview rev = new UserReview(null, carID, etCarComment.getText().toString(), HomeActivity.user.getId(), Double.parseDouble(etCarRating.getText().toString()));
 
                     rev.insert(new OnSuccessListener() {
                         @Override
