@@ -65,6 +65,7 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
         holder.tvCarName.setText(car.getName());
         holder.checkUserLiked(car);
         holder.countLikes(car);
+        holder.countComments(car);
 
         holder.ivLikeImageEmpty.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +155,20 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
                         }else{
                             int count = 0;
                             tvLikeCount.setText(count+"");
+                        }
+                    });
+        }
+
+        void countComments(Car car){
+            Database.getInstance().collection("userreviews").whereEqualTo("carid", car.getId())
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if(queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()){
+                            int count = queryDocumentSnapshots.size();
+                            tvCommentCount.setText(count+"");
+                        }else{
+                            int count = 0;
+                            tvCommentCount.setText(count+"");
                         }
                     });
         }

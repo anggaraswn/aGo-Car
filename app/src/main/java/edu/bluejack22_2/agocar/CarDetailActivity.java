@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.bluejack22_2.agocar.adapter.CarReviewsAdapter;
@@ -23,6 +24,7 @@ import edu.bluejack22_2.agocar.models.Car;
 import edu.bluejack22_2.agocar.models.UserReview;
 import edu.bluejack22_2.agocar.other.OnSuccessListener;
 import edu.bluejack22_2.agocar.other.RetrievedCarListener;
+import edu.bluejack22_2.agocar.other.RetrievedRatingListener;
 import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
 
 public class CarDetailActivity extends AppCompatActivity {
@@ -95,6 +97,7 @@ public class CarDetailActivity extends AppCompatActivity {
                                 Toast.makeText(CarDetailActivity.this, "Successfully posted new review !", Toast.LENGTH_LONG).show();
                                 loadReviews();
                                 clear();
+
                             }else{
                                 Toast.makeText(CarDetailActivity.this, "Unable to post review... Please try again!", Toast.LENGTH_LONG).show();
 

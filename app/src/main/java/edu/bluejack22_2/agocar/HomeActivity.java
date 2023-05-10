@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,9 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.bluejack22_2.agocar.adapter.HomeBrandsAdapter;
 import edu.bluejack22_2.agocar.adapter.HomeCarsAdapter;
@@ -37,6 +43,20 @@ public class HomeActivity extends AppCompatActivity {
     private LinearLayout navNews, navProfile, navCars;
 
     private ImageView notification;
+
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Channel Name";
+            String description = "Channel Description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("channel_id", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
 
     void authenticateUser(){
@@ -138,9 +158,14 @@ public class HomeActivity extends AppCompatActivity {
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                createNotificationChannel();
+
                 Intent intent = new Intent(HomeActivity.this, NotificationActivity.class);
                 startActivity(intent);
+
+
             }
+
         });
 
 
