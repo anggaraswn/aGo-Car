@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import edu.bluejack22_2.agocar.adapter.CarReviewsAdapter;
 import edu.bluejack22_2.agocar.models.Car;
 import edu.bluejack22_2.agocar.models.UserReview;
@@ -38,14 +39,15 @@ public class CarDetailActivity extends AppCompatActivity {
 
     private RecyclerView rvUserReviews;
     private CarReviewsAdapter carReviewsAdapter;
+    private CircleImageView civUserProfile;
 
-    void getExtras(){
+    void getExtras() {
         Bundle bundle = getIntent().getExtras();
         this.carID = bundle.getString("carID");
     }
 
-    void loadReviews(){
-        UserReview.getReviews(this.carID,new RetrievedUserReviewsListener() {
+    void loadReviews() {
+        UserReview.getReviews(this.carID, new RetrievedUserReviewsListener() {
             @Override
             public void retrievedUserReviews(ArrayList<UserReview> userReviews) {
                 carReviewsAdapter.setUserReviews(userReviews);
@@ -53,7 +55,7 @@ public class CarDetailActivity extends AppCompatActivity {
         });
     }
 
-    void clear(){
+    void clear() {
         etCarRating.setText("");
         etCarComment.setText("");
         etCarRating.clearFocus();
@@ -61,7 +63,8 @@ public class CarDetailActivity extends AppCompatActivity {
 
 
     }
-    void getComponents(){
+
+    void getComponents() {
         tvCarName = findViewById(R.id.tvCarName);
         ivCarImage = findViewById(R.id.ivCarImage);
         ivBackButton = findViewById(R.id.ivBackButton);
@@ -79,26 +82,27 @@ public class CarDetailActivity extends AppCompatActivity {
         rvUserReviews.setLayoutManager(linearLayoutManager);
         rvUserReviews.setAdapter(carReviewsAdapter);
         tvCarDescription = findViewById(R.id.tvCarDescription);
+        civUserProfile = findViewById(R.id.civUserProfile);
 
         loadReviews();
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateFields() == false){
+                if (validateFields() == false) {
                     Toast.makeText(CarDetailActivity.this, "Rating and Comment Fields must be filled !", Toast.LENGTH_LONG).show();
-                }else{
+                } else {
                     UserReview rev = new UserReview(null, carID, etCarComment.getText().toString(), HomeActivity.user.getId(), Double.parseDouble(etCarRating.getText().toString()));
 
                     rev.insert(new OnSuccessListener() {
                         @Override
                         public void onSuccess(boolean success) {
-                            if(success){
+                            if (success) {
                                 Toast.makeText(CarDetailActivity.this, "Successfully posted new review !", Toast.LENGTH_LONG).show();
                                 loadReviews();
                                 clear();
 
-                            }else{
+                            } else {
                                 Toast.makeText(CarDetailActivity.this, "Unable to post review... Please try again!", Toast.LENGTH_LONG).show();
 
                             }
@@ -123,31 +127,31 @@ public class CarDetailActivity extends AppCompatActivity {
         }, carID);
 
     }
-    void setComponents(){
-        if (retrievedCar != null){
+
+    void setComponents() {
+        Picasso.get().load(HomeActivity.user.getImage()).into(civUserProfile);
+        if (retrievedCar != null) {
             Log.d("AGTest", retrievedCar.getName());
             tvCarName.setText(retrievedCar.getName());
             Picasso.get().load(retrievedCar.getImage()).into(ivCarImage);
-            tvCarEngine.setText(""+retrievedCar.getEngine());
+            tvCarEngine.setText("" + retrievedCar.getEngine());
             tvCarTransmission.setText(retrievedCar.getTransmission());
             tvCarFuel.setText(retrievedCar.getFuel());
             tvCarDescription.setText(retrievedCar.getDescription());
-        }else{
+        } else {
             Log.d("AGTest", "Test");
         }
 
     }
 
-    boolean validateFields(){
-        if(etCarRating.getText().toString().isEmpty()){
+    boolean validateFields() {
+        if (etCarRating.getText().toString().isEmpty()) {
             return false;
-        }
-        else if(etCarComment.getText().toString() == "" ){
+        } else if (etCarComment.getText().toString() == "") {
             return false;
         }
         return true;
     }
-
 
 
     @Override
@@ -156,7 +160,7 @@ public class CarDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_car_detail);
         getExtras();
 
-        if(carID != null){
+        if (carID != null) {
             getComponents();
         }
     }

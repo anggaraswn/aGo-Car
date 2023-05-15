@@ -15,8 +15,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,8 +29,10 @@ import java.util.ArrayList;
 import edu.bluejack22_2.agocar.adapter.PopularCarsAdapter;
 import edu.bluejack22_2.agocar.models.Article;
 import edu.bluejack22_2.agocar.models.Car;
+import edu.bluejack22_2.agocar.models.UserReview;
 import edu.bluejack22_2.agocar.other.OnSuccessListener;
 import edu.bluejack22_2.agocar.other.RetrievedArticlesListener;
+import edu.bluejack22_2.agocar.other.RetrievedCarRatingUsersReviewsListener;
 import edu.bluejack22_2.agocar.other.RetrievedCarsListener;
 
 public class CarsActivity extends AppCompatActivity {
@@ -41,6 +46,10 @@ public class CarsActivity extends AppCompatActivity {
 
     private FloatingActionButton fabAdd;
     private static final int IMAGE_PICKER_REQUEST_CODE = 1001;
+    private Spinner spSort;
+    private String spSortValue;
+    private ArrayList<Double> listRating = new ArrayList<>();
+    private ArrayList<Car> listCar = new ArrayList<>();
 
 
 
@@ -69,10 +78,106 @@ public class CarsActivity extends AppCompatActivity {
         }
     }
 
+    void loadCarsRating(){
+        listRating.clear();
+        Car.getCars(new RetrievedCarsListener() {
+            @Override
+            public void retrievedCars(ArrayList<Car> cars) {
+                if (!cars.isEmpty()) {
+                    listCar.clear();
+                    listCar.addAll(cars);
+                }
+            }
+        });
+        for (Car car : listCar) {
+            UserReview.getCarRatingByUserReviews(car.getId(), new RetrievedCarRatingUsersReviewsListener() {
+                @Override
+                public void retrievedCarRatingUserReviews(Double ratings) {
+                    Log.d("qwerty", ""+ratings);
+                    listRating.add(ratings);
+                    Log.d("njkdn", ""+listRating.size());
+                }
+            });
+        }
+    }
+
+    private void sortCarsByRatingAscending() {
+        for (int i = 0; i < listRating.size() - 1; i++) {
+            for (int j = i + 1; j < listRating.size(); j++) {
+                if (listRating.get(i) > listRating.get(j)) {
+                    double tempRating = listRating.get(i);
+                    Car tempCar = listCar.get(i);
+
+                    listRating.set(i, listRating.get(j));
+                    listCar.set(i, listCar.get(j));
+
+                    listRating.set(j, tempRating);
+                    listCar.set(j, tempCar);
+                }
+            }
+        }
+    }
+
+    private void sortCarsByRatingDescending() {
+        for (int i = 0; i < listRating.size() - 1; i++) {
+            for (int j = i + 1; j < listRating.size(); j++) {
+                if (listRating.get(i) < listRating.get(j)) {
+                    double tempRating = listRating.get(i);
+                    Car tempCar = listCar.get(i);
+
+                    listRating.set(i, listRating.get(j));
+                    listCar.set(i, listCar.get(j));
+
+                    listRating.set(j, tempRating);
+                    listCar.set(j, tempCar);
+                }
+            }
+        }
+    }
+
+
+    void setSpinnerValue() {
+        String[] sort = new String[]{"Highest", "Lowest"};
+        ArrayAdapter<String> sortAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sort);
+        spSort.setAdapter(sortAdapter);
+
+
+        spSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spSortValue = adapterView.getItemAtPosition(i).toString();
+                loadCarsRating();
+
+                switch (spSortValue) {
+                    case "Highest":
+                        Log.d("hjkl", "Highest");
+                        sortCarsByRatingDescending();
+                        break;
+                    case "Lowest":
+                        Log.d("hjkl", "Lowest");
+                        sortCarsByRatingAscending();
+                        break;
+                }
+                for(Car c : listCar){
+                    Log.d("vbnm", c.getName());
+                }
+                for (Double d : listRating){
+                    Log.d("dfgh", ""+d);
+                }
+                popularCarsAdapter.setCars(listCar);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
     void setComponents() {
 
         etSearch = findViewById(R.id.etSearch);
-
+//        spSort = findViewById(R.id.spSort);
         //Recycler View
         rvPopularCars = findViewById(R.id.rvPopularCars);
         popularCarsAdapter = new PopularCarsAdapter(this);
@@ -101,6 +206,7 @@ public class CarsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cars);
 
         setComponents();
+//        setSpinnerValue();
 
         etSearch.setOnTouchListener(new View.OnTouchListener() {
             @Override

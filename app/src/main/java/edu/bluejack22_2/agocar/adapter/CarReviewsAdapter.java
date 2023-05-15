@@ -87,7 +87,7 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
                 }
             }
         });
-        holder.tvRating.setText(userReview.getRating() + " / 5");
+        holder.tvRating.setText(userReview.getRating() + " / 5.0");
         holder.tvComment.setText(userReview.getComment());
         holder.checkUserLiked(userReview);
         holder.checkOwnComment(userReview);

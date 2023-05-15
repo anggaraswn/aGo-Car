@@ -14,6 +14,7 @@ import edu.bluejack22_2.agocar.conn.Database;
 import edu.bluejack22_2.agocar.other.OnSuccessListener;
 import edu.bluejack22_2.agocar.other.RetrievedBrandListener;
 import edu.bluejack22_2.agocar.other.RetrievedCarListener;
+import edu.bluejack22_2.agocar.other.RetrievedCarRatingUsersReviewsListener;
 import edu.bluejack22_2.agocar.other.RetrievedUserReviewListener;
 import edu.bluejack22_2.agocar.other.RetrievedUserReviewsListener;
 
@@ -99,6 +100,26 @@ public class UserReview {
                 .addOnFailureListener(e -> {
                     // Error occurred
                     listener.retrievedUserReview(null);
+                });
+    };
+
+    public static void getCarRatingByUserReviews(String carID, RetrievedCarRatingUsersReviewsListener listener){
+        double ratings[] = new double[1];
+        Database.getInstance().collection("userreviews").whereEqualTo("carid", carID)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(!queryDocumentSnapshots.isEmpty()){
+                        for(QueryDocumentSnapshot b : queryDocumentSnapshots){
+                            Double rating = b.getDouble("rating");
+//                            Log.d("zxc", ""+rating);
+                            ratings[0] = rating + ratings[0];
+                        }
+                        listener.retrievedCarRatingUserReviews(ratings[0]);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error occurred
+                    listener.retrievedCarRatingUserReviews(null);
                 });
     };
 
