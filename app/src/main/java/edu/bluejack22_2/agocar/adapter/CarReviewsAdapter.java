@@ -59,7 +59,7 @@ public class CarReviewsAdapter extends RecyclerView.Adapter<CarReviewsAdapter.Ho
         UserReview.getUserReview(new RetrievedUserReviewListener() {
             @Override
             public void retrievedUserReview(UserReview userReview) {
-                Notification notification = new Notification(null, "unread", "You have received new like !", userReview.getUserID());
+                Notification notification = new Notification(null, "unread", "You have received new like at post " + userReview.getComment() +"!", userReview.getUserID());
                 notification.insert();
             }
         }, userReviewId);

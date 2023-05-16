@@ -215,7 +215,7 @@ public class Car {
 
     public static void getPreferredCars(RetrievedCarsListener listener){
         if(HomeActivity.user.getPreference() != null){
-            Log.d("TotalPreferred", HomeActivity.user.getPreference().size()+"");
+            Log.d("AdaKOK", HomeActivity.user.getPreference().size()+"");
 
             HomeActivity.user.getPreference().forEach(e -> {
                 Log.d("BrandID", e);

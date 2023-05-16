@@ -94,6 +94,7 @@ public class EditProfileActivity extends AppCompatActivity {
         updatedUser.update(new OnSuccessListener() {
             @Override
             public void onSuccess(boolean success) {
+                HomeActivity.user = updatedUser;
                 Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
                 finish();
                 startActivity(intent);

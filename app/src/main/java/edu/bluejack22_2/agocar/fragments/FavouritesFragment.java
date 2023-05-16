@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,15 @@ public class FavouritesFragment extends Fragment {
                 favouritesAdapter.setFavourites(favourites);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.d("Reloading", "...");
+        user = HomeActivity.user;
+        Picasso.get().load(user.getImage()).into(civProfile);
     }
 
     @Override
