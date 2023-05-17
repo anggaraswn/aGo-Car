@@ -7,6 +7,8 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:layout_marginBottom="15dp"
+    android:background="@drawable/round_edit_text"
+    android:paddingVertical="20dp"
     >
 
     <ImageView

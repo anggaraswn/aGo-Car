@@ -12,7 +12,11 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="5dp"
         android:paddingVertical="12dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/round_edit_text"
+        android:layout_marginBottom="15dp"
+
+        >
         <ImageView
             android:id="@+id/ivImage"
             android:layout_width="match_parent"

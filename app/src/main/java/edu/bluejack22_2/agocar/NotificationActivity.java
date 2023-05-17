@@ -39,14 +39,14 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-
+        Log.d("asdfg", "Test");
         getComponents();
         setComponents();
 
         Notification.getUserNotifications(new RetrievedNotificationsListener() {
             @Override
             public void retrievedNotifications(ArrayList<Notification> notifications) {
-                if(!notifications.isEmpty()){
+                if(notifications != null){
                     for (Notification n:
                          notifications) {
                         Log.d("NotifContent", n.getContent());
