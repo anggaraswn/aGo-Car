@@ -14,9 +14,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import edu.bluejack22_2.agocar.HomeActivity;
 import edu.bluejack22_2.agocar.R;
 import edu.bluejack22_2.agocar.models.Brand;
 import edu.bluejack22_2.agocar.models.Notification;
+import edu.bluejack22_2.agocar.other.OnSuccessListener;
+import edu.bluejack22_2.agocar.other.RetrievedNotificationsListener;
 
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.PreferencesViewHolder> {
     private ArrayList<Notification> notifications = new ArrayList<>();
@@ -34,6 +37,32 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
         holder.tvNotificationContent.setText(notification.getContent());
 
+        holder.ivDeleteNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notification.delete(new OnSuccessListener() {
+                    @Override
+                    public void onSuccess(boolean success) {
+                        if(success){
+                            Notification.getUserNotifications(new RetrievedNotificationsListener() {
+                                @Override
+                                public void retrievedNotifications(ArrayList<Notification> notifications) {
+                                    if(notifications == null){
+                                        setNotifications(new ArrayList<Notification>());
+                                    }else{
+                                        setNotifications(notifications);
+                                    }
+
+                                }
+                            }, HomeActivity.user.getId());
+                        }else{
+                            setNotifications(notifications);
+                        }
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
@@ -43,11 +72,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     class PreferencesViewHolder extends RecyclerView.ViewHolder{
         TextView tvNotificationContent;
+        ImageView ivDeleteNotification;
 
         public PreferencesViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvNotificationContent = itemView.findViewById(R.id.tvNotificationContent);
+            ivDeleteNotification = itemView.findViewById(R.id.ivDeleteNotification);
+
 
 
         }

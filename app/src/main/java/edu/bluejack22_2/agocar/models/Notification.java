@@ -3,7 +3,6 @@ package edu.bluejack22_2.agocar.models;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -12,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.bluejack22_2.agocar.conn.Database;
+import edu.bluejack22_2.agocar.other.OnSuccessListener;
 import edu.bluejack22_2.agocar.other.RetrievedCarsListener;
 import edu.bluejack22_2.agocar.other.RetrievedNotificationsListener;
 
@@ -36,6 +36,20 @@ public class Notification {
 
         Database.getInstance().collection("notifications")
                 .add(notification);
+    }
+
+    public void delete(OnSuccessListener listener){
+        Database.getInstance().document("notifications/"+id).delete().addOnSuccessListener(new com.google.android.gms.tasks.OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.onSuccess(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onSuccess(false);
+            }
+        });
     }
 
     public static void getNotifications(RetrievedNotificationsListener listener){
@@ -75,10 +89,13 @@ public class Notification {
                             notifications.add(new Notification(id, status, content, userid));
                         }
                         listener.retrievedNotifications(notifications);
+                    }else{
+                        listener.retrievedNotifications(null);
                     }
                 })
                 .addOnFailureListener(e -> {
                     // Error occurred
+                    listener.retrievedNotifications(null);
 
                 });
     };
