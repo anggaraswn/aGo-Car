@@ -66,7 +66,7 @@ public class AddArticleActivity extends AppCompatActivity {
             @Override
             public void onSuccess(boolean success) {
                 if(success){
-                    Toast.makeText(AddArticleActivity.this, "Successfully Inserted new Article!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddArticleActivity.this, R.string.insertNewArticle, Toast.LENGTH_LONG).show();
                     finish();
                 }
             }
@@ -130,11 +130,11 @@ public class AddArticleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(etTitle.getText().equals("") || etDescription.getText().equals("") || selectedImageUri == null){
-                    Toast.makeText(AddArticleActivity.this, "All Fields must be Filled!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddArticleActivity.this, R.string.allFields, Toast.LENGTH_LONG).show();
                 }else if(etDescription.getText().length() < 100){
-                    Toast.makeText(AddArticleActivity.this, "Article Description minimum 100 characters !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddArticleActivity.this, R.string.minArticle, Toast.LENGTH_LONG).show();
                 }else if(Calculator.getImageSize(selectedImageUri, v.getContext()) > (1024 * 1024)){
-                    Toast.makeText(AddArticleActivity.this, "Article Image size maximum 1 MegaBytes !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddArticleActivity.this, R.string.maxImageSize, Toast.LENGTH_LONG).show();
 
                 }else{
                     uploadImage();

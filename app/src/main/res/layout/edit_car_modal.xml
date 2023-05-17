@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="41dp"
-                android:text="Save"
+                android:text= "@string/save"
                 app:layout_constraintTop_toBottomOf="@+id/etCarDescription"
 
                 app:layout_constraintEnd_toEndOf="parent"

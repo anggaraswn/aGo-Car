@@ -149,7 +149,7 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
                 public void onSuccess(boolean success) {
                     dialog.dismiss();
                     NewsActivity.loadArticles();
-                    Toast.makeText(context, "Successfully Update an Article!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.updateArticle, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -289,9 +289,9 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
                     builder.setCancelable(true);
-                    builder.setTitle("Delete Confirmation");
-                    builder.setMessage("Are you sure you want to delete the selected article ?");
-                    builder.setPositiveButton("Confirm",
+                    builder.setTitle(R.string.deleteConfirmation);
+                    builder.setMessage(R.string.deleteSelectedArticle);
+                    builder.setPositiveButton(R.string.confirm,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -300,7 +300,7 @@ public class RecommendedArticleAdapter extends RecyclerView.Adapter<RecommendedA
                                         @Override
                                         public void onSuccess(boolean success) {
                                             if(success){
-                                                Toast.makeText(v.getContext(), "Successfully deleted article !", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(v.getContext(), R.string.deleteArticle, Toast.LENGTH_LONG).show();
                                                 Article.getArticles(new RetrievedArticlesListener() {
                                                     @Override
                                                     public void retrievedArticles(ArrayList<Article> articles) {

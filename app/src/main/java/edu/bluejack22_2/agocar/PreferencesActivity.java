@@ -66,20 +66,19 @@ public class PreferencesActivity extends AppCompatActivity {
                 Intent intent = new Intent(PreferencesActivity.this, HomeActivity.class);
                 startActivity(intent);
                 if(PreferencesBrandAdapter.getSelectedBrands().isEmpty()){
-                    Toast.makeText(PreferencesActivity.this, "Please Select at least 1 preferred Brand!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PreferencesActivity.this, R.string.select1, Toast.LENGTH_LONG).show();
                 }else{
                     HomeActivity.user.setPreference(PreferencesBrandAdapter.getSelectedBrands());
                     HomeActivity.user.update(new OnSuccessListener() {
                         @Override
                         public void onSuccess(boolean success) {
                             if(success){
-                                Toast.makeText(PreferencesActivity.this, "Successfully save preferenced brand!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(PreferencesActivity.this, R.string.savePreferenced, Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(PreferencesActivity.this, HomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }else{
-                                Toast.makeText(PreferencesActivity.this, "Failed to save preferenced brand! Please try again...", Toast.LENGTH_LONG).show();
-
+                                Toast.makeText(PreferencesActivity.this, R.string.failedSavePref, Toast.LENGTH_LONG).show();
                             }
                         }
                     });

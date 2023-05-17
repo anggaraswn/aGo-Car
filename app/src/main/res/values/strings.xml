@@ -75,6 +75,38 @@
     <string name="transmission">Transmission</string>
     <string name="comment">Comment</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+<!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
+    <string name="insertNewArticle">Successfully Inserted new Article!</string>
+    <string name="allFields">All Fields must be Filled!</string>
+    <string name="minArticle">Article Description minimum 100 characters!</string>
+    <string name="maxImageSize">Article Image size maximum 1 MegaBytes!</string>
+    <string name="insertNewCar">Successfully Inserted new Car!</string>
+    <string name="ratingCommentFields">Rating and Comment Fields must be filled!</string>
+    <string name="insertNewReview">Successfully posted new review!</string>
+    <string name="unablePostReview">Unable to post review... Please try again!</string>
+    <string name="deleteArticle">Successfully deleted article!</string>
+    <string name="invalidEmailUsername">Invalid Email / Password!</string>
+    <string name="select1">Please Select at least 1 preferred Brand!</string>
+    <string name="savePreferenced">Successfully save preferenced brand!</string>
+    <string name="failedSavePref">Failed to save preferenced brand! Please try again...</string>
+    <string name="emailExist">Email Already Exist!</string>
+    <string name="alphanumeric">Password must be alphanumeric!</string>
+    <string name="invalidConf">Invalid Confirmation Password!</string>
+    <string name="insertUser">Successfully Created User!</string>
+    <string name="failedUser">Failed Creating New User!</string>
+    <string name="unableUnlike">Unable to unlike car right now! Please try again...</string>
+    <string name="unableLike">Unable to like car right now! Please try again...</string>
+    <string name="updateCar">Successfully Update a Car!</string>
+    <string name="selectAction">Select Action</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="updateReview">Successfully Update a Review!</string>
+    <string name="deleteConfirmation">Delete Confirmation</string>
+    <string name="deleteReview">Are you sure you want to delete the selected review?</string>
+    <string name="confirm">Confirm</string>
+    <string name="successDeleteReview">Successfully deleted review!</string>
+    <string name="updateArticle">Successfully Update an Article!</string>
+    <string name="deleteSelectedArticle">Are you sure you want to delete the selected article?</string>
+    <string name="deleteCar">Are you sure you want to delete the selected car?</string>
 
 </resources>

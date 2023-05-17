@@ -82,7 +82,7 @@ public class AddCarActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(boolean success) {
                     if(success){
-                        Toast.makeText(AddCarActivity.this, "Successfully Inserted new Car!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddCarActivity.this, R.string.insertNewCar, Toast.LENGTH_LONG).show();
                         CarsActivity.loadCars();
                         finish();
                     }
@@ -256,7 +256,7 @@ public class AddCarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validateFields() == false){
-                    Toast.makeText(AddCarActivity.this, "All Fields must be Filled !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddCarActivity.this, R.string.allFields, Toast.LENGTH_LONG).show();
                 }else{
                     uploadImage();
                 }

@@ -75,6 +75,39 @@
     <string name="engine">Mesin</string>
     <string name="transmission">Transmisi</string>
     <string name="comment">Komentar</string>
+    <string name="insertNewArticle">Berhasil Menambahkan Artikel Baru!</string>
+    <string name="allFields">Semua Kolom Harus Diisi!</string>
+    <string name="minArticle">Deskripsi Artikel Minimal 100 Karakter!</string>
+    <string name="maxImageSize">Ukuran Gambar Artikel Maksimal 1 MegaBytes!</string>
+    <string name="insertNewCar">Berhasil Memasukkan Mobil Baru!</string>
+    <string name="ratingCommentFields">Kolom Rating dan Komentar Wajib Diisi!</string>
+    <string name="insertNewReview">Berhasil Memposting Ulasan Baru!</string>
+    <string name="unablePostReview">Tidak Dapat Memposting Ulasan... Silakan Coba Lagi!</string>
+    <string name="deleteArticle">Artikel Berhasil Dihapus!</string>
+    <string name="invalidEmailUsername">Email / Kata Sandi Tidak Valid !</string>
+    <string name="select1">Harap Pilih Setidaknya 1 Merek Pilihan!</string>
+    <string name="savePreferenced">Berhasil Menyimpan Merek Pilihan!</string>
+    <string name="failedSavePref">Gagal Menyimpan Merek Pilihan! Silahkan Coba Lagi...</string>
+    <string name="emailExist">Email Sudah Ada !</string>
+    <string name="alphanumeric">Kata Sandi Harus Berupa Alfanumerik!</string>
+    <string name="invalidConf">Konfirmasi Kata Sandi Tidak Valid!</string>
+    <string name="insertUser">Berhasil Membuat Pengguna!</string>
+    <string name="failedUser">Gagal Membuat Pengguna Baru!</string>
+    <string name="unableUnlike">Tidak dapat tidak menyukai mobil sekarang! Silakan coba lagi...</string>
+    <string name="unableLike">Tidak dapat menyukai mobil sekarang! Silakan coba lagi...</string>
+    <string name="updateCar">Berhasil Memperbarui Mobil!</string>
+    <string name="selectAction">Pilih Tindakan</string>
+    <string name="update">Perbarui</string>
+    <string name="delete">Hapus</string>
+    <string name="updateReview">Berhasil Memperbarui Ulasan</string>
+    <string name="deleteConfirmation">Konfirmasi Untuk Menghapus</string>
+    <string name="deleteReview">Apakah Anda yakin ingin menghapus ulasan yang dipilih?</string>
+    <string name="confirm">Konfirmasi</string>
+    <string name="successDeleteReview">Berhasil Menghapus Ulasan!</string>
+    <string name="updateArticle">Berhasil Memperbarui Artikel!</string>
+    <string name="deleteSelectedArticle">Apakah Anda yakin ingin menghapus artikel yang dipilih?</string>
+    <string name="deleteCar">Apakah Anda yakin ingin menghapus mobil yang dipilih?</string>
+
 
 
 </resources>

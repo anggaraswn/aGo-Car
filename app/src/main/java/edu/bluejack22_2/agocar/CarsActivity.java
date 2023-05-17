@@ -272,9 +272,9 @@ public class CarsActivity extends AppCompatActivity {
         Log.d("asdelete", "Called");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        builder.setTitle("Delete Confirmation");
-        builder.setMessage("Are you sure you want to delete the selected car ?");
-        builder.setPositiveButton("Confirm",
+        builder.setTitle(R.string.deleteConfirmation);
+        builder.setMessage(R.string.deleteCar);
+        builder.setPositiveButton(R.string.confirm,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -283,7 +283,7 @@ public class CarsActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(boolean success) {
                                 if (success) {
-                                    Toast.makeText(CarsActivity.this, "Successfully deleted article !", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(CarsActivity.this, R.string.deleteArticle, Toast.LENGTH_LONG).show();
                                     Car.getCars(new RetrievedCarsListener() {
                                         @Override
                                         public void retrievedCars(ArrayList<Car> cars) {

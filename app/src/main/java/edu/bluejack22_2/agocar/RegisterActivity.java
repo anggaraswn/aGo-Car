@@ -51,19 +51,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     void validateFields(){
         if(usernameET.getText().toString().equals("") || emailET.getText().toString().equals("") || passwordET.getText().toString().equals("") || cPasswordET.getText().toString().equals("")){
-            Toast.makeText(RegisterActivity.this, "All Fields must be Filled !", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterActivity.this, R.string.allFields, Toast.LENGTH_LONG).show();
         }else{
             User.checkUserExist(emailET.getText().toString(), new OnSuccessListener() {
                 @Override
                 public void onSuccess(boolean success) {
                     if (success) {
-                        Toast.makeText(RegisterActivity.this, "Email Already Exist !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, R.string.emailExist, Toast.LENGTH_LONG).show();
                     } else {
                         if (!isAlphanumeric(passwordET.getText().toString())){
-                            Toast.makeText(RegisterActivity.this, "Password must be alphanumeric !", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, R.string.alphanumeric, Toast.LENGTH_LONG).show();
                         }else{
                             if(passwordET.getText().toString().equals(cPasswordET.getText().toString()) == false){
-                                Toast.makeText(RegisterActivity.this, "Invalid Confirmation Password !", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterActivity.this, R.string.invalidConf, Toast.LENGTH_LONG).show();
                             }else{
                                 //Success
                                 User newUser = new User(usernameET.getText().toString(), emailET.getText().toString(), passwordET.getText().toString(), "User", "https://res.cloudinary.com/dwtby8jpe/image/upload/v1683130416/TPA_Android/users/user_vs5pyh.png",null);
@@ -75,13 +75,13 @@ public class RegisterActivity extends AppCompatActivity {
                                         if(success){
                                             HomeActivity.user = newUser;
                                             storeUser(newUser);
-                                            Toast.makeText(RegisterActivity.this, "Successfully Created User!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(RegisterActivity.this, R.string.insertUser, Toast.LENGTH_LONG).show();
                                             Intent intent = new Intent(RegisterActivity.this, PreferencesActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
 
                                         }else{
-                                            Toast.makeText(RegisterActivity.this, "Failed Creating New User!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(RegisterActivity.this, R.string.failedUser, Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });

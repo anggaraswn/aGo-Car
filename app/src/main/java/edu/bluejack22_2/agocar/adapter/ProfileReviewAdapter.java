@@ -149,7 +149,7 @@ public class ProfileReviewAdapter extends RecyclerView.Adapter<ProfileReviewAdap
                                 setUserReviews(userReviews);
                             }
                         });
-                        Toast.makeText(context, "Successfully Update a Review!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.updateReview, Toast.LENGTH_LONG).show();
                     }
                 });
             });
@@ -172,9 +172,9 @@ public class ProfileReviewAdapter extends RecyclerView.Adapter<ProfileReviewAdap
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());
                     builder.setCancelable(true);
-                    builder.setTitle("Delete Confirmation");
-                    builder.setMessage("Are you sure you want to delete the selected review ?");
-                    builder.setPositiveButton("Confirm",
+                    builder.setTitle(R.string.deleteConfirmation);
+                    builder.setMessage(R.string.deleteReview);
+                    builder.setPositiveButton(R.string.confirm,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -183,7 +183,7 @@ public class ProfileReviewAdapter extends RecyclerView.Adapter<ProfileReviewAdap
                                         @Override
                                         public void onSuccess(boolean success) {
                                             if (success) {
-                                                Toast.makeText(v.getContext(), "Successfully deleted review !", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(v.getContext(), R.string.successDeleteReview, Toast.LENGTH_LONG).show();
                                                 UserReview.getReviewsByUser(HomeActivity.user.getId(), new RetrievedUserReviewsListener() {
                                                     @Override
                                                     public void retrievedUserReviews(ArrayList<UserReview> userReviews) {

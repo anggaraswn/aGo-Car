@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
                         }else{
-                            Toast.makeText(LoginActivity.this, "Invalid Email / Password !", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, R.string.invalidEmailUsername, Toast.LENGTH_LONG).show();
                         }
                      }
                  });

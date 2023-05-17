@@ -90,7 +90,7 @@ public class CarDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateFields() == false) {
-                    Toast.makeText(CarDetailActivity.this, "Rating and Comment Fields must be filled !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CarDetailActivity.this, R.string.ratingCommentFields, Toast.LENGTH_LONG).show();
                 } else {
                     UserReview rev = new UserReview(null, carID, etCarComment.getText().toString(), HomeActivity.user.getId(), Double.parseDouble(etCarRating.getText().toString()));
 
@@ -98,12 +98,12 @@ public class CarDetailActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(boolean success) {
                             if (success) {
-                                Toast.makeText(CarDetailActivity.this, "Successfully posted new review !", Toast.LENGTH_LONG).show();
+                                Toast.makeText(CarDetailActivity.this, R.string.insertNewReview, Toast.LENGTH_LONG).show();
                                 loadReviews();
                                 clear();
 
                             } else {
-                                Toast.makeText(CarDetailActivity.this, "Unable to post review... Please try again!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(CarDetailActivity.this, R.string.unablePostReview, Toast.LENGTH_LONG).show();
 
                             }
                         }

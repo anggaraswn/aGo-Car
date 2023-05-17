@@ -45,7 +45,7 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
                 if(cars != null){
                     setCars(cars);
                 }else{
-                    Toast.makeText(v.getContext(), "Unable to like car right now! Please try again...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), R.string.unableLike, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -85,7 +85,7 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(v.getContext(), "Unable to like car right now! Please try again...", Toast.LENGTH_LONG).show();
+                                Toast.makeText(v.getContext(), R.string.unableLike, Toast.LENGTH_LONG).show();
                             }
                         });
             }
@@ -109,14 +109,14 @@ public class HomeCarsAdapter extends RecyclerView.Adapter<HomeCarsAdapter.HomeVi
                                             })
                                             .addOnFailureListener(e -> {
                                                 // Error occurred while deleting the document
-                                                Toast.makeText(v.getContext(), "Unable to unlike car right now! Please try again...", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(v.getContext(), R.string.unableUnlike, Toast.LENGTH_LONG).show();
                                             });
                                 }
                             }
                         })
                         .addOnFailureListener(e -> {
                             // Error occurred while getting the document
-                            Toast.makeText(v.getContext(), "Unable to unlike car right now! Please try again...", Toast.LENGTH_LONG).show();
+                            Toast.makeText(v.getContext(), R.string.unableUnlike, Toast.LENGTH_LONG).show();
                         });
             }
         });

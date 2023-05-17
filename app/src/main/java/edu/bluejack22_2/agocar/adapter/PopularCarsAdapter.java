@@ -278,7 +278,7 @@ public class PopularCarsAdapter extends RecyclerView.Adapter<PopularCarsAdapter.
                     Log.d("ttttttttttttttttt", "Success");
                     dialog.dismiss();
                     CarsActivity.loadCars();
-                    Toast.makeText(context, "Successfully Update a Car!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.updateCar, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -431,9 +431,9 @@ public class PopularCarsAdapter extends RecyclerView.Adapter<PopularCarsAdapter.
 
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             if (!HomeActivity.user.getRole().equals("Admin")) return;
-            contextMenu.setHeaderTitle("Select Action");
-            contextMenu.add(getAdapterPosition(), 1001, 0, "Update");
-            contextMenu.add(getAdapterPosition(), 1002, 1, "Delete");
+            contextMenu.setHeaderTitle(R.string.selectAction);
+            contextMenu.add(getAdapterPosition(), 1001, 0, R.string.update);
+            contextMenu.add(getAdapterPosition(), 1002, 1, R.string.delete);
             position = getAdapterPosition();
         }
 

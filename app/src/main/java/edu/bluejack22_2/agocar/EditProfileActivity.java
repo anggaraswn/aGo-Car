@@ -180,7 +180,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             updateData(u.getImage());
                         }
                     }else{
-                        Toast.makeText(EditProfileActivity.this, "Invalid Email / Password !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditProfileActivity.this, R.string.invalidEmailUsername, Toast.LENGTH_LONG).show();
                     }
                 }
             });
