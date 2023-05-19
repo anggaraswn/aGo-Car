@@ -107,6 +107,7 @@
     <string name="updateArticle">Berhasil Memperbarui Artikel!</string>
     <string name="deleteSelectedArticle">Apakah Anda yakin ingin menghapus artikel yang dipilih?</string>
     <string name="deleteCar">Apakah Anda yakin ingin menghapus mobil yang dipilih?</string>
+    <string name="ratingInvalid">Nilai tidak valid!</string>
 
 
 

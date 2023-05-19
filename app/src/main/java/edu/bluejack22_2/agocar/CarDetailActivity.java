@@ -91,7 +91,13 @@ public class CarDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateFields() == false) {
                     Toast.makeText(CarDetailActivity.this, R.string.ratingCommentFields, Toast.LENGTH_LONG).show();
-                } else {
+                }else if(Double.parseDouble(etCarRating.getText().toString()) < 0 || Double.parseDouble(etCarRating.getText().toString()) > 5) {
+                    Toast.makeText(CarDetailActivity.this, R.string.ratingInvalid, Toast.LENGTH_LONG).show();
+                }else if(etCarRating.getText().toString().matches("[0-9]+") == false){
+                    Toast.makeText(CarDetailActivity.this, R.string.ratingInvalid, Toast.LENGTH_LONG).show();
+                }
+
+                else {
                     UserReview rev = new UserReview(carID, etCarComment.getText().toString(), HomeActivity.user.getId() , null, Double.parseDouble(etCarRating.getText().toString()));
 
                     rev.insert(new OnSuccessListener() {

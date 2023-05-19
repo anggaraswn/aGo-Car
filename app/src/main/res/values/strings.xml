@@ -108,5 +108,5 @@
     <string name="updateArticle">Successfully Update an Article!</string>
     <string name="deleteSelectedArticle">Are you sure you want to delete the selected article?</string>
     <string name="deleteCar">Are you sure you want to delete the selected car?</string>
-
+    <string name="ratingInvalid">Rating is invalid!</string>
 </resources>
