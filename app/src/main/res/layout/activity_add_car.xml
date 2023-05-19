@@ -38,14 +38,15 @@
         android:id="@+id/tvSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="52dp"
         android:layout_marginTop="43dp"
         android:textColor="@color/grey"
         android:fontFamily="@font/lexendmed"
         android:text="@string/save"
         android:textSize="18sp"
         app:layout_constraintLeft_toRightOf="@id/tvAddArticle"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
     <ImageView
         android:id="@+id/ivDisplayedImage"

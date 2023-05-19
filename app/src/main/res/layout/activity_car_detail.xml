@@ -252,7 +252,7 @@
                 android:layout_width="230dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:hint="@string/rating"
                 android:background="@drawable/round_edit_text"
                 android:paddingLeft="10dp"
